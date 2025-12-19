@@ -2,7 +2,8 @@
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
-$dataFile = '../data/menu.json';
+// Use absolute path for security
+$dataFile = dirname(__DIR__) . '/data/menu.json';
 
 if (file_exists($dataFile)) {
     $data = file_get_contents($dataFile);

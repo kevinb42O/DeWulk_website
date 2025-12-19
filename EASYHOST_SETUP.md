@@ -94,7 +94,9 @@ public_html/
 
 ### Stap 5: Wachtwoord aanpassen (Optioneel maar aanbevolen)
 
-Het standaard wachtwoord is `DeWulk2025!`. Om veiligheidsredenen is het aan te raden dit te wijzigen:
+**⚠️ BELANGRIJK VOOR BEVEILIGING:**
+
+Het standaard wachtwoord is `DeWulk2025!`. Om veiligheidsredenen is het **sterk aanbevolen** dit te wijzigen:
 
 1. Open `api/login.php` in een text editor (bijv. Notepad++ of via File Manager)
 2. Zoek de regel: `$correctPassword = 'DeWulk2025!';`
@@ -106,6 +108,11 @@ Het standaard wachtwoord is `DeWulk2025!`. Om veiligheidsredenen is het aan te r
 ```php
 $correctPassword = 'MijnVeiligWachtwoord123!';
 ```
+
+**Extra beveiligingstips:**
+- **Gebruik HTTPS**: Zorg dat je website HTTPS gebruikt (SSL certificaat). Vraag Easyhost om een gratis Let's Encrypt certificaat te installeren. Dit is cruciaal om het wachtwoord veilig over te dragen.
+- **Sterk wachtwoord**: Gebruik minimaal 12 karakters met hoofdletters, kleine letters, cijfers en speciale tekens.
+- **Backup regelmatig**: Maak regelmatig backups van `menu.json`.
 
 ## Admin Panel Gebruiken
 

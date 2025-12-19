@@ -17,7 +17,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit;
 }
 
-$dataFile = '../data/menu.json';
+// Use absolute path for security
+$dataFile = dirname(__DIR__) . '/data/menu.json';
 
 // Lees huidige data
 if (!file_exists($dataFile)) {
@@ -33,6 +34,28 @@ if (!$input) {
     http_response_code(400);
     echo json_encode(['error' => 'Ongeldige data']);
     exit;
+}
+
+// Validate data structure
+if (!isset($input['menu']) || !is_array($input['menu'])) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Menu data ontbreekt of is ongeldig']);
+    exit;
+}
+
+if (!isset($input['openingsuren']) || !is_array($input['openingsuren'])) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Openingsuren data ontbreekt of is ongeldig']);
+    exit;
+}
+
+// Additional validation: check menu structure
+foreach ($input['menu'] as $category) {
+    if (!isset($category['title']) || !isset($category['items']) || !is_array($category['items'])) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Ongeldige menu categorie structuur']);
+        exit;
+    }
 }
 
 // Schrijf nieuwe data naar bestand
