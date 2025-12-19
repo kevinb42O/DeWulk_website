@@ -442,7 +442,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, menuData }) => {
                   required
                   type="tel"
                   autoComplete="tel"
-                  inputMode="numeric"
+                  inputMode="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:ring-2 focus:ring-salmon"
@@ -741,7 +741,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">GSM Nummer</label>
-                  <input type="tel" autoComplete="tel" inputMode="numeric" className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="04xx xx xx xx" />
+                  <input type="tel" autoComplete="tel" inputMode="tel" className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="04xx xx xx xx" />
                 </div>
               </div>
               <div>
