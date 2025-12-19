@@ -20,6 +20,7 @@ export interface OpeningHour {
 }
 
 export interface MenuItem {
+  id?: number;
   name: string;
   price: string;
   unit?: string;
@@ -28,4 +29,15 @@ export interface MenuItem {
 export interface MenuCategory {
   title: string;
   items: MenuItem[];
+}
+
+export interface OpeningHourData {
+  id: number;
+  dag: string;
+  uren: string;
+}
+
+export interface MenuData {
+  menu: MenuCategory[];
+  openingsuren: OpeningHourData[];
 }
