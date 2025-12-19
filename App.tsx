@@ -580,10 +580,10 @@ const Gallery = () => {
             <ChevronRight className="w-5 h-5 text-marine" />
           </button>
         </div>
-        <div className="md:hidden text-center mt-4 text-gray-400 text-sm animate-pulse flex items-center justify-center gap-2">
-          <ChevronRight className="w-4 h-4 rotate-180" />
+        <div className="md:hidden text-center mt-4 text-gray-400 text-sm animate-pulse flex items-center justify-center gap-2" aria-label="Swipe horizontaal voor meer foto's">
+          <ChevronRight className="w-4 h-4 rotate-180" aria-hidden="true" />
           <span>Swipe voor meer foto's</span>
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-4 h-4" aria-hidden="true" />
         </div>
       </div>
     </section>
@@ -736,17 +736,17 @@ const Contact = () => {
             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">Naam</label>
-                  <input type="text" autoComplete="name" className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="Uw naam" />
+                  <label htmlFor="contact-name" className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">Naam</label>
+                  <input id="contact-name" type="text" autoComplete="name" className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="Uw naam" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">GSM Nummer</label>
-                  <input type="tel" autoComplete="tel" inputMode="tel" className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="04xx xx xx xx" />
+                  <label htmlFor="contact-phone" className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">GSM Nummer</label>
+                  <input id="contact-phone" type="tel" autoComplete="tel" inputMode="tel" className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="04xx xx xx xx" />
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">Bestelling details</label>
-                <textarea rows={5} className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="Welke producten wilt u bestellen?"></textarea>
+                <label htmlFor="contact-details" className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">Bestelling details</label>
+                <textarea id="contact-details" rows={5} className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="Welke producten wilt u bestellen?"></textarea>
               </div>
               <button className="w-full bg-salmon text-marine py-5 rounded-2xl font-black text-xl hover:bg-white transition-all transform active:scale-95 shadow-xl uppercase tracking-widest">
                 VERZENDEN
