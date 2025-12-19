@@ -17,7 +17,7 @@ import {
   Star,
   Quote
 } from 'lucide-react';
-import { Offering, OpeningHour, GalleryItem, MenuCategory, MenuData, OpeningHourData } from './types';
+import { Offering, OpeningHour, GalleryItem, MenuCategory, MenuData, OpeningHourData, FavoriteItem } from './types';
 import ultiemLogo from './final_LOGOOOO.png';
 import heroImg from './viswinkelV3_FINAL.png';
 import interiorImg from './winkel_binnen.webp';
@@ -250,37 +250,6 @@ const PriceList: React.FC<PriceListProps> = ({ onOrderClick, menuData }) => {
                   </li>
                 ))}
               </ul>
-
-              <div className="mt-10 bg-white rounded-[2rem] border border-salmon/30 shadow-sm p-8 max-w-5xl mx-auto">
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="p-3 bg-salmon/30 rounded-xl">
-                    <Star className="w-6 h-6 text-marine" />
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] font-bold text-salmon">Nieuwigheden & tips</p>
-                    <h4 className="text-2xl font-bold text-marine">Favorieten van 't huis</h4>
-                  </div>
-                </div>
-                <div className="grid md:grid-cols-2 gap-4 text-gray-700">
-                  <div className="flex justify-between border-b border-dashed border-gray-200 pb-2">
-                    <span>Paling in 't groen</span>
-                    <span className="font-semibold text-marine">€49/kg</span>
-                  </div>
-                  <div className="flex justify-between border-b border-dashed border-gray-200 pb-2">
-                    <span>Bouillabaisse (Vissoep)</span>
-                    <span className="font-semibold text-marine">€13/L</span>
-                  </div>
-                  <div className="flex justify-between border-b border-dashed border-gray-200 pb-2">
-                    <span>Scampi pikant met pasta</span>
-                    <span className="font-semibold text-marine">€14,50/st</span>
-                  </div>
-                  <div className="flex justify-between border-b border-dashed border-gray-200 pb-2">
-                    <span>Tomatenroomsoep met balletjes</span>
-                    <span className="font-semibold text-marine">€6,80/L</span>
-                  </div>
-                </div>
-                <p className="text-sm text-gray-500 mt-3">Bel ons gerust voor feestschotels op maat of dagprijzen voor oesters, kreeft en andere lekkers.</p>
-              </div>
             </div>
           ))}
         </div>
@@ -298,6 +267,41 @@ const PriceList: React.FC<PriceListProps> = ({ onOrderClick, menuData }) => {
           >
             BESTEL NU
           </button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+type FavoritesProps = {
+  favorites: { id: number; name: string; price: string }[];
+};
+
+const Favorites: React.FC<FavoritesProps> = ({ favorites }) => {
+  if (!favorites || favorites.length === 0) return null;
+  
+  return (
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-6">
+        <div className="mt-10 bg-white rounded-[2rem] border border-salmon/30 shadow-sm p-8 max-w-5xl mx-auto">
+          <div className="flex items-center space-x-3 mb-4">
+            <div className="p-3 bg-salmon/30 rounded-xl">
+              <Star className="w-6 h-6 text-marine" />
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] font-bold text-salmon">Nieuwigheden & tips</p>
+              <h4 className="text-2xl font-bold text-marine">Favorieten van 't huis</h4>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-4 text-gray-700">
+            {favorites.map((favorite) => (
+              <div key={favorite.id} className="flex justify-between border-b border-dashed border-gray-200 pb-2">
+                <span>{favorite.name}</span>
+                <span className="font-semibold text-marine">{favorite.price}</span>
+              </div>
+            ))}
+          </div>
+          <p className="text-sm text-gray-500 mt-3">Bel ons gerust voor feestschotels op maat of dagprijzen voor oesters, kreeft en andere lekkers.</p>
         </div>
       </div>
     </section>
@@ -829,7 +833,8 @@ const App: React.FC = () => {
         // Fallback to empty data if fetch fails
         setMenuData({
           menu: [],
-          openingsuren: []
+          openingsuren: [],
+          favorieten: []
         });
       } finally {
         setLoading(false);
@@ -857,6 +862,7 @@ const App: React.FC = () => {
       <MapCard />
       <AboutUs />
       <PriceList onOrderClick={() => setIsOrderOpen(true)} menuData={menuData.menu} />
+      <Favorites favorites={menuData.favorieten || []} />
       <Gallery />
       <Testimonials />
       <OpeningHours schedule={menuData.openingsuren} />
