@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, Save, LogOut, Plus, Trash2, AlertCircle, CheckCircle, Loader, ArrowLeft } from 'lucide-react';
-import { MenuCategory, OpeningHourData, MenuData } from './types';
+import { MenuCategory, OpeningHourData, MenuData, FavoriteItem } from './types';
 
 // Admin password - stored in client-side code
 // For a small business site, this is acceptable as it only protects against casual changes
@@ -31,7 +31,7 @@ const AdminPage: React.FC = () => {
       })
       .catch(err => {
         console.error('Error loading data:', err);
-        setMenuData({ menu: [], openingsuren: [] });
+        setMenuData({ menu: [], openingsuren: [], favorieten: [] });
       });
 
     // Check for stored token
@@ -93,6 +93,7 @@ const AdminPage: React.FC = () => {
       const newContent = {
         menu: menuData.menu,
         openingsuren: menuData.openingsuren,
+        favorieten: menuData.favorieten || []
       };
       // Encode to base64 with proper UTF-8 handling
       const contentString = JSON.stringify(newContent, null, 2);
@@ -215,6 +216,47 @@ const AdminPage: React.FC = () => {
     newMenu.splice(categoryIndex, 1);
     
     setMenuData({ ...menuData, menu: newMenu });
+  };
+
+  const updateFavorite = (index: number, field: 'name' | 'price', value: string) => {
+    if (!menuData || !menuData.favorieten) return;
+    
+    const newFavorites = [...menuData.favorieten];
+    newFavorites[index] = {
+      ...newFavorites[index],
+      [field]: value
+    };
+    
+    setMenuData({ ...menuData, favorieten: newFavorites });
+  };
+
+  const deleteFavorite = (index: number) => {
+    if (!menuData || !menuData.favorieten) return;
+    if (!confirm('Weet je zeker dat je dit favoriet wilt verwijderen?')) return;
+    
+    const newFavorites = [...menuData.favorieten];
+    newFavorites.splice(index, 1);
+    
+    setMenuData({ ...menuData, favorieten: newFavorites });
+  };
+
+  const addFavorite = () => {
+    if (!menuData) return;
+    
+    const maxId = menuData.favorieten && menuData.favorieten.length > 0
+      ? Math.max(...menuData.favorieten.map(f => f.id))
+      : 0;
+    
+    const newFavorites = [
+      ...(menuData.favorieten || []),
+      {
+        id: maxId + 1,
+        name: '',
+        price: ''
+      }
+    ];
+    
+    setMenuData({ ...menuData, favorieten: newFavorites });
   };
 
   // Login Screen
@@ -404,6 +446,53 @@ const AdminPage: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Favorites */}
+        <div className="bg-white rounded-3xl shadow-lg p-8 mb-8">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-marine">⭐ Favorieten van 't huis</h2>
+            <button
+              onClick={addFavorite}
+              className="flex items-center gap-2 bg-marine text-white px-4 py-2 rounded-xl hover:bg-blue-800 transition-all"
+            >
+              <Plus className="w-5 h-5" />
+              Nieuw Favoriet
+            </button>
+          </div>
+
+          <div className="space-y-3">
+            {menuData?.favorieten?.map((favorite, index) => (
+              <div key={favorite.id} className="grid grid-cols-12 gap-3 items-center">
+                <input
+                  type="text"
+                  value={favorite.name}
+                  onChange={(e) => updateFavorite(index, 'name', e.target.value)}
+                  className="col-span-8 border border-gray-300 rounded-xl p-3"
+                  placeholder="Naam (bijv. Paling in 't groen)"
+                />
+                <input
+                  type="text"
+                  value={favorite.price}
+                  onChange={(e) => updateFavorite(index, 'price', e.target.value)}
+                  className="col-span-3 border border-gray-300 rounded-xl p-3"
+                  placeholder="Prijs (bijv. €49/kg)"
+                />
+                <button
+                  onClick={() => deleteFavorite(index)}
+                  className="col-span-1 bg-red-100 text-red-600 p-3 rounded-xl hover:bg-red-200 font-bold"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {(!menuData?.favorieten || menuData.favorieten.length === 0) && (
+            <p className="text-gray-500 text-center py-8">
+              Geen favorieten toegevoegd. Klik op "Nieuw Favoriet" om te beginnen.
+            </p>
+          )}
         </div>
 
         {/* Save Button */}

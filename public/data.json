@@ -189,5 +189,27 @@
       "dag": "Zondag",
       "uren": "09:00 – 18:00"
     }
+  ],
+  "favorieten": [
+    {
+      "id": 1,
+      "name": "Paling in 't groen",
+      "price": "€49/kg"
+    },
+    {
+      "id": 2,
+      "name": "Bouillabaisse (Vissoep)",
+      "price": "€13/L"
+    },
+    {
+      "id": 3,
+      "name": "Scampi pikant met pasta",
+      "price": "€14,50/st"
+    },
+    {
+      "id": 4,
+      "name": "Tomatenroomsoep met balletjes",
+      "price": "€6,80/L"
+    }
   ]
 }

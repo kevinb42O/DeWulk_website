@@ -37,7 +37,14 @@ export interface OpeningHourData {
   uren: string;
 }
 
+export interface FavoriteItem {
+  id: number;
+  name: string;
+  price: string;
+}
+
 export interface MenuData {
   menu: MenuCategory[];
   openingsuren: OpeningHourData[];
+  favorieten?: FavoriteItem[];
 }
