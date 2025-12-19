@@ -154,12 +154,40 @@
     }
   ],
   "openingsuren": [
-    { "id": 1, "dag": "Maandag", "uren": "09:00 – 18:00" },
-    { "id": 2, "dag": "Dinsdag", "uren": "09:00 – 18:00" },
-    { "id": 3, "dag": "Woensdag", "uren": "09:00 – 18:00" },
-    { "id": 4, "dag": "Donderdag", "uren": "Gesloten" },
-    { "id": 5, "dag": "Vrijdag", "uren": "09:00 – 18:00" },
-    { "id": 6, "dag": "Zaterdag", "uren": "09:00 – 18:00" },
-    { "id": 7, "dag": "Zondag", "uren": "09:00 – 18:00" }
+    {
+      "id": 1,
+      "dag": "Maandag",
+      "uren": "09:00 – 18:00"
+    },
+    {
+      "id": 2,
+      "dag": "Dinsdag",
+      "uren": "09:00 – 18:00"
+    },
+    {
+      "id": 3,
+      "dag": "Woensdag",
+      "uren": "Gesloten"
+    },
+    {
+      "id": 4,
+      "dag": "Donderdag",
+      "uren": "Gesloten"
+    },
+    {
+      "id": 5,
+      "dag": "Vrijdag",
+      "uren": "09:00 – 18:00"
+    },
+    {
+      "id": 6,
+      "dag": "Zaterdag",
+      "uren": "09:00 – 18:00"
+    },
+    {
+      "id": 7,
+      "dag": "Zondag",
+      "uren": "09:00 – 18:00"
+    }
   ]
 }
