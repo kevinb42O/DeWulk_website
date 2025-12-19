@@ -35,11 +35,11 @@ const IMAGE_CONFIG = {
   heroBackground: heroImg,
   aboutSection: interiorImg,
   gallery: [
-    { url: harbourImg, alt: "Havenfeesten sfeerbeeld" },
-    { url: saladsImg, alt: "Versbereide salades" },
-    { url: interiorImg, alt: "Interieur vishandel" },
-    { url: shrimpTrayImg, alt: "Garnaalschotel" },
-    { url: shrimpTray2Img, alt: "Garnaalschotel variatie" }
+    { url: harbourImg, alt: "Havenfeesten sfeerbeeld Blankenberge - De Wulk Viswinkel" },
+    { url: saladsImg, alt: "Versbereide visschotels en salades - De Wulk Blankenberge" },
+    { url: interiorImg, alt: "Interieur vishandel De Wulk Consciencestraat Blankenberge" },
+    { url: shrimpTrayImg, alt: "Verse garnaalschotel bestellen bij De Wulk Blankenberge" },
+    { url: shrimpTray2Img, alt: "Garnaalschotel zeevruchtenschotel De Wulk viswinkel Blankenberge" }
   ]
 };
 
@@ -92,7 +92,7 @@ const Navbar = () => {
     <nav className={`fixed w-full z-50 transition-all duration-300 pt-safe ${scrolled ? 'bg-white shadow-md pb-3' : 'bg-transparent pb-5'}`}>
       <div className="container mx-auto px-6 flex justify-between items-center">
         <div className="flex items-center space-x-2">
-          <img src={ultiemLogo} alt="De Wulk logo" className="h-20 w-auto object-contain" />
+          <img src={ultiemLogo} alt="De Wulk Viswinkel Blankenberge Logo - Olivier en Kelly" className="h-20 w-auto object-contain" />
           <div className="flex flex-col">
             <span className={`text-xl font-bold tracking-wider leading-none ${scrolled ? 'text-marine' : 'text-white'}`}>DE WULK</span>
             <span className={`text-[10px] font-medium tracking-[0.2em] ${scrolled ? 'text-salmon' : 'text-salmon'}`}>OLIVIER & KELLY</span>
@@ -131,7 +131,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <img 
           src={IMAGE_CONFIG.heroBackground} 
-          alt="Blankenberge Coast" 
+          alt="De Wulk Viswinkel Blankenberge - Verse Noordzeevis en Zeevruchten aan de Belgische kust" 
           className="w-full h-full object-cover brightness-100 scale-105 animate-slow-zoom"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/15 to-marine/35"></div>
@@ -139,15 +139,15 @@ const Hero = () => {
       <div className="relative z-10 w-full px-6">
         <div className="max-w-4xl mx-auto text-center px-8 py-10">
           <h1 className="hero-title text-5xl sm:text-7xl md:text-9xl font-black text-white mb-2 tracking-tight leading-[0.9] drop-shadow-2xl">
-            DE WULK
+            DE WULK<span className="hidden md:inline"> VISWINKEL</span>
           </h1>
-          <p className="hero-subtitle text-lg sm:text-xl md:text-2xl text-white font-semibold mb-4 drop-shadow-lg italic">
-            "Bij Olivier & Kelly"
+          <p className="hero-subtitle text-lg sm:text-xl md:text-2xl text-white font-semibold mb-4 drop-shadow-lg">
+            <span className="md:hidden">Viswinkel Blankenberge - </span><span className="italic">Bij Olivier & Kelly</span>
           </p>
           <div className="h-1.5 w-28 bg-salmon mx-auto mb-7"></div>
           <p className="hero-description text-xl sm:text-2xl md:text-3xl text-white font-semibold max-w-3xl mx-auto leading-relaxed drop-shadow-2xl">
-            Verse Noordzeevis & Ambachtelijke Zeevruchten <br />
-            <span className="text-salmon">Consciencestraat 1, Blankenberge</span>
+            Dagverse Noordzeevis &amp; Ambachtelijke Zeevruchten <br />
+            <span className="text-salmon">Consciencestraat 1, Blankenberge - West-Vlaanderen</span>
           </p>
           <div className="mt-12 flex flex-wrap justify-center gap-4">
             <a href="#prijslijst" className="bg-marine text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-marine transition-all shadow-2xl inline-block">
@@ -198,7 +198,7 @@ const AboutUs = () => {
             <div className="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border-4 border-gray-50">
               <img 
                 src={IMAGE_CONFIG.aboutSection} 
-                alt="Vishandel De Wulk Shop Atmosphere" 
+                alt="De Wulk Viswinkel Blankenberge winkelinterieur - Dagverse vis en zeevruchten uit de Noordzee" 
                 className="w-full h-[600px] object-cover hover:scale-105 transition-transform duration-1000"
               />
             </div>
@@ -338,6 +338,172 @@ const MapCard = () => {
         </div>
       </div>
     </section>
+  );
+};
+
+type OrderModalProps = {
+  open: boolean;
+  onClose: () => void;
+  menuData: MenuCategory[];
+};
+
+const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, menuData }) => {
+  const [selected, setSelected] = useState<Record<string, { checked: boolean; qty: number }>>({});
+  const [contact, setContact] = useState<'call' | 'sms' | 'email'>('call');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (!open) {
+      setSubmitted(false);
+    }
+  }, [open]);
+
+  const toggleItem = (key: string) => {
+    setSelected((prev) => {
+      const current = prev[key] || { checked: false, qty: 1 };
+      return { ...prev, [key]: { ...current, checked: !current.checked } };
+    });
+  };
+
+  const setQty = (key: string, qty: number) => {
+    setSelected((prev) => {
+      const current = prev[key] || { checked: true, qty: 1 };
+      return { ...prev, [key]: { ...current, checked: true, qty } };
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+    setTimeout(() => {
+      onClose();
+      setSubmitted(false);
+    }, 2200);
+  };
+
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+      <div className="bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[95vh] overflow-hidden">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+          <div className="flex items-center space-x-3">
+            <img src={ultiemLogo} alt="De Wulk Viswinkel Blankenberge Logo" className="h-10 w-auto object-contain" />
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-salmon font-bold">Bestellen</p>
+              <h3 className="text-xl font-bold text-marine">Stel je bestelling samen</h3>
+            </div>
+          </div>
+          <button onClick={onClose} className="text-gray-500 hover:text-marine">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="max-h-[75vh] md:max-h-[80vh] overflow-y-auto">
+          <div className="grid md:grid-cols-3 gap-0">
+            <div className="md:col-span-2 p-6 space-y-6">
+              {menuData.map((cat, idx) => (
+                <div key={idx} className="border border-gray-100 rounded-2xl p-4">
+                  <h4 className="text-lg font-bold text-marine mb-3">{cat.title}</h4>
+                  <div className="space-y-3">
+                    {cat.items.map((item, i) => {
+                      const key = `${cat.title}-${item.name}`;
+                      const entry = selected[key] || { checked: false, qty: 1 };
+                      return (
+                        <div key={i} className="flex items-center justify-between gap-3">
+                          <label className="flex items-center gap-3 flex-1 cursor-pointer">
+                            <input
+                              type="checkbox"
+                              className="h-4 w-4 text-marine"
+                              checked={entry.checked}
+                              onChange={() => toggleItem(key)}
+                            />
+                            <span className="text-gray-700">{item.name} <span className="text-gray-400 text-sm">({item.price}{item.unit ?? ''})</span></span>
+                          </label>
+                          <select
+                            value={entry.qty}
+                            onChange={(e) => setQty(key, Number(e.target.value))}
+                            className="border border-gray-200 rounded-xl px-3 py-1 text-sm text-marine"
+                          >
+                            {[1,2,3,4,5,6].map((q) => (
+                              <option key={q} value={q}>{q}x</option>
+                            ))}
+                          </select>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="md:border-l border-gray-100 p-6 space-y-4 bg-gray-50">
+              <div>
+                <label className="block text-xs font-bold text-salmon uppercase tracking-[0.2em] mb-2">GSM Nummer</label>
+                <input
+                  required
+                  type="tel"
+                  autoComplete="tel"
+                  inputMode="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:ring-2 focus:ring-salmon"
+                  placeholder="04xx xx xx xx"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-salmon uppercase tracking-[0.2em] mb-2">E-mail</label>
+                <input
+                  required
+                  type="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:ring-2 focus:ring-salmon"
+                  placeholder="info@jij.be"
+                />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-salmon uppercase tracking-[0.2em] mb-2">Contactvoorkeur</p>
+                <div className="space-y-2 text-sm text-gray-700">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="contactpref" checked={contact === 'call'} onChange={() => setContact('call')} />
+                    Bel mij
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="contactpref" checked={contact === 'sms'} onChange={() => setContact('sms')} />
+                    Stuur een sms/bericht
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="contactpref" checked={contact === 'email'} onChange={() => setContact('email')} />
+                    Mail is prima
+                  </label>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-marine text-white py-4 rounded-xl font-bold text-lg hover:bg-salmon hover:text-marine transition-colors shadow-lg"
+              >
+                Verzenden
+              </button>
+
+              {submitted && (
+                <div className="mt-3 text-sm text-marine bg-salmon/20 border border-salmon/40 rounded-xl p-3">
+                  Bedankt voor uw bestelling, we hebben dit goed ontvangen. We contacteren u zo snel mogelijk via mail of geven u een belletje.
+                </div>
+              )}
+
+              <p className="text-xs text-gray-500 mt-2">
+                Bestellingen worden doorgestuurd naar dewulk@info.be (test).
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 
@@ -567,7 +733,7 @@ const Contact = () => {
           
           <div className="bg-marine rounded-[3rem] p-8 md:p-12 shadow-2xl relative border-t-8 border-salmon">
             <div className="absolute top-4 right-8 opacity-10">
-              <img src={ultiemLogo} alt="De Wulk logo" className="w-32 h-32 object-contain" />
+              <img src={ultiemLogo} alt="De Wulk Viswinkel Blankenberge Logo" className="w-32 h-32 object-contain" />
             </div>
             <h3 className="text-3xl font-bold text-white mb-8">Plaats uw bestelling</h3>
             <p className="text-blue-100 mb-8 italic">"Gelieve op voorhand te bestellen aub."</p>
@@ -601,12 +767,14 @@ const Footer = () => {
   return (
     <footer className="bg-marine text-white pt-24 pb-12 overflow-hidden relative">
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col items-center text-center space-y-6 mb-12">
-          <div className="flex items-center space-x-3 mb-4">
-            <img src={ultiemLogo} alt="De Wulk logo" className="w-12 h-12 object-contain" />
-            <div className="flex flex-col">
-              <span className="text-3xl font-bold tracking-tighter">DE WULK</span>
-              <span className="text-[10px] font-bold tracking-[0.3em] text-salmon">BIJ OLIVIER & KELLY</span>
+        <div className="flex flex-col md:flex-row justify-between items-start border-b border-white/10 pb-16 mb-12 gap-12">
+          <div className="max-w-xs">
+            <div className="flex items-center space-x-3 mb-6">
+              <img src={ultiemLogo} alt="De Wulk Viswinkel Blankenberge Logo - Olivier & Kelly" className="w-10 h-10 object-contain" />
+              <div className="flex flex-col">
+                <span className="text-3xl font-bold tracking-tighter">DE WULK</span>
+                <span className="text-[10px] font-bold tracking-[0.3em] text-salmon">BIJ OLIVIER & KELLY</span>
+              </div>
             </div>
           </div>
           
