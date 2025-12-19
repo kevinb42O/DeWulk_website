@@ -27,6 +27,8 @@ Dit maakt een `dist/` folder aan met alle bestanden die je moet uploaden.
 
 ### Stap 2: FTP upload naar Easyhost
 
+**Goed nieuws:** Alle benodigde bestanden zitten nu in de `dist/` folder na het builden!
+
 #### Optie A: FileZilla (Aanbevolen)
 
 1. Download en installeer [FileZilla](https://filezilla-project.org/)
@@ -35,22 +37,25 @@ Dit maakt een `dist/` folder aan met alle bestanden die je moet uploaden.
    - Gebruikersnaam: meestal je domeinnaam of gebruikersnaam
    - Wachtwoord: je FTP wachtwoord
 3. Maak verbinding via FileZilla
-4. Upload de volgende structuur naar `public_html/`:
+4. Upload **ALLE** bestanden en folders uit `dist/` naar `public_html/`:
+   - Sleep de hele inhoud van de `dist/` folder naar `public_html/`
+   - Zorg dat de structuur behouden blijft (api/, data/, assets/, .htaccess, index.html)
 
+**De structuur in `public_html/` moet zijn:**
 ```
 public_html/
-├── index.html          (uit dist/)
-├── assets/             (hele folder uit dist/)
-├── final_LOGOOOO.png   (uit dist/ - als deze bestaat)
-├── (alle andere bestanden uit dist/)
+├── index.html
+├── .htaccess
+├── assets/
+│   └── (alle bestanden)
 ├── data/
-│   └── menu.json       (uit je project root data/)
+│   └── menu.json
 └── api/
-    ├── getMenu.php     (uit je project root api/)
-    ├── updateMenu.php  (uit je project root api/)
-    ├── login.php       (uit je project root api/)
-    ├── logout.php      (uit je project root api/)
-    └── .htaccess       (uit je project root api/)
+    ├── .htaccess
+    ├── getMenu.php
+    ├── updateMenu.php
+    ├── login.php
+    └── logout.php
 ```
 
 #### Optie B: Easyhost File Manager
@@ -58,9 +63,8 @@ public_html/
 1. Log in op het Easyhost control panel
 2. Ga naar "Bestandsbeheer" of "File Manager"
 3. Navigeer naar `public_html/`
-4. Upload alle bestanden uit de `dist/` folder
-5. Maak een `data/` folder en upload `menu.json`
-6. Maak een `api/` folder en upload alle PHP bestanden
+4. Upload alle bestanden en folders uit `dist/`
+5. Zorg dat de folder structuur behouden blijft
 
 ### Stap 3: Bestandsrechten instellen
 
