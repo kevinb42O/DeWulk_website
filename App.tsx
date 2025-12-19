@@ -10,7 +10,6 @@ import {
   Instagram, 
   Facebook, 
   Menu as MenuIcon, 
-  X,
   ChevronRight,
   Shrimp,
   ChefHat,
@@ -154,8 +153,9 @@ const Hero = () => {
             <a href="#prijslijst" className="bg-marine text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-marine transition-all shadow-2xl inline-block">
               Bekijk de Prijslijst
             </a>
-            <a href="tel:0485755667" className="bg-white/10 backdrop-blur-md border-2 border-white text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-marine transition-all shadow-2xl inline-block">
-              Bestel Telefonisch
+            <a href="tel:+32485755667" className="bg-white/10 backdrop-blur-md border-2 border-white text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-marine transition-all shadow-2xl inline-flex items-center gap-2">
+              <Phone className="w-5 h-5" />
+              Bel ons voor info & bestellingen
             </a>
           </div>
         </div>
@@ -175,22 +175,22 @@ const AboutUs = () => {
               <span>Uw Vishandel in Blankenberge</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-marine mb-8 leading-tight">
-              Ambacht & Passie voor de Zee
+              Huisbereid, overheerlijk & gemakkelijk!
             </h2>
             <div className="bg-marine/5 p-8 rounded-3xl border-l-4 border-salmon mb-8">
               <Quote className="text-salmon w-10 h-10 mb-4 opacity-50" />
               <p className="text-xl text-gray-700 italic leading-relaxed">
-                "Wij zijn Olivier en Kelly. Als vissersfamilie brengen we elke dag de ziel van de Noordzee naar uw bord. Eerlijkheid, versheid en vakmanschap staan centraal in alles wat we doen bij De Wulk."
+                "Wij zijn Olivier en Kelly. De Wulk is al 18 jaar een vaste waarde in Blankenberge voor huisbereide warme & koude visgerechten en zeevruchten. Van visschelpen, coquilles en garnaalkroketten tot rijk gevulde zeevruchtenschotels: altijd met focus op smaak, kwaliteit en vlotte service."
               </p>
             </div>
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
-                <h4 className="font-bold text-marine text-lg">Dagvers</h4>
-                <p className="text-gray-500">Wij selecteren elke dag persoonlijk de beste vangst voor onze klanten.</p>
+                <h4 className="font-bold text-marine text-lg">Huisbereid</h4>
+                <p className="text-gray-500">Warme en koude bereidingen, soepen en gerechten uit eigen keuken — klaar om mee te nemen en thuis van te genieten.</p>
               </div>
               <div className="space-y-2">
-                <h4 className="font-bold text-marine text-lg">Artisanaal</h4>
-                <p className="text-gray-500">Onze soepen en bereide gerechten worden in eigen keuken klaargemaakt.</p>
+                <h4 className="font-bold text-marine text-lg">Zeevruchten & Schotels</h4>
+                <p className="text-gray-500">Zeevruchten en zeevruchtenschotels met een mooie presentatie, ideaal voor elke gelegenheid — van doordeweeks tot etentjes met gasten.</p>
               </div>
             </div>
           </div>
@@ -211,11 +211,10 @@ const AboutUs = () => {
 };
 
 type PriceListProps = {
-  onOrderClick: () => void;
   menuData: MenuCategory[];
 };
 
-const PriceList: React.FC<PriceListProps> = ({ onOrderClick, menuData }) => {
+const PriceList: React.FC<PriceListProps> = ({ menuData }) => {
   return (
     <section id="prijslijst" className="py-24 accent-beige">
       <div className="container mx-auto px-6">
@@ -261,12 +260,13 @@ const PriceList: React.FC<PriceListProps> = ({ onOrderClick, menuData }) => {
           <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto relative z-10">
             Vraag naar onze zeevruchtenschotels en visplateaus op maat voor al uw gelegenheden.
           </p>
-          <button
-            onClick={onOrderClick}
-            className="inline-block bg-salmon text-marine px-12 py-5 rounded-full font-black text-lg hover:bg-white transition-all relative z-10 shadow-xl transform hover:scale-105"
+          <a
+            href="tel:+32485755667"
+            className="inline-flex items-center gap-3 bg-salmon text-marine px-12 py-5 rounded-full font-black text-lg hover:bg-white transition-all relative z-10 shadow-xl transform hover:scale-105"
           >
-            BESTEL NU
-          </button>
+            <Phone className="w-6 h-6" />
+            Bel ons voor info & bestellingen
+          </a>
         </div>
       </div>
     </section>
@@ -338,172 +338,6 @@ const MapCard = () => {
         </div>
       </div>
     </section>
-  );
-};
-
-type OrderModalProps = {
-  open: boolean;
-  onClose: () => void;
-  menuData: MenuCategory[];
-};
-
-const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, menuData }) => {
-  const [selected, setSelected] = useState<Record<string, { checked: boolean; qty: number }>>({});
-  const [contact, setContact] = useState<'call' | 'sms' | 'email'>('call');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-
-  useEffect(() => {
-    if (!open) {
-      setSubmitted(false);
-    }
-  }, [open]);
-
-  const toggleItem = (key: string) => {
-    setSelected((prev) => {
-      const current = prev[key] || { checked: false, qty: 1 };
-      return { ...prev, [key]: { ...current, checked: !current.checked } };
-    });
-  };
-
-  const setQty = (key: string, qty: number) => {
-    setSelected((prev) => {
-      const current = prev[key] || { checked: true, qty: 1 };
-      return { ...prev, [key]: { ...current, checked: true, qty } };
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      onClose();
-      setSubmitted(false);
-    }, 2200);
-  };
-
-  if (!open) return null;
-
-  return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
-      <div className="bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[95vh] overflow-hidden">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-          <div className="flex items-center space-x-3">
-            <img src={ultiemLogo} alt="De Wulk logo" className="h-10 w-auto object-contain" />
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-salmon font-bold">Bestellen</p>
-              <h3 className="text-xl font-bold text-marine">Stel je bestelling samen</h3>
-            </div>
-          </div>
-          <button onClick={onClose} className="text-gray-500 hover:text-marine">
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="max-h-[75vh] md:max-h-[80vh] overflow-y-auto">
-          <div className="grid md:grid-cols-3 gap-0">
-            <div className="md:col-span-2 p-6 space-y-6">
-              {menuData.map((cat, idx) => (
-                <div key={idx} className="border border-gray-100 rounded-2xl p-4">
-                  <h4 className="text-lg font-bold text-marine mb-3">{cat.title}</h4>
-                  <div className="space-y-3">
-                    {cat.items.map((item, i) => {
-                      const key = `${cat.title}-${item.name}`;
-                      const entry = selected[key] || { checked: false, qty: 1 };
-                      return (
-                        <div key={i} className="flex items-center justify-between gap-3">
-                          <label className="flex items-center gap-3 flex-1 cursor-pointer">
-                            <input
-                              type="checkbox"
-                              className="h-4 w-4 text-marine"
-                              checked={entry.checked}
-                              onChange={() => toggleItem(key)}
-                            />
-                            <span className="text-gray-700">{item.name} <span className="text-gray-400 text-sm">({item.price}{item.unit ?? ''})</span></span>
-                          </label>
-                          <select
-                            value={entry.qty}
-                            onChange={(e) => setQty(key, Number(e.target.value))}
-                            className="border border-gray-200 rounded-xl px-3 py-1 text-sm text-marine"
-                          >
-                            {[1,2,3,4,5,6].map((q) => (
-                              <option key={q} value={q}>{q}x</option>
-                            ))}
-                          </select>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="md:border-l border-gray-100 p-6 space-y-4 bg-gray-50">
-              <div>
-                <label className="block text-xs font-bold text-salmon uppercase tracking-[0.2em] mb-2">GSM Nummer</label>
-                <input
-                  required
-                  type="tel"
-                  autoComplete="tel"
-                  inputMode="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:ring-2 focus:ring-salmon"
-                  placeholder="04xx xx xx xx"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-salmon uppercase tracking-[0.2em] mb-2">E-mail</label>
-                <input
-                  required
-                  type="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:ring-2 focus:ring-salmon"
-                  placeholder="info@jij.be"
-                />
-              </div>
-              <div>
-                <p className="text-xs font-bold text-salmon uppercase tracking-[0.2em] mb-2">Contactvoorkeur</p>
-                <div className="space-y-2 text-sm text-gray-700">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="contactpref" checked={contact === 'call'} onChange={() => setContact('call')} />
-                    Bel mij
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="contactpref" checked={contact === 'sms'} onChange={() => setContact('sms')} />
-                    Stuur een sms/bericht
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="contactpref" checked={contact === 'email'} onChange={() => setContact('email')} />
-                    Mail is prima
-                  </label>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-marine text-white py-4 rounded-xl font-bold text-lg hover:bg-salmon hover:text-marine transition-colors shadow-lg"
-              >
-                Verzenden
-              </button>
-
-              {submitted && (
-                <div className="mt-3 text-sm text-marine bg-salmon/20 border border-salmon/40 rounded-xl p-3">
-                  Bedankt voor uw bestelling, we hebben dit goed ontvangen. We contacteren u zo snel mogelijk via mail of geven u een belletje.
-                </div>
-              )}
-
-              <p className="text-xs text-gray-500 mt-2">
-                Bestellingen worden doorgestuurd naar dewulk@info.be (test).
-              </p>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
   );
 };
 
@@ -708,10 +542,10 @@ const Contact = () => {
                   <h4 className="text-lg font-bold text-marine mb-1">Telefoon</h4>
                   <div className="space-y-2">
                     <p className="text-gray-600 font-bold text-2xl hover:text-salmon transition-colors">
-                      <a href="tel:0485755667">0485 75 56 67</a>
+                      <a href="tel:+32485755667">0485 75 56 67</a>
                     </p>
                     <p className="text-gray-600 font-bold text-2xl hover:text-salmon transition-colors">
-                      <a href="tel:0497837718">0497 83 77 18</a>
+                      <a href="tel:+32497837718">0497 83 77 18</a>
                     </p>
                   </div>
                 </div>
@@ -724,7 +558,7 @@ const Contact = () => {
                 <div>
                   <h4 className="text-lg font-bold text-marine mb-1">E-mail</h4>
                   <p className="text-gray-600 hover:text-salmon transition-colors text-lg">
-                    <a href="mailto:info@dewulk.be">info@dewulk.be</a>
+                    <a href="mailto:info@vishandelolivierenkelly.be">info@vishandelolivierenkelly.be</a>
                   </p>
                 </div>
               </div>
@@ -767,48 +601,31 @@ const Footer = () => {
   return (
     <footer className="bg-marine text-white pt-24 pb-12 overflow-hidden relative">
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-start border-b border-white/10 pb-16 mb-12 gap-12">
-          <div className="max-w-xs">
-            <div className="flex items-center space-x-3 mb-6">
-              <img src={ultiemLogo} alt="De Wulk logo" className="w-10 h-10 object-contain" />
-              <div className="flex flex-col">
-                <span className="text-3xl font-bold tracking-tighter">DE WULK</span>
-                <span className="text-[10px] font-bold tracking-[0.3em] text-salmon">BIJ OLIVIER & KELLY</span>
-              </div>
+        <div className="flex flex-col items-center text-center space-y-6 mb-12">
+          <div className="flex items-center space-x-3 mb-4">
+            <img src={ultiemLogo} alt="De Wulk logo" className="w-12 h-12 object-contain" />
+            <div className="flex flex-col">
+              <span className="text-3xl font-bold tracking-tighter">DE WULK</span>
+              <span className="text-[10px] font-bold tracking-[0.3em] text-salmon">BIJ OLIVIER & KELLY</span>
             </div>
-            <p className="text-blue-100 opacity-70 leading-relaxed">
-              Uw vertrouwde vishandel in Blankenberge. Dagvers uit de Noordzee, met liefde klaargemaakt door Olivier en Kelly.
-            </p>
           </div>
           
-          <div className="grid grid-cols-2 gap-16">
-            <div>
-              <h4 className="font-bold text-salmon mb-6 uppercase tracking-widest text-sm">Links</h4>
-              <ul className="space-y-3 opacity-80">
-                <li><a href="#over-ons" className="hover:text-salmon transition-colors">Over Ons</a></li>
-                <li><a href="#prijslijst" className="hover:text-salmon transition-colors">Prijslijst</a></li>
-                <li><a href="#uren" className="hover:text-salmon transition-colors">Uren</a></li>
-                <li><a href="#contact" className="hover:text-salmon transition-colors">Contact</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-salmon mb-6 uppercase tracking-widest text-sm">Contact</h4>
-              <ul className="space-y-3 opacity-80">
-                <li>0485 75 56 67</li>
-                <li>0497 83 77 18</li>
-                <li>Consciencestraat 1</li>
-                <li>8370 Blankenberge</li>
-              </ul>
-            </div>
+          <div className="text-blue-100 space-y-2 max-w-2xl">
+            <p className="font-semibold text-lg">De Wulk BV (Vishandel Olivier & Kelly)</p>
+            <p>Consciencestraat 1, 8370 Blankenberge, België</p>
+            <p>
+              <a href="tel:+32485755667" className="hover:text-salmon transition-colors">T: +32 485 75 56 67</a>
+              {' · '}
+              <a href="mailto:info@vishandelolivierenkelly.be" className="hover:text-salmon transition-colors">E: info@vishandelolivierenkelly.be</a>
+            </p>
+            <p className="text-sm">
+              Ondernemingsnummer: 0473.055.043 · BTW: BE 0473.055.043
+            </p>
           </div>
         </div>
         
-        <div className="flex flex-col md:flex-row justify-between items-center text-xs text-blue-300 opacity-50 space-y-4 md:space-y-0">
-          <p>© {new Date().getFullYear()} De Wulk - Olivier & Kelly. Alle rechten voorbehouden.</p>
-          <div className="flex space-x-8">
-            <a href="#" className="hover:text-white">Privacybeleid</a>
-            <a href="#" className="hover:text-white">Voorwaarden</a>
-          </div>
+        <div className="text-center text-xs text-blue-300 opacity-50">
+          <p>© {new Date().getFullYear()} De Wulk BV. Alle rechten voorbehouden.</p>
         </div>
       </div>
     </footer>
@@ -818,7 +635,6 @@ const Footer = () => {
 // --- Main App ---
 
 const App: React.FC = () => {
-  const [isOrderOpen, setIsOrderOpen] = useState(false);
   const [menuData, setMenuData] = useState<MenuData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -861,13 +677,12 @@ const App: React.FC = () => {
       <Hero />
       <MapCard />
       <AboutUs />
-      <PriceList onOrderClick={() => setIsOrderOpen(true)} menuData={menuData.menu} />
+      <PriceList menuData={menuData.menu} />
       <Favorites favorites={menuData.favorieten || []} />
       <Gallery />
       <Testimonials />
       <OpeningHours schedule={menuData.openingsuren} />
       <Contact />
-      <OrderModal open={isOrderOpen} onClose={() => setIsOrderOpen(false)} menuData={menuData.menu} />
       <Footer />
       
       <style>{`
