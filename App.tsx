@@ -90,7 +90,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-5'}`}>
+    <nav className={`fixed w-full z-50 transition-all duration-300 pt-safe ${scrolled ? 'bg-white shadow-md pb-3' : 'bg-transparent pb-5'}`}>
       <div className="container mx-auto px-6 flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <img src={ultiemLogo} alt="De Wulk logo" className="h-20 w-auto object-contain" />
@@ -128,7 +128,7 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[600px] md:min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         <img 
           src={IMAGE_CONFIG.heroBackground} 
@@ -139,14 +139,14 @@ const Hero = () => {
       </div>
       <div className="relative z-10 w-full px-6">
         <div className="max-w-4xl mx-auto text-center px-8 py-10">
-          <h1 className="text-7xl md:text-9xl font-black text-white mb-2 tracking-tight leading-[0.9] drop-shadow-2xl">
+          <h1 className="hero-title text-5xl sm:text-7xl md:text-9xl font-black text-white mb-2 tracking-tight leading-[0.9] drop-shadow-2xl">
             DE WULK
           </h1>
-          <p className="text-xl md:text-2xl text-white font-semibold mb-4 drop-shadow-lg italic">
+          <p className="hero-subtitle text-lg sm:text-xl md:text-2xl text-white font-semibold mb-4 drop-shadow-lg italic">
             "Bij Olivier & Kelly"
           </p>
           <div className="h-1.5 w-28 bg-salmon mx-auto mb-7"></div>
-          <p className="text-2xl md:text-3xl text-white font-semibold max-w-3xl mx-auto leading-relaxed drop-shadow-2xl">
+          <p className="hero-description text-xl sm:text-2xl md:text-3xl text-white font-semibold max-w-3xl mx-auto leading-relaxed drop-shadow-2xl">
             Verse Noordzeevis & Ambachtelijke Zeevruchten <br />
             <span className="text-salmon">Consciencestraat 1, Blankenberge</span>
           </p>
@@ -232,9 +232,9 @@ const PriceList: React.FC<PriceListProps> = ({ onOrderClick, menuData }) => {
             </div>
           </div>
         </div>
-        <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-12 max-w-6xl mx-auto">
           {menuData.map((category, idx) => (
-            <div key={idx} className="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-sm hover:shadow-md transition-all border border-marine/5">
+            <div key={idx} className="bg-white p-6 md:p-8 lg:p-10 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:shadow-md transition-all border border-marine/5">
               <h3 className="text-2xl font-bold text-marine mb-8 flex items-center">
                 <span className="w-8 h-[2px] bg-salmon mr-4"></span>
                 {category.title}
@@ -321,7 +321,7 @@ const MapCard = () => {
                 Open in Maps
               </a>
             </div>
-            <div className="md:col-span-2 h-64 md:h-80 relative">
+            <div className="md:col-span-2 h-80 md:h-96 relative">
               <iframe
                 title="Locatie De Wulk"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2513.70796878588!2d3.12655!3d51.31079!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c352c10b6e7d95%3A0x8b2b6c7b8cbbcec0!2sConsciencestraat%201%2C%208370%20Blankenberge!5e0!3m2!1snl!2sbe!4v1700000000000"
@@ -383,7 +383,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, menuData }) => {
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
-      <div className="bg-white rounded-3xl shadow-2xl max-w-5xl w-full overflow-hidden">
+      <div className="bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[95vh] overflow-hidden">
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <div className="flex items-center space-x-3">
             <img src={ultiemLogo} alt="De Wulk logo" className="h-10 w-auto object-contain" />
@@ -397,7 +397,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, menuData }) => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="max-h-[80vh] overflow-y-auto">
+        <form onSubmit={handleSubmit} className="max-h-[75vh] md:max-h-[80vh] overflow-y-auto">
           <div className="grid md:grid-cols-3 gap-0">
             <div className="md:col-span-2 p-6 space-y-6">
               {menuData.map((cat, idx) => (
@@ -441,6 +441,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, menuData }) => {
                 <input
                   required
                   type="tel"
+                  autoComplete="tel"
+                  inputMode="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:ring-2 focus:ring-salmon"
@@ -452,6 +454,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, menuData }) => {
                 <input
                   required
                   type="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:ring-2 focus:ring-salmon"
@@ -576,6 +579,11 @@ const Gallery = () => {
           >
             <ChevronRight className="w-5 h-5 text-marine" />
           </button>
+        </div>
+        <div className="md:hidden text-center mt-4 text-gray-400 text-sm animate-pulse flex items-center justify-center gap-2" aria-label="Swipe horizontaal voor meer foto's">
+          <ChevronRight className="w-4 h-4 rotate-180" aria-hidden="true" />
+          <span>Swipe voor meer foto's</span>
+          <ChevronRight className="w-4 h-4" aria-hidden="true" />
         </div>
       </div>
     </section>
@@ -728,17 +736,17 @@ const Contact = () => {
             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">Naam</label>
-                  <input type="text" className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="Uw naam" />
+                  <label htmlFor="contact-name" className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">Naam</label>
+                  <input id="contact-name" type="text" autoComplete="name" className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="Uw naam" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">GSM Nummer</label>
-                  <input type="tel" className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="04xx xx xx xx" />
+                  <label htmlFor="contact-phone" className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">GSM Nummer</label>
+                  <input id="contact-phone" type="tel" autoComplete="tel" inputMode="tel" className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="04xx xx xx xx" />
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">Bestelling details</label>
-                <textarea rows={5} className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="Welke producten wilt u bestellen?"></textarea>
+                <label htmlFor="contact-details" className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">Bestelling details</label>
+                <textarea id="contact-details" rows={5} className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="Welke producten wilt u bestellen?"></textarea>
               </div>
               <button className="w-full bg-salmon text-marine py-5 rounded-2xl font-black text-xl hover:bg-white transition-all transform active:scale-95 shadow-xl uppercase tracking-widest">
                 VERZENDEN
@@ -874,6 +882,48 @@ const App: React.FC = () => {
         }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* Safe area insets for notched devices */
+        .pt-safe {
+          padding-top: max(1.25rem, env(safe-area-inset-top));
+        }
+        .pb-safe {
+          padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+        }
+        
+        /* Landscape orientation support for small devices */
+        @media (max-height: 500px) and (orientation: landscape) {
+          .hero-title {
+            font-size: clamp(2rem, 8vw, 3.5rem) !important;
+            line-height: 1.1 !important;
+          }
+          .hero-subtitle {
+            font-size: clamp(1rem, 4vw, 1.5rem) !important;
+          }
+          .hero-description {
+            font-size: clamp(1.2rem, 5vw, 1.8rem) !important;
+          }
+        }
+        
+        /* Touch device optimization */
+        @media (hover: none) and (pointer: coarse) {
+          button, a {
+            -webkit-tap-highlight-color: rgba(243, 198, 184, 0.3);
+          }
+        }
+        
+        /* Prevent text size adjustment on orientation change */
+        html {
+          -webkit-text-size-adjust: 100%;
+          -moz-text-size-adjust: 100%;
+          -ms-text-size-adjust: 100%;
+          text-size-adjust: 100%;
+        }
+        
+        /* Smooth scrolling for all devices */
+        html {
+          scroll-behavior: smooth;
+        }
       `}</style>
     </div>
   );
