@@ -8,6 +8,14 @@ This contains everything you need to run your app locally.
 
 View your app in AI Studio: https://ai.studio/apps/drive/1JMMgd2XyCzGEmeyeJMUKKXpbOBCnjTMm
 
+## Live Site
+
+The site is automatically deployed to GitHub Pages at: **https://kevinb42O.github.io/DeWulk_website/**
+
+The deployment is configured with:
+- Base path: `/DeWulk_website/` (set in `vite.config.ts`)
+- Automatic deployment via GitHub Actions on pushes to `main` branch
+
 ## Run Locally
 
 **Prerequisites:**  Node.js
