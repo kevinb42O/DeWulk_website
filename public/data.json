@@ -83,41 +83,6 @@
       ]
     },
     {
-      "title": "Recht uit de zee",
-      "items": [
-        {
-          "id": 13,
-          "name": "Kreeft",
-          "price": "Dagprijs",
-          "unit": ""
-        },
-        {
-          "id": 14,
-          "name": "Oesters (Worden gratis opengedaan)",
-          "price": "Dagprijs",
-          "unit": ""
-        },
-        {
-          "id": 15,
-          "name": "Venusschelpen",
-          "price": "Dagprijs",
-          "unit": ""
-        },
-        {
-          "id": 16,
-          "name": "Cocquilles",
-          "price": "Dagprijs",
-          "unit": ""
-        },
-        {
-          "id": 17,
-          "name": "Scheermessen",
-          "price": "Dagprijs",
-          "unit": ""
-        }
-      ]
-    },
-    {
       "title": "Bijgerechten & Specials",
       "items": [
         {
@@ -148,6 +113,41 @@
           "id": 22,
           "name": "Vis Gourmet",
           "price": "Dagprijs",
+          "unit": ""
+        }
+      ]
+    },
+    {
+      "title": "Vaste Waarden",
+      "items": [
+        {
+          "id": 23,
+          "name": "Kreeft",
+          "price": "DAGPRIJS",
+          "unit": ""
+        },
+        {
+          "id": 24,
+          "name": "Oesters",
+          "price": "DAGPRIJS",
+          "unit": ""
+        },
+        {
+          "id": 25,
+          "name": "Venusschelpen",
+          "price": "DAGPRIJS",
+          "unit": ""
+        },
+        {
+          "id": 26,
+          "name": "Coquilles",
+          "price": "DAGPRIJS",
+          "unit": ""
+        },
+        {
+          "id": 27,
+          "name": "Scheermessen",
+          "price": "DAGPRIJS",
           "unit": ""
         }
       ]
