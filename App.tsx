@@ -682,8 +682,8 @@ const Contact = () => {
   return (
     <section id="contact" className="py-24 bg-white">
       <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          <div className="lg:sticky lg:top-32">
+        <div className="max-w-3xl mx-auto">
+          <div>
             <h2 className="text-4xl md:text-5xl font-bold text-marine mb-8">Contacteer De Wulk</h2>
             <p className="text-xl text-gray-600 mb-12">
               Bij <span className="font-bold text-marine">Olivier & Kelly</span> staat de klant centraal. Heeft u een bestelling of een vraag? Wij staan u graag te woord.
@@ -729,33 +729,6 @@ const Contact = () => {
                 </div>
               </div>
             </div>
-          </div>
-          
-          <div className="bg-marine rounded-[3rem] p-8 md:p-12 shadow-2xl relative border-t-8 border-salmon">
-            <div className="absolute top-4 right-8 opacity-10">
-              <img src={ultiemLogo} alt="De Wulk Viswinkel Blankenberge Logo" className="w-32 h-32 object-contain" />
-            </div>
-            <h3 className="text-3xl font-bold text-white mb-8">Plaats uw bestelling</h3>
-            <p className="text-blue-100 mb-8 italic">"Gelieve op voorhand te bestellen aub."</p>
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="contact-name" className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">Naam</label>
-                  <input id="contact-name" type="text" autoComplete="name" className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="Uw naam" />
-                </div>
-                <div>
-                  <label htmlFor="contact-phone" className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">GSM Nummer</label>
-                  <input id="contact-phone" type="tel" autoComplete="tel" inputMode="tel" className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="04xx xx xx xx" />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="contact-details" className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">Bestelling details</label>
-                <textarea id="contact-details" rows={5} className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="Welke producten wilt u bestellen?"></textarea>
-              </div>
-              <button className="w-full bg-salmon text-marine py-5 rounded-2xl font-black text-xl hover:bg-white transition-all transform active:scale-95 shadow-xl uppercase tracking-widest">
-                VERZENDEN
-              </button>
-            </form>
           </div>
         </div>
       </div>
