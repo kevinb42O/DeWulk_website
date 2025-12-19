@@ -212,11 +212,10 @@ const AboutUs = () => {
 };
 
 type PriceListProps = {
-  onOrderClick: () => void;
   menuData: MenuCategory[];
 };
 
-const PriceList: React.FC<PriceListProps> = ({ onOrderClick, menuData }) => {
+const PriceList: React.FC<PriceListProps> = ({ menuData }) => {
   return (
     <section id="prijslijst" className="py-24 accent-beige">
       <div className="container mx-auto px-6">
@@ -340,172 +339,6 @@ const MapCard = () => {
         </div>
       </div>
     </section>
-  );
-};
-
-type OrderModalProps = {
-  open: boolean;
-  onClose: () => void;
-  menuData: MenuCategory[];
-};
-
-const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, menuData }) => {
-  const [selected, setSelected] = useState<Record<string, { checked: boolean; qty: number }>>({});
-  const [contact, setContact] = useState<'call' | 'sms' | 'email'>('call');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-
-  useEffect(() => {
-    if (!open) {
-      setSubmitted(false);
-    }
-  }, [open]);
-
-  const toggleItem = (key: string) => {
-    setSelected((prev) => {
-      const current = prev[key] || { checked: false, qty: 1 };
-      return { ...prev, [key]: { ...current, checked: !current.checked } };
-    });
-  };
-
-  const setQty = (key: string, qty: number) => {
-    setSelected((prev) => {
-      const current = prev[key] || { checked: true, qty: 1 };
-      return { ...prev, [key]: { ...current, checked: true, qty } };
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      onClose();
-      setSubmitted(false);
-    }, 2200);
-  };
-
-  if (!open) return null;
-
-  return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
-      <div className="bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[95vh] overflow-hidden">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-          <div className="flex items-center space-x-3">
-            <img src={ultiemLogo} alt="De Wulk logo" className="h-10 w-auto object-contain" />
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-salmon font-bold">Bestellen</p>
-              <h3 className="text-xl font-bold text-marine">Stel je bestelling samen</h3>
-            </div>
-          </div>
-          <button onClick={onClose} className="text-gray-500 hover:text-marine">
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="max-h-[75vh] md:max-h-[80vh] overflow-y-auto">
-          <div className="grid md:grid-cols-3 gap-0">
-            <div className="md:col-span-2 p-6 space-y-6">
-              {menuData.map((cat, idx) => (
-                <div key={idx} className="border border-gray-100 rounded-2xl p-4">
-                  <h4 className="text-lg font-bold text-marine mb-3">{cat.title}</h4>
-                  <div className="space-y-3">
-                    {cat.items.map((item, i) => {
-                      const key = `${cat.title}-${item.name}`;
-                      const entry = selected[key] || { checked: false, qty: 1 };
-                      return (
-                        <div key={i} className="flex items-center justify-between gap-3">
-                          <label className="flex items-center gap-3 flex-1 cursor-pointer">
-                            <input
-                              type="checkbox"
-                              className="h-4 w-4 text-marine"
-                              checked={entry.checked}
-                              onChange={() => toggleItem(key)}
-                            />
-                            <span className="text-gray-700">{item.name} <span className="text-gray-400 text-sm">({item.price}{item.unit ?? ''})</span></span>
-                          </label>
-                          <select
-                            value={entry.qty}
-                            onChange={(e) => setQty(key, Number(e.target.value))}
-                            className="border border-gray-200 rounded-xl px-3 py-1 text-sm text-marine"
-                          >
-                            {[1,2,3,4,5,6].map((q) => (
-                              <option key={q} value={q}>{q}x</option>
-                            ))}
-                          </select>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="md:border-l border-gray-100 p-6 space-y-4 bg-gray-50">
-              <div>
-                <label className="block text-xs font-bold text-salmon uppercase tracking-[0.2em] mb-2">GSM Nummer</label>
-                <input
-                  required
-                  type="tel"
-                  autoComplete="tel"
-                  inputMode="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:ring-2 focus:ring-salmon"
-                  placeholder="04xx xx xx xx"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-salmon uppercase tracking-[0.2em] mb-2">E-mail</label>
-                <input
-                  required
-                  type="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 focus:ring-2 focus:ring-salmon"
-                  placeholder="info@jij.be"
-                />
-              </div>
-              <div>
-                <p className="text-xs font-bold text-salmon uppercase tracking-[0.2em] mb-2">Contactvoorkeur</p>
-                <div className="space-y-2 text-sm text-gray-700">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="contactpref" checked={contact === 'call'} onChange={() => setContact('call')} />
-                    Bel mij
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="contactpref" checked={contact === 'sms'} onChange={() => setContact('sms')} />
-                    Stuur een sms/bericht
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="contactpref" checked={contact === 'email'} onChange={() => setContact('email')} />
-                    Mail is prima
-                  </label>
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-marine text-white py-4 rounded-xl font-bold text-lg hover:bg-salmon hover:text-marine transition-colors shadow-lg"
-              >
-                Verzenden
-              </button>
-
-              {submitted && (
-                <div className="mt-3 text-sm text-marine bg-salmon/20 border border-salmon/40 rounded-xl p-3">
-                  Bedankt voor uw bestelling, we hebben dit goed ontvangen. We contacteren u zo snel mogelijk via mail of geven u een belletje.
-                </div>
-              )}
-
-              <p className="text-xs text-gray-500 mt-2">
-                Bestellingen worden doorgestuurd naar dewulk@info.be (test).
-              </p>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
   );
 };
 
@@ -710,10 +543,10 @@ const Contact = () => {
                   <h4 className="text-lg font-bold text-marine mb-1">Telefoon</h4>
                   <div className="space-y-2">
                     <p className="text-gray-600 font-bold text-2xl hover:text-salmon transition-colors">
-                      <a href="tel:0485755667">0485 75 56 67</a>
+                      <a href="tel:+32485755667">0485 75 56 67</a>
                     </p>
                     <p className="text-gray-600 font-bold text-2xl hover:text-salmon transition-colors">
-                      <a href="tel:0497837718">0497 83 77 18</a>
+                      <a href="tel:+32497837718">0497 83 77 18</a>
                     </p>
                   </div>
                 </div>
@@ -726,7 +559,7 @@ const Contact = () => {
                 <div>
                   <h4 className="text-lg font-bold text-marine mb-1">E-mail</h4>
                   <p className="text-gray-600 hover:text-salmon transition-colors text-lg">
-                    <a href="mailto:info@dewulk.be">info@dewulk.be</a>
+                    <a href="mailto:info@vishandelolivierenkelly.be">info@vishandelolivierenkelly.be</a>
                   </p>
                 </div>
               </div>
@@ -845,7 +678,7 @@ const App: React.FC = () => {
       <Hero />
       <MapCard />
       <AboutUs />
-      <PriceList onOrderClick={() => {}} menuData={menuData.menu} />
+      <PriceList menuData={menuData.menu} />
       <Favorites favorites={menuData.favorieten || []} />
       <Gallery />
       <Testimonials />
