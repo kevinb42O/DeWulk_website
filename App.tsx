@@ -821,12 +821,12 @@ const App: React.FC = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const response = await fetch('/api/getMenu.php');
+        const response = await fetch('/data.json');
         const data = await response.json();
         setMenuData(data);
       } catch (error) {
         console.error('Error loading menu data:', error);
-        // Fallback to empty data if API fails
+        // Fallback to empty data if fetch fails
         setMenuData({
           menu: [],
           openingsuren: []

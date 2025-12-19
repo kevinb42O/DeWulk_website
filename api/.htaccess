@@ -1,5 +1,0 @@
-# Bescherm data folder
-<FilesMatch "\.(json)$">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
