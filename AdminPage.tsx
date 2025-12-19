@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { Lock, Save, LogOut, Plus, Trash2, AlertCircle, CheckCircle, Loader, ArrowLeft } from 'lucide-react';
 import { MenuCategory, OpeningHourData, MenuData } from './types';
 
+// Admin password - stored in client-side code
+// For a small business site, this is acceptable as it only protects against casual changes
+// For higher security needs, consider implementing proper authentication with a backend
 const ADMIN_PASSWORD = 'DeWulk2025!';
 const GITHUB_REPO = 'kevinb42O/DeWulk_website';
 const DATA_FILE_PATH = 'public/data.json';
@@ -91,7 +94,11 @@ const AdminPage: React.FC = () => {
         menu: menuData.menu,
         openingsuren: menuData.openingsuren,
       };
-      const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(newContent, null, 2))));
+      // Encode to base64 with proper UTF-8 handling
+      const contentString = JSON.stringify(newContent, null, 2);
+      const encoder = new TextEncoder();
+      const data = encoder.encode(contentString);
+      const contentBase64 = btoa(String.fromCharCode(...new Uint8Array(data)));
 
       // Update file via GitHub API
       const updateRes = await fetch(
