@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { 
   Fish, 
@@ -18,7 +17,7 @@ import {
   Star,
   Quote
 } from 'lucide-react';
-import { Offering, OpeningHour, GalleryItem, MenuCategory } from './types';
+import { Offering, OpeningHour, GalleryItem, MenuCategory, MenuData, OpeningHourData } from './types';
 import ultiemLogo from './final_LOGOOOO.png';
 import heroImg from './viswinkelV3_FINAL.png';
 import interiorImg from './winkel_binnen.webp';
@@ -46,51 +45,7 @@ const IMAGE_CONFIG = {
 };
 
 // --- Data based on provided flyer image ---
-
-const MENU_DATA: MenuCategory[] = [
-  {
-    title: "Bereide Gerechten",
-    items: [
-      { name: "Tongrollen met witte wijnsaus en fijne groentjes", price: "€21,50", unit: "/kg" },
-      { name: "Kabeljauwhaasje met witte wijnsaus, garnalen en puree", price: "€12", unit: "/st" },
-      { name: "Kabeljauwhaasje met saffraansausje en groentjes", price: "€11", unit: "/st" },
-      { name: "Vispannetje", price: "€11,50", unit: "/st" },
-      { name: "Scampi pikant met pasta", price: "€14,50", unit: "/st" },
-      { name: "Tagliatelli met zalm", price: "€12", unit: "/st" },
-      { name: "Tongrollen op bedje van spinazie met witte wijnsaus", price: "€11", unit: "/st" },
-      { name: "Paling in 't groen", price: "€49", unit: "/kg" },
-    ]
-  },
-  {
-    title: "Soepen",
-    items: [
-      { name: "Dagsoep", price: "€4", unit: "/L" },
-      { name: "Tomatenroomsoep met balletjes", price: "€6,80", unit: "/L" },
-      { name: "Witloofroomsoep met garnalen", price: "€11,90", unit: "/L" },
-      { name: "Bouillabaisse (Vissoep)", price: "€13", unit: "/L" },
-    ]
-  },
-  {
-    title: "Recht uit de zee",
-    items: [
-      { name: "Kreeft", price: "Dagprijs" },
-      { name: "Oesters (Worden gratis opengedaan)", price: "Dagprijs" },
-      { name: "Venusschelpen", price: "Dagprijs" },
-      { name: "Cocquilles", price: "Dagprijs" },
-      { name: "Scheermessen", price: "Dagprijs" },
-    ]
-  },
-  {
-    title: "Bijgerechten & Specials",
-    items: [
-      { name: "Puree", price: "€4,50", unit: "/st" },
-      { name: "Pastasalade", price: "€14,90", unit: "/kg" },
-      { name: "Aardappelsalade", price: "€16,50", unit: "/kg" },
-      { name: "Visfondue", price: "Dagprijs" },
-      { name: "Vis Gourmet", price: "Dagprijs" },
-    ]
-  }
-];
+// Menu data is now loaded from API
 
 const TESTIMONIALS = [
   {
@@ -257,9 +212,10 @@ const AboutUs = () => {
 
 type PriceListProps = {
   onOrderClick: () => void;
+  menuData: MenuCategory[];
 };
 
-const PriceList: React.FC<PriceListProps> = ({ onOrderClick }) => {
+const PriceList: React.FC<PriceListProps> = ({ onOrderClick, menuData }) => {
   return (
     <section id="prijslijst" className="py-24 accent-beige">
       <div className="container mx-auto px-6">
@@ -277,7 +233,7 @@ const PriceList: React.FC<PriceListProps> = ({ onOrderClick }) => {
           </div>
         </div>
         <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {MENU_DATA.map((category, idx) => (
+          {menuData.map((category, idx) => (
             <div key={idx} className="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-sm hover:shadow-md transition-all border border-marine/5">
               <h3 className="text-2xl font-bold text-marine mb-8 flex items-center">
                 <span className="w-8 h-[2px] bg-salmon mr-4"></span>
@@ -384,9 +340,10 @@ const MapCard = () => {
 type OrderModalProps = {
   open: boolean;
   onClose: () => void;
+  menuData: MenuCategory[];
 };
 
-const OrderModal: React.FC<OrderModalProps> = ({ open, onClose }) => {
+const OrderModal: React.FC<OrderModalProps> = ({ open, onClose, menuData }) => {
   const [selected, setSelected] = useState<Record<string, { checked: boolean; qty: number }>>({});
   const [contact, setContact] = useState<'call' | 'sms' | 'email'>('call');
   const [phone, setPhone] = useState('');
@@ -443,7 +400,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ open, onClose }) => {
         <form onSubmit={handleSubmit} className="max-h-[80vh] overflow-y-auto">
           <div className="grid md:grid-cols-3 gap-0">
             <div className="md:col-span-2 p-6 space-y-6">
-              {MENU_DATA.map((cat, idx) => (
+              {menuData.map((cat, idx) => (
                 <div key={idx} className="border border-gray-100 rounded-2xl p-4">
                   <h4 className="text-lg font-bold text-marine mb-3">{cat.title}</h4>
                   <div className="space-y-3">
@@ -661,16 +618,12 @@ const Testimonials = () => {
   );
 };
 
-const OpeningHours = () => {
-  const schedule: OpeningHour[] = [
-    { day: 'Maandag', hours: '09:00 – 18:00' },
-    { day: 'Dinsdag', hours: '09:00 – 18:00' },
-    { day: 'Woensdag', hours: '09:00 – 18:00' },
-    { day: 'Donderdag', hours: 'Gesloten' },
-    { day: 'Vrijdag', hours: '09:00 – 18:00' },
-    { day: 'Zaterdag', hours: '09:00 – 18:00' },
-    { day: 'Zondag', hours: '09:00 – 18:00' },
-  ];
+const OpeningHours: React.FC<{ schedule: OpeningHourData[] }> = ({ schedule }) => {
+  // Convert OpeningHourData to OpeningHour format for display
+  const displaySchedule: OpeningHour[] = schedule.map(item => ({
+    day: item.dag,
+    hours: item.uren
+  }));
 
   return (
     <section id="uren" className="py-24 bg-gray-50">
@@ -698,7 +651,7 @@ const OpeningHours = () => {
             </div>
             <div className="bg-white/5 p-8 rounded-[2rem] backdrop-blur-sm border border-white/10">
               <ul className="space-y-4">
-                {schedule.map((item) => (
+                {displaySchedule.map((item) => (
                   <li key={item.day} className="flex justify-between items-center border-b border-white/10 pb-3">
                     <span className={`font-bold ${item.hours === 'Gesloten' ? 'text-salmon' : 'text-white'}`}>{item.day}</span>
                     <span className={`font-medium ${item.hours === 'Gesloten' ? 'text-salmon italic' : 'text-blue-100'}`}>{item.hours}</span>
@@ -854,6 +807,40 @@ const Footer = () => {
 
 const App: React.FC = () => {
   const [isOrderOpen, setIsOrderOpen] = useState(false);
+  const [menuData, setMenuData] = useState<MenuData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const response = await fetch('/api/getMenu.php');
+        const data = await response.json();
+        setMenuData(data);
+      } catch (error) {
+        console.error('Error loading menu data:', error);
+        // Fallback to empty data if API fails
+        setMenuData({
+          menu: [],
+          openingsuren: []
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadData();
+  }, []);
+
+  if (loading || !menuData) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-marine mx-auto mb-4"></div>
+          <p className="text-marine font-bold">Laden...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -861,12 +848,12 @@ const App: React.FC = () => {
       <Hero />
       <MapCard />
       <AboutUs />
-      <PriceList onOrderClick={() => setIsOrderOpen(true)} />
+      <PriceList onOrderClick={() => setIsOrderOpen(true)} menuData={menuData.menu} />
       <Gallery />
       <Testimonials />
-      <OpeningHours />
+      <OpeningHours schedule={menuData.openingsuren} />
       <Contact />
-      <OrderModal open={isOrderOpen} onClose={() => setIsOrderOpen(false)} />
+      <OrderModal open={isOrderOpen} onClose={() => setIsOrderOpen(false)} menuData={menuData.menu} />
       <Footer />
       
       <style>{`
