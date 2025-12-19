@@ -682,80 +682,51 @@ const Contact = () => {
   return (
     <section id="contact" className="py-24 bg-white">
       <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          <div className="lg:sticky lg:top-32">
-            <h2 className="text-4xl md:text-5xl font-bold text-marine mb-8">Contacteer De Wulk</h2>
-            <p className="text-xl text-gray-600 mb-12">
-              Bij <span className="font-bold text-marine">Olivier & Kelly</span> staat de klant centraal. Heeft u een bestelling of een vraag? Wij staan u graag te woord.
-            </p>
-            
-            <div className="space-y-8">
-              <div className="flex items-start space-x-6">
-                <div className="bg-marine text-white p-4 rounded-2xl shadow-lg">
-                  <MapPin className="w-8 h-8" />
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold text-marine mb-1">Adres</h4>
-                  <p className="text-gray-600">Consciencestraat 1, 8370 Blankenberge</p>
-                </div>
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-marine mb-8">Contacteer De Wulk</h2>
+          <p className="text-xl text-gray-600 mb-12">
+            Bij <span className="font-bold text-marine">Olivier & Kelly</span> staat de klant centraal. Heeft u een bestelling of een vraag? Wij staan u graag te woord.
+          </p>
+          
+          <div className="space-y-8">
+            <div className="flex items-start space-x-6">
+              <div className="bg-marine text-white p-4 rounded-2xl shadow-lg">
+                <MapPin className="w-8 h-8" />
               </div>
-
-              <div className="flex items-start space-x-6">
-                <div className="bg-marine text-white p-4 rounded-2xl shadow-lg">
-                  <Phone className="w-8 h-8" />
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold text-marine mb-1">Telefoon</h4>
-                  <div className="space-y-2">
-                    <p className="text-gray-600 font-bold text-2xl hover:text-salmon transition-colors">
-                      <a href="tel:+32485755667">0485 75 56 67</a>
-                    </p>
-                    <p className="text-gray-600 font-bold text-2xl hover:text-salmon transition-colors">
-                      <a href="tel:+32497837718">0497 83 77 18</a>
-                    </p>
-                  </div>
-                </div>
+              <div>
+                <h4 className="text-lg font-bold text-marine mb-1">Adres</h4>
+                <p className="text-gray-600">Consciencestraat 1, 8370 Blankenberge</p>
               </div>
+            </div>
 
-              <div className="flex items-start space-x-6">
-                <div className="bg-marine text-white p-4 rounded-2xl shadow-lg">
-                  <Mail className="w-8 h-8" />
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold text-marine mb-1">E-mail</h4>
-                  <p className="text-gray-600 hover:text-salmon transition-colors text-lg">
-                    <a href="mailto:info@vishandelolivierenkelly.be">info@vishandelolivierenkelly.be</a>
+            <div className="flex items-start space-x-6">
+              <div className="bg-marine text-white p-4 rounded-2xl shadow-lg">
+                <Phone className="w-8 h-8" />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-marine mb-1">Telefoon</h4>
+                <div className="space-y-2">
+                  <p className="text-gray-600 font-bold text-2xl hover:text-salmon transition-colors">
+                    <a href="tel:+32485755667">0485 75 56 67</a>
+                  </p>
+                  <p className="text-gray-600 font-bold text-2xl hover:text-salmon transition-colors">
+                    <a href="tel:+32497837718">0497 83 77 18</a>
                   </p>
                 </div>
               </div>
             </div>
-          </div>
-          
-          <div className="bg-marine rounded-[3rem] p-8 md:p-12 shadow-2xl relative border-t-8 border-salmon">
-            <div className="absolute top-4 right-8 opacity-10">
-              <img src={ultiemLogo} alt="De Wulk Viswinkel Blankenberge Logo" className="w-32 h-32 object-contain" />
-            </div>
-            <h3 className="text-3xl font-bold text-white mb-8">Plaats uw bestelling</h3>
-            <p className="text-blue-100 mb-8 italic">"Gelieve op voorhand te bestellen aub."</p>
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="contact-name" className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">Naam</label>
-                  <input id="contact-name" type="text" autoComplete="name" className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="Uw naam" />
-                </div>
-                <div>
-                  <label htmlFor="contact-phone" className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">GSM Nummer</label>
-                  <input id="contact-phone" type="tel" autoComplete="tel" inputMode="tel" className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="04xx xx xx xx" />
-                </div>
+
+            <div className="flex items-start space-x-6">
+              <div className="bg-marine text-white p-4 rounded-2xl shadow-lg">
+                <Mail className="w-8 h-8" />
               </div>
               <div>
-                <label htmlFor="contact-details" className="block text-xs font-bold text-salmon uppercase tracking-widest mb-2">Bestelling details</label>
-                <textarea id="contact-details" rows={5} className="w-full bg-white/10 border-white/20 text-white focus:ring-2 focus:ring-salmon rounded-2xl p-4 transition-all" placeholder="Welke producten wilt u bestellen?"></textarea>
+                <h4 className="text-lg font-bold text-marine mb-1">E-mail</h4>
+                <p className="text-gray-600 hover:text-salmon transition-colors text-lg">
+                  <a href="mailto:info@vishandelolivierenkelly.be">info@vishandelolivierenkelly.be</a>
+                </p>
               </div>
-              <button className="w-full bg-salmon text-marine py-5 rounded-2xl font-black text-xl hover:bg-white transition-all transform active:scale-95 shadow-xl uppercase tracking-widest">
-                VERZENDEN
-              </button>
-            </form>
+            </div>
           </div>
         </div>
       </div>
