@@ -14,7 +14,8 @@ import {
   Shrimp,
   ChefHat,
   Star,
-  Quote
+  Quote,
+  X
 } from 'lucide-react';
 import { Offering, OpeningHour, GalleryItem, MenuCategory, MenuData, OpeningHourData, FavoriteItem } from './types';
 import ultiemLogo from './final_LOGOOOO.png';
@@ -82,11 +83,19 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Over Ons', href: '#over-ons' },
-    { name: 'Prijslijst', href: '#prijslijst' },
-    { name: 'Uren', href: '#uren' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Over Ons', id: 'over-ons' },
+    { name: 'Prijslijst', id: 'prijslijst' },
+    { name: 'Uren', id: 'uren' },
+    { name: 'Contact', id: 'contact' },
   ];
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setIsOpen(false); // Close mobile menu
+    }
+  };
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 pt-safe ${scrolled ? 'bg-white shadow-md pb-3' : 'bg-transparent pb-5'}`}>
@@ -101,9 +110,13 @@ const Navbar = () => {
 
         <div className="hidden md:flex space-x-8">
           {navLinks.map((link) => (
-            <a key={link.name} href={link.href} className={`font-medium hover:text-salmon transition-colors ${scrolled ? 'text-gray-700' : 'text-white'}`}>
+            <button 
+              key={link.name} 
+              onClick={() => scrollToSection(link.id)}
+              className={`font-medium hover:text-salmon transition-colors ${scrolled ? 'text-gray-700' : 'text-white'}`}
+            >
               {link.name}
-            </a>
+            </button>
           ))}
         </div>
 
@@ -115,9 +128,13 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-white absolute top-full left-0 w-full shadow-xl p-6 flex flex-col space-y-4 animate-in fade-in slide-in-from-top-4">
           {navLinks.map((link) => (
-            <a key={link.name} href={link.href} className="text-gray-800 text-lg font-medium hover:text-marine" onClick={() => setIsOpen(false)}>
+            <button 
+              key={link.name} 
+              onClick={() => scrollToSection(link.id)} 
+              className="text-gray-800 text-lg font-medium hover:text-marine text-left"
+            >
               {link.name}
-            </a>
+            </button>
           ))}
         </div>
       )}
@@ -126,6 +143,13 @@ const Navbar = () => {
 };
 
 const Hero = () => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <section className="relative min-h-[600px] md:min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 z-0">
@@ -150,9 +174,12 @@ const Hero = () => {
             <span className="text-salmon">Consciencestraat 1, Blankenberge - West-Vlaanderen</span>
           </p>
           <div className="mt-12 flex flex-wrap justify-center gap-4">
-            <a href="#prijslijst" className="bg-marine text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-marine transition-all shadow-2xl inline-block">
+            <button 
+              onClick={() => scrollToSection('prijslijst')}
+              className="bg-marine text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-marine transition-all shadow-2xl inline-block"
+            >
               Bekijk de Prijslijst
-            </a>
+            </button>
             <a href="tel:+32485755667" className="bg-white/10 backdrop-blur-md border-2 border-white text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-marine transition-all shadow-2xl inline-flex items-center gap-2">
               <Phone className="w-5 h-5" />
               Bel ons voor info & bestellingen
