@@ -140,10 +140,10 @@ const Hero = () => {
       <div className="relative z-10 w-full px-6">
         <div className="max-w-4xl mx-auto text-center px-8 py-10">
           <h1 className="hero-title text-5xl sm:text-7xl md:text-9xl font-black text-white mb-2 tracking-tight leading-[0.9] drop-shadow-2xl">
-            DE WULK - VISWINKEL BLANKENBERGE
+            DE WULK<span className="hidden md:inline"> VISWINKEL</span>
           </h1>
-          <p className="hero-subtitle text-lg sm:text-xl md:text-2xl text-white font-semibold mb-4 drop-shadow-lg italic">
-            "Bij Olivier & Kelly"
+          <p className="hero-subtitle text-lg sm:text-xl md:text-2xl text-white font-semibold mb-4 drop-shadow-lg">
+            <span className="md:hidden">Viswinkel Blankenberge - </span><span className="italic">Bij Olivier & Kelly</span>
           </p>
           <div className="h-1.5 w-28 bg-salmon mx-auto mb-7"></div>
           <p className="hero-description text-xl sm:text-2xl md:text-3xl text-white font-semibold max-w-3xl mx-auto leading-relaxed drop-shadow-2xl">
