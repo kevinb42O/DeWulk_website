@@ -10,7 +10,6 @@ import {
   Instagram, 
   Facebook, 
   Menu as MenuIcon, 
-  X,
   ChevronRight,
   Shrimp,
   ChefHat,
