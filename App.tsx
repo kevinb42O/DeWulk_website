@@ -158,7 +158,7 @@ const Hero = () => {
           alt="De Wulk Viswinkel Blankenberge - Verse Noordzeevis en Zeevruchten aan de Belgische kust" 
           className="w-full h-full object-cover brightness-100 scale-105 animate-slow-zoom"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/15 to-marine/35"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-marine/50"></div>
       </div>
       <div className="relative z-10 w-full px-6">
         <div className="max-w-4xl mx-auto text-center px-8 py-10">
@@ -170,20 +170,36 @@ const Hero = () => {
           </p>
           <div className="h-1.5 w-28 bg-salmon mx-auto mb-7"></div>
           <p className="hero-description text-xl sm:text-2xl md:text-3xl text-white font-semibold max-w-3xl mx-auto leading-relaxed drop-shadow-2xl">
-            Dagverse Noordzeevis &amp; Ambachtelijke Zeevruchten <br />
-            <span className="text-salmon">Consciencestraat 1, Blankenberge - West-Vlaanderen</span>
+            Huisbereide warme &amp; koude gerechten • Zeevruchten • Schotels
+          </p>
+          <p className="text-lg sm:text-xl text-white/90 font-medium mt-4 mb-6 drop-shadow-lg">
+            Al 18 jaar een vaste waarde in Blankenberge
+          </p>
+          <p className="text-lg sm:text-xl text-salmon font-semibold drop-shadow-lg">
+            <MapPin className="w-5 h-5 inline-block mr-1" />
+            Consciencestraat 1, 8370 Blankenberge
+            {' · '}
+            <a 
+              href="https://maps.google.com/?q=Consciencestraat+1+8370+Blankenberge" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-white transition-colors underline"
+              aria-label="Open directions to Consciencestraat 1, 8370 Blankenberge in new tab"
+            >
+              Route
+            </a>
           </p>
           <div className="mt-12 flex flex-wrap justify-center gap-4">
+            <a href="tel:+32485755667" className="bg-marine text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-marine transition-all shadow-2xl inline-flex items-center gap-2" aria-label="Call +32485755667 to place an order">
+              <Phone className="w-5 h-5" />
+              Bel om te bestellen
+            </a>
             <button 
               onClick={() => scrollToSection('prijslijst')}
-              className="bg-marine text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-marine transition-all shadow-2xl inline-block"
+              className="bg-white/10 backdrop-blur-md border-2 border-white text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-marine transition-all shadow-2xl inline-block"
             >
-              Bekijk de Prijslijst
+              Bekijk de prijslijst
             </button>
-            <a href="tel:+32485755667" className="bg-white/10 backdrop-blur-md border-2 border-white text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-marine transition-all shadow-2xl inline-flex items-center gap-2">
-              <Phone className="w-5 h-5" />
-              Bel ons voor info & bestellingen
-            </a>
           </div>
         </div>
       </div>
