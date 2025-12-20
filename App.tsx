@@ -554,6 +554,7 @@ const Gallery = () => {
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   const [active, setActive] = useState(0);
   const slides = IMAGE_CONFIG.gallery;
+  const scrollTimeoutRef = React.useRef<number | null>(null);
 
   const scrollToIndex = (next: number) => {
     const container = scrollRef.current;
@@ -565,16 +566,26 @@ const Gallery = () => {
   };
 
   const handleScroll = () => {
-    const container = scrollRef.current;
-    if (!container) return;
-    const card = container.firstElementChild as HTMLElement | null;
-    if (!card) return;
-    const cardWidth = card.clientWidth + 16; // 16 = gap
-    const scrollLeft = container.scrollLeft;
-    const newActive = Math.round(scrollLeft / cardWidth);
-    if (newActive !== active && newActive >= 0 && newActive < slides.length) {
-      setActive(newActive);
-    }
+    if (scrollTimeoutRef.current !== null) return;
+    scrollTimeoutRef.current = window.requestAnimationFrame(() => {
+      const container = scrollRef.current;
+      if (!container) {
+        scrollTimeoutRef.current = null;
+        return;
+      }
+      const card = container.firstElementChild as HTMLElement | null;
+      if (!card) {
+        scrollTimeoutRef.current = null;
+        return;
+      }
+      const cardWidth = card.clientWidth + 16; // 16 = gap
+      const scrollLeft = container.scrollLeft;
+      const newActive = Math.round(scrollLeft / cardWidth);
+      if (newActive !== active && newActive >= 0 && newActive < slides.length) {
+        setActive(newActive);
+      }
+      scrollTimeoutRef.current = null;
+    });
   };
 
   useEffect(() => {
