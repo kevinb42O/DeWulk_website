@@ -564,6 +564,19 @@ const Gallery = () => {
     setActive(next);
   };
 
+  const handleScroll = () => {
+    const container = scrollRef.current;
+    if (!container) return;
+    const card = container.firstElementChild as HTMLElement | null;
+    if (!card) return;
+    const cardWidth = card.clientWidth + 16; // 16 = gap
+    const scrollLeft = container.scrollLeft;
+    const newActive = Math.round(scrollLeft / cardWidth);
+    if (newActive !== active && newActive >= 0 && newActive < slides.length) {
+      setActive(newActive);
+    }
+  };
+
   useEffect(() => {
     if (slides.length === 0) return;
     const id = setInterval(() => {
@@ -591,7 +604,7 @@ const Gallery = () => {
           <p className="text-gray-600">Dagverse aanvoer, huisbereide schotels en de gezellige winkel in Blankenberge.</p>
         </div>
         <div className="relative">
-          <div className="overflow-hidden" ref={scrollRef}>
+          <div className="overflow-x-auto touch-pan-x scrollbar-hide" ref={scrollRef} onScroll={handleScroll}>
             <div className="flex space-x-4 snap-x snap-mandatory">
               {slides.map((img, idx) => (
                 <div
