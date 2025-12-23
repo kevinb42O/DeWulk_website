@@ -88,7 +88,7 @@
   Deny from all
 </FilesMatch>
 
-# Sta data.json toe voor de API (menu data)
+# Sta menu.json toe voor de API (menu data)
 <Files "menu.json">
   Order Allow,Deny
   Allow from all
