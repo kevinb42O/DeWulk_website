@@ -3,13 +3,8 @@
   "short_name": "De Wulk",
   "icons": [
     {
-      "src": "./final_LOGOOOO.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "./final_LOGOOOO.png",
-      "sizes": "512x512",
+      "src": "/final_LOGOOOO.png",
+      "sizes": "1536x1024",
       "type": "image/png"
     }
   ],

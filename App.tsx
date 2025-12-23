@@ -18,8 +18,8 @@ import {
   X
 } from 'lucide-react';
 import { Offering, OpeningHour, GalleryItem, MenuCategory, MenuData, OpeningHourData, FavoriteItem } from './types';
-import ultiemLogo from './final_LOGOOOO.png';
-import heroImg from './viswinkelV3_FINAL.png';
+const ultiemLogo = '/final_LOGOOOO.png';
+const heroImg = '/viswinkelV3_FINAL.png';
 import interiorImg from './winkel_binnen.webp';
 import harbourImg from './havenfeesten_sfeerbeeld.webp';
 import saladsImg from './salades_versbereid.webp';
