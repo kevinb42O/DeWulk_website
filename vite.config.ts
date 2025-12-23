@@ -15,7 +15,9 @@ export default defineConfig(({ mode }) => {
         react(),
         viteStaticCopy({
           targets: [
-            { src: '.htaccess', dest: '.' }
+            { src: '.htaccess', dest: '.' },
+            { src: 'robots.txt', dest: '.' },
+            { src: 'sitemap.xml', dest: '.' }
           ]
         })
       ],
