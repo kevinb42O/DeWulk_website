@@ -1,0 +1,20 @@
+{
+  "name": "De Wulk Viswinkel",
+  "short_name": "De Wulk",
+  "icons": [
+    {
+      "src": "./final_LOGOOOO.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./final_LOGOOOO.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#034f84",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/"
+}
