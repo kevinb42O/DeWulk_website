@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  
+  <!-- Homepage / Hoofdpagina -->
+  <url>
+    <loc>https://www.vishandelolivierkelly.be/</loc>
+    <lastmod>2025-12-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.vishandelolivierkelly.be/viswinkelV3_FINAL.png</image:loc>
+      <image:title>De Wulk Viswinkel Blankenberge - Verse Vis en Zeevruchten</image:title>
+      <image:caption>De Wulk viswinkel in Blankenberge - dagverse vis uit de Noordzee</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.vishandelolivierkelly.be/final_LOGOOOO.png</image:loc>
+      <image:title>Logo De Wulk - Bij Olivier en Kelly</image:title>
+      <image:caption>Officieel logo van vishandel De Wulk Blankenberge</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Sectie: Over Ons -->
+  <url>
+    <loc>https://www.vishandelolivierkelly.be/#over-ons</loc>
+    <lastmod>2025-12-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.vishandelolivierkelly.be/winkel_binnen.webp</image:loc>
+      <image:title>Interieur De Wulk Viswinkel</image:title>
+      <image:caption>Binnenkant van vishandel De Wulk aan de Consciencestraat in Blankenberge</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Sectie: Menu / Prijslijst -->
+  <url>
+    <loc>https://www.vishandelolivierkelly.be/#prijslijst</loc>
+    <lastmod>2025-12-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Sectie: Specialiteiten / Producten -->
+  <url>
+    <loc>https://www.vishandelolivierkelly.be/#specialiteiten</loc>
+    <lastmod>2025-12-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.vishandelolivierkelly.be/garnaalschotel.jpg</image:loc>
+      <image:title>Verse Garnaalschotel</image:title>
+      <image:caption>Verse garnaalschotel van De Wulk - Noordzeegarnalen uit Blankenberge</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.vishandelolivierkelly.be/garnaalschotel2.jpg</image:loc>
+      <image:title>Zeevruchtenschotel De Wulk</image:title>
+      <image:caption>Luxe zeevruchtenschotel bestellen bij De Wulk viswinkel</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.vishandelolivierkelly.be/salades_versbereid.webp</image:loc>
+      <image:title>Versbereide Vissalades</image:title>
+      <image:caption>Huisbereide vissalades en visschotels van De Wulk Blankenberge</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Sectie: Galerij -->
+  <url>
+    <loc>https://www.vishandelolivierkelly.be/#galerij</loc>
+    <lastmod>2025-12-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.vishandelolivierkelly.be/havenfeesten_sfeerbeeld.webp</image:loc>
+      <image:title>Havenfeesten Blankenberge</image:title>
+      <image:caption>Sfeerbeeld van de havenfeesten in Blankenberge - De Wulk viswinkel</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.vishandelolivierkelly.be/voorkantwinkel.webp</image:loc>
+      <image:title>Voorkant De Wulk Viswinkel</image:title>
+      <image:caption>Gevel van vishandel De Wulk aan de Consciencestraat 1 in Blankenberge</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Sectie: Contact -->
+  <url>
+    <loc>https://www.vishandelolivierkelly.be/#contact</loc>
+    <lastmod>2025-12-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Sectie: Openingsuren -->
+  <url>
+    <loc>https://www.vishandelolivierkelly.be/#openingsuren</loc>
+    <lastmod>2025-12-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>

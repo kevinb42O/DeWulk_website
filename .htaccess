@@ -1,3 +1,105 @@
+# ============================================
+# HTTPS Redirect - Forceer beveiligde verbinding
+# ============================================
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ============================================
+# Security Headers
+# ============================================
+<IfModule mod_headers.c>
+  # Voorkom clickjacking
+  Header set X-Frame-Options "SAMEORIGIN"
+  
+  # Voorkom MIME-type sniffing
+  Header set X-Content-Type-Options "nosniff"
+  
+  # Referrer policy
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  
+  # Permissions policy (beperk browser features)
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  
+  # HSTS (HTTP Strict Transport Security) - Uitgecommentarieerd tot HTTPS bevestigd is
+  # Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>
+
+# ============================================
+# Caching voor betere performance
+# ============================================
+<IfModule mod_expires.c>
+  ExpiresActive On
+  
+  # Images
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  
+  # CSS en JavaScript
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType text/javascript "access plus 1 month"
+  
+  # Fonts
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType font/ttf "access plus 1 year"
+  
+  # HTML en JSON (korte cache voor actuele data)
+  ExpiresByType text/html "access plus 1 hour"
+  ExpiresByType application/json "access plus 5 minutes"
+  
+  # Favicon
+  ExpiresByType image/x-icon "access plus 1 year"
+</IfModule>
+
+# ============================================
+# GZIP Compressie voor snellere laadtijden
+# ============================================
+<IfModule mod_deflate.c>
+  # Comprimeer HTML, CSS, JavaScript, Text, XML en fonts
+  AddOutputFilterByType DEFLATE text/plain
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/xml
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE application/xml
+  AddOutputFilterByType DEFLATE application/xhtml+xml
+  AddOutputFilterByType DEFLATE application/rss+xml
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/x-javascript
+  AddOutputFilterByType DEFLATE application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ============================================
+# Blokkeer toegang tot gevoelige bestanden
+# ============================================
+<FilesMatch "\.(ts|tsx|md|gitignore|htaccess)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
+# Blokkeer alle JSON bestanden behalve menu.json
+<FilesMatch "\.json$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
+# Sta menu.json toe (in data/ directory) voor de menu API
+<Files "menu.json">
+  Order Allow,Deny
+  Allow from all
+</Files>
+
+# ============================================
+# SPA Routing - React/Vite single page app
+# ============================================
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
@@ -7,3 +109,9 @@
   RewriteCond %{REQUEST_FILENAME} !-l
   RewriteRule . /index.html [L]
 </IfModule>
+
+# ============================================
+# Error Pages (optioneel)
+# ============================================
+ErrorDocument 404 /index.html
+ErrorDocument 500 /index.html

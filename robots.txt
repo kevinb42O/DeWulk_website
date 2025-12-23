@@ -1,0 +1,47 @@
+# Robots.txt voor De Wulk Viswinkel - www.vishandelolivierkelly.be
+# Laatst bijgewerkt: December 2025
+
+User-agent: *
+Allow: /
+
+# Sitemap locatie
+Sitemap: https://www.vishandelolivierkelly.be/sitemap.xml
+
+# Blokkeer toegang tot admin en API endpoints
+Disallow: /admin
+Disallow: /api/
+Disallow: /data/
+
+# Blokkeer toegang tot configuratiebestanden
+Disallow: /*.json$
+Disallow: /*.ts$
+Disallow: /*.tsx$
+Disallow: /*.md$
+
+# Blokkeer node_modules en build artifacts
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /.github/
+
+# Crawl-delay voor respectvolle crawling (optioneel, niet alle bots respecteren dit)
+Crawl-delay: 1
+
+# Specifieke regels voor Google
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+# Specifieke regels voor Bing
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /api/
+
+# Specifieke regels voor Google Images (sta afbeeldingen toe)
+User-agent: Googlebot-Image
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.webp$
+Allow: /
