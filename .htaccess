@@ -85,12 +85,13 @@
   Deny from all
 </FilesMatch>
 
-# Blokkeer alle JSON bestanden behalve data/menu.json
+# Blokkeer alle JSON bestanden behalve menu.json
 <FilesMatch "\.json$">
   Order Allow,Deny
   Deny from all
 </FilesMatch>
 
+# Sta menu.json toe (in data/ directory) voor de menu API
 <Files "menu.json">
   Order Allow,Deny
   Allow from all
