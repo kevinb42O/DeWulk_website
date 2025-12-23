@@ -17,9 +17,6 @@
   # Voorkom MIME-type sniffing
   Header set X-Content-Type-Options "nosniff"
   
-  # XSS bescherming
-  Header set X-XSS-Protection "1; mode=block"
-  
   # Referrer policy
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   
@@ -83,12 +80,17 @@
 # ============================================
 # Blokkeer toegang tot gevoelige bestanden
 # ============================================
-<FilesMatch "\.(json|ts|tsx|md|gitignore|htaccess)$">
+<FilesMatch "\.(ts|tsx|md|gitignore|htaccess)$">
   Order Allow,Deny
   Deny from all
 </FilesMatch>
 
-# Sta menu.json toe voor de API (menu data)
+# Blokkeer alle JSON bestanden behalve data/menu.json
+<FilesMatch "\.json$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
 <Files "menu.json">
   Order Allow,Deny
   Allow from all
