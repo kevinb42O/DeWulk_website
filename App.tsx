@@ -47,29 +47,6 @@ const IMAGE_CONFIG = {
 // --- Data based on provided flyer image ---
 // Menu data is now loaded from API
 
-const TESTIMONIALS = [
-  {
-    name: "Jan Peeters",
-    quote: "De tongrollen en bouillabaisse zijn altijd top, met een vriendelijke babbel erbij.",
-    rating: 5
-  },
-  {
-    name: "Marie De Smet",
-    quote: "Eerlijke prijzen, dagverse vis en snelle bediening. Zo moet het in Blankenberge.",
-    rating: 5
-  },
-  {
-    name: "Luc Verstraete",
-    quote: "Voor feestschotels bellen we altijd De Wulk: stipt en rijk gevuld.",
-    rating: 5
-  },
-  {
-    name: "Annelies Maes",
-    quote: "De scampi pikant en tomatenroomsoep blijven onze favoriet. Altijd vers.",
-    rating: 5
-  }
-];
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -661,42 +638,6 @@ const Gallery = () => {
   );
 };
 
-const Testimonials = () => {
-  return (
-    <section className="py-24 accent-beige">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center space-x-2 text-salmon font-bold tracking-widest uppercase mb-4">
-            <Star className="w-4 h-4 fill-salmon" />
-            <span>Klantervaringen</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-marine mb-4">Wat Onze Klanten Zeggen</h2>
-          <p className="text-gray-600 max-w-xl mx-auto">Tevreden klanten zijn onze beste ambassadeurs. Ontdek waarom men voor De Wulk kiest.</p>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {TESTIMONIALS.map((t, i) => (
-            <div key={i} className="bg-white p-8 rounded-[2.5rem] shadow-sm hover:shadow-md transition-all relative group">
-              <Quote className="absolute top-6 right-8 text-salmon/10 w-12 h-12 group-hover:text-salmon/20 transition-colors" />
-              <div className="flex mb-4">
-                {[...Array(t.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 text-salmon fill-salmon" />
-                ))}
-              </div>
-              <p className="text-gray-700 italic mb-6 leading-relaxed relative z-10">
-                "{t.quote}"
-              </p>
-              <div className="mt-auto">
-                <p className="font-bold text-marine">{t.name}</p>
-                <p className="text-xs text-salmon font-semibold uppercase tracking-widest">Vaste Klant</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const OpeningHours: React.FC<{ schedule: OpeningHourData[] }> = ({ schedule }) => {
   // Convert OpeningHourData to OpeningHour format for display
   const displaySchedule: OpeningHour[] = schedule.map(item => ({
@@ -886,7 +827,6 @@ const App: React.FC = () => {
       <PriceList menuData={menuData.menu} />
       <Favorites favorites={menuData.favorieten || []} />
       <Gallery />
-      <Testimonials />
       <OpeningHours schedule={menuData.openingsuren} />
       <Contact />
       <Footer />
