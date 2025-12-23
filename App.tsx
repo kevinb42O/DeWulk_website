@@ -100,11 +100,11 @@ const Navbar = () => {
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 pt-safe ${scrolled ? 'bg-white shadow-md pb-3' : 'bg-transparent pb-5'}`}>
       <div className="container mx-auto px-6 flex justify-between items-center">
-        <div className="flex items-center space-x-2">
-          <img src={ultiemLogo} alt="De Wulk Viswinkel Blankenberge Logo - Olivier en Kelly" className="h-20 w-auto object-contain" />
-          <div className="flex flex-col">
-            <span className={`text-xl font-bold tracking-wider leading-none ${scrolled ? 'text-marine' : 'text-white'}`}>DE WULK</span>
-            <span className={`text-[10px] font-medium tracking-[0.2em] ${scrolled ? 'text-salmon' : 'text-salmon'}`}>OLIVIER & KELLY</span>
+        <div className="flex items-center space-x-2 md:space-x-2 space-x-1.5">
+          <img src={ultiemLogo} alt="De Wulk Viswinkel Blankenberge Logo - Olivier en Kelly" className="h-16 md:h-20 w-auto object-contain flex-shrink-0" />
+          <div className="flex flex-col leading-tight">
+            <span className={`text-base md:text-xl font-bold tracking-wider leading-none ${scrolled ? 'text-marine' : 'text-white'}`}>DE WULK</span>
+            <span className={`text-[9px] md:text-[10px] font-medium tracking-[0.15em] md:tracking-[0.2em] mt-0.5 ${scrolled ? 'text-salmon' : 'text-salmon'}`}>OLIVIER & KELLY</span>
           </div>
         </div>
 
@@ -175,15 +175,15 @@ const Hero = () => {
           <p className="text-lg sm:text-xl text-white/90 font-medium mt-4 mb-6 drop-shadow-lg">
             Al 18 jaar een vaste waarde in Blankenberge
           </p>
-          <p className="text-lg sm:text-xl text-salmon font-semibold drop-shadow-lg">
-            <MapPin className="w-5 h-5 inline-block mr-1" />
+          <p className="text-base sm:text-lg inline-block bg-marine/70 backdrop-blur-sm text-white font-semibold drop-shadow-lg px-5 py-2.5 rounded-full">
+            <MapPin className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-1" />
             Consciencestraat 1, 8370 Blankenberge
             {' · '}
             <a 
               href="https://maps.google.com/?q=Consciencestraat+1+8370+Blankenberge" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors underline"
+              className="hover:text-salmon transition-colors underline"
               aria-label="Open directions to Consciencestraat 1, 8370 Blankenberge in new tab"
             >
               Route
