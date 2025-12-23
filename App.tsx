@@ -100,7 +100,7 @@ const Navbar = () => {
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 pt-safe ${scrolled ? 'bg-white shadow-md pb-3' : 'bg-transparent pb-5'}`}>
       <div className="container mx-auto px-6 flex justify-between items-center">
-        <div className="flex items-center space-x-2 md:space-x-2 space-x-1.5">
+        <div className="flex items-center space-x-1.5 md:space-x-2">
           <img src={ultiemLogo} alt="De Wulk Viswinkel Blankenberge Logo - Olivier en Kelly" className="h-16 md:h-20 w-auto object-contain flex-shrink-0" />
           <div className="flex flex-col leading-tight">
             <span className={`text-base md:text-xl font-bold tracking-wider leading-none ${scrolled ? 'text-marine' : 'text-white'}`}>DE WULK</span>
