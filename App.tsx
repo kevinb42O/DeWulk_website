@@ -150,7 +150,7 @@ const Hero = () => {
             Huisbereide warme &amp; koude gerechten • Zeevruchten • Schotels
           </p>
           <p className="text-lg sm:text-xl text-white/90 font-medium mt-4 mb-6 drop-shadow-lg">
-            Al 18 jaar een vaste waarde in Blankenberge
+            Al meer dan <span className="text-amber-400 font-bold">100 jaar</span> een vaste waarde in Blankenberge.
           </p>
           <p className="text-base sm:text-lg inline-block bg-marine/70 backdrop-blur-sm text-white font-semibold drop-shadow-lg px-5 py-2.5 rounded-full">
             <MapPin className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-1" />
@@ -200,7 +200,7 @@ const AboutUs = () => {
             <div className="bg-marine/5 p-8 rounded-3xl border-l-4 border-salmon mb-8">
               <Quote className="text-salmon w-10 h-10 mb-4 opacity-50" />
               <p className="text-xl text-gray-700 italic leading-relaxed">
-                "Wij zijn Olivier en Kelly. De Wulk is al 18 jaar een vaste waarde in Blankenberge voor huisbereide warme & koude visgerechten en zeevruchten. Van visschelpen, coquilles en garnaalkroketten tot rijk gevulde zeevruchtenschotels: altijd met focus op smaak, kwaliteit en vlotte service."
+                "Wij zijn Olivier en Kelly. De Wulk is al meer dan <span className="text-amber-500 font-bold not-italic">100 jaar</span> een vaste waarde in Blankenberge voor huisbereide warme & koude visgerechten en zeevruchten. Van visschelpen, coquilles en garnaalkroketten tot rijk gevulde zeevruchtenschotels: altijd met focus op smaak, kwaliteit en vlotte service."
               </p>
             </div>
             <div className="grid grid-cols-2 gap-6">
