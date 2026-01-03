@@ -743,36 +743,154 @@ const Contact = () => {
 };
 
 const Footer = () => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const footerLinks = [
+    { name: 'Over Ons', id: 'over-ons' },
+    { name: 'Prijslijst', id: 'prijslijst' },
+    { name: 'Openingsuren', id: 'uren' },
+    { name: 'Contact', id: 'contact' },
+  ];
+
   return (
-    <footer className="bg-marine text-white pt-24 pb-12 overflow-hidden relative">
+    <footer className="bg-marine text-white pt-24 pb-6 overflow-hidden relative">
+      {/* Decorative wave background element */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none">
+        <Waves className="absolute top-10 right-10 w-64 h-64 rotate-12" />
+        <Fish className="absolute bottom-20 left-10 w-48 h-48 -rotate-12" />
+      </div>
+
       <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-start border-b border-white/10 pb-16 mb-12 gap-12">
-          <div className="max-w-xs">
-            <div className="flex items-center space-x-3 mb-6">
-              <img src={ultiemLogo} alt="De Wulk Viswinkel Blankenberge Logo - Olivier & Kelly" className="w-10 h-10 object-contain" />
+        {/* Main footer content - 4 column grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 pb-16 mb-12 border-b border-white/10">
+          
+          {/* Brand Column */}
+          <div className="lg:col-span-1">
+            <div className="flex items-center space-x-3 mb-4">
+              <img src={ultiemLogo} alt="De Wulk Viswinkel Blankenberge Logo - Olivier & Kelly" className="w-12 h-12 object-contain" />
               <div className="flex flex-col">
-                <span className="text-3xl font-bold tracking-tighter">DE WULK</span>
-                <span className="text-[10px] font-bold tracking-[0.3em] text-salmon">BIJ OLIVIER & KELLY</span>
+                <span className="text-2xl font-bold tracking-tighter">DE WULK</span>
+                <span className="text-[9px] font-bold tracking-[0.3em] text-salmon">BIJ OLIVIER & KELLY</span>
+              </div>
+            </div>
+            <p className="text-blue-100 text-sm leading-relaxed mb-6">
+              Uw vertrouwde viswinkel in Blankenberge voor dagverse vis, zeevruchten en garnalen uit de Noordzee.
+            </p>
+            <div className="flex items-center space-x-4">
+              <a 
+                href="https://www.facebook.com/people/De-Wulk-Vishandel-Olivier-Kelly/100054396603835/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-2 bg-white/10 rounded-full hover:bg-salmon hover:text-marine transition-all duration-300 transform hover:scale-110"
+                aria-label="Bezoek onze Facebook pagina"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://www.instagram.com/vishandel_dewulk/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-2 bg-white/10 rounded-full hover:bg-salmon hover:text-marine transition-all duration-300 transform hover:scale-110"
+                aria-label="Volg ons op Instagram"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Links Column */}
+          <div className="lg:col-span-1">
+            <h3 className="text-lg font-bold mb-6 text-white">Snelle Links</h3>
+            <ul className="space-y-3">
+              {footerLinks.map((link) => (
+                <li key={link.id}>
+                  <button
+                    onClick={() => scrollToSection(link.id)}
+                    className="text-blue-100 hover:text-salmon transition-colors duration-300 flex items-center group"
+                  >
+                    <ChevronRight className="w-4 h-4 mr-1 group-hover:translate-x-1 transition-transform" />
+                    {link.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Column */}
+          <div className="lg:col-span-1">
+            <h3 className="text-lg font-bold mb-6 text-white">Contact</h3>
+            <ul className="space-y-4 text-blue-100 text-sm">
+              <li className="flex items-start">
+                <MapPin className="w-5 h-5 mr-3 mt-0.5 text-salmon flex-shrink-0" />
+                <span>
+                  Consciencestraat 1<br />
+                  8370 Blankenberge, België
+                </span>
+              </li>
+              <li className="flex items-center">
+                <Phone className="w-5 h-5 mr-3 text-salmon flex-shrink-0" />
+                <div className="flex flex-col">
+                  <a href="tel:+32485755667" className="hover:text-salmon transition-colors">
+                    0485 75 56 67
+                  </a>
+                  <a href="tel:+32497837718" className="hover:text-salmon transition-colors">
+                    0497 83 77 18
+                  </a>
+                </div>
+              </li>
+              <li className="flex items-center">
+                <Mail className="w-5 h-5 mr-3 text-salmon flex-shrink-0" />
+                <a href="mailto:info@vishandelolivierenkelly.be" className="hover:text-salmon transition-colors break-all">
+                  info@vishandelolivierenkelly.be
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Business Info Column */}
+          <div className="lg:col-span-1">
+            <h3 className="text-lg font-bold mb-6 text-white">Bedrijfsinfo</h3>
+            <div className="text-blue-100 text-sm space-y-3">
+              <p className="font-semibold text-white">De Wulk BV</p>
+              <p className="text-xs leading-relaxed">
+                Vishandel Olivier & Kelly
+              </p>
+              <div className="pt-3 space-y-2 border-t border-white/10">
+                <p className="text-xs">
+                  <span className="text-salmon font-semibold">Ondernemingsnr:</span><br />
+                  0473.055.043
+                </p>
+                <p className="text-xs">
+                  <span className="text-salmon font-semibold">BTW:</span><br />
+                  BE 0473.055.043
+                </p>
               </div>
             </div>
           </div>
-          
-          <div className="text-blue-100 space-y-2 max-w-2xl">
-            <p className="font-semibold text-lg">De Wulk BV (Vishandel Olivier & Kelly)</p>
-            <p>Consciencestraat 1, 8370 Blankenberge, België</p>
-            <p>
-              <a href="tel:+32485755667" className="hover:text-salmon transition-colors">T: +32 485 75 56 67</a>
-              {' · '}
-              <a href="mailto:info@vishandelolivierenkelly.be" className="hover:text-salmon transition-colors">E: info@vishandelolivierenkelly.be</a>
-            </p>
-            <p className="text-sm">
-              Ondernemingsnummer: 0473.055.043 · BTW: BE 0473.055.043
-            </p>
-          </div>
         </div>
-        
-        <div className="text-center text-xs text-blue-300 opacity-50">
-          <p>© {new Date().getFullYear()} De Wulk BV. Alle rechten voorbehouden.</p>
+
+        {/* Bottom bar - Copyright and Back to Top */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-6 border-t border-white/10">
+          <p className="text-xs text-blue-300 text-center sm:text-left">
+            © {new Date().getFullYear()} De Wulk BV. Alle rechten voorbehouden.
+          </p>
+          <button
+            onClick={scrollToTop}
+            className="text-sm text-blue-100 hover:text-salmon transition-all duration-300 flex items-center gap-2 group"
+            aria-label="Terug naar boven"
+          >
+            <span>Terug naar boven</span>
+            <ChevronRight className="w-4 h-4 -rotate-90 group-hover:-translate-y-1 transition-transform" />
+          </button>
         </div>
       </div>
     </footer>
