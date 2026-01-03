@@ -137,7 +137,7 @@ const Hero = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-marine/50"></div>
       </div>
-      <div className="relative z-10 w-full px-6">
+      <div className="relative z-10 w-full px-6 pt-20">
         <div className="max-w-4xl mx-auto text-center px-8 py-10">
           <h1 className="hero-title text-5xl sm:text-7xl md:text-9xl font-black text-white mb-2 tracking-tight leading-[0.9] drop-shadow-2xl">
             DE WULK
