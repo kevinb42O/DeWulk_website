@@ -151,6 +151,35 @@
           "unit": ""
         }
       ]
+    },
+    {
+      "title": "Zeevruchtenschotels ",
+      "items": [
+        {
+          "id": 28,
+          "name": "Zeevruchtenschotel met kreeft en oesters ",
+          "price": "48",
+          "unit": "Per persoon "
+        },
+        {
+          "id": 29,
+          "name": "Gevarieerde visschotel ",
+          "price": "35",
+          "unit": "Per persoon "
+        },
+        {
+          "id": 30,
+          "name": "Gegratineerde zeevruchten met kreeft",
+          "price": "44",
+          "unit": "Per persoon "
+        },
+        {
+          "id": 31,
+          "name": "Volledige kreeft lookboter ",
+          "price": "40",
+          "unit": "Per persoon "
+        }
+      ]
     }
   ],
   "openingsuren": [
