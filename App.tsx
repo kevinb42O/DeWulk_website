@@ -880,9 +880,21 @@ const Footer = () => {
 
         {/* Bottom bar - Copyright and Back to Top */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-6 border-t border-white/10">
-          <p className="text-xs text-blue-300 text-center sm:text-left">
-            © {new Date().getFullYear()} De Wulk BV. Alle rechten voorbehouden.
-          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-0 text-center sm:text-left">
+            <p className="text-xs text-blue-300">
+              © {new Date().getFullYear()} De Wulk BV. Alle rechten voorbehouden.
+            </p>
+            <span className="hidden sm:inline text-blue-300/50 mx-3">|</span>
+            <a 
+              href="https://www.webaanzee.be" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              title="Website laten maken aan de kust"
+              className="text-xs text-blue-300 hover:text-salmon transition-colors duration-300"
+            >
+              <span className="text-salmon font-bold">{"{ ~ }"}</span> Website door <strong className="text-white">WebaanZee</strong>
+            </a>
+          </div>
           <button
             onClick={scrollToTop}
             className="text-sm text-blue-100 hover:text-salmon transition-all duration-300 flex items-center gap-2 group"
