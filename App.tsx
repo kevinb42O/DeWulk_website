@@ -892,7 +892,7 @@ const Footer = () => {
               title="Website laten maken aan de kust"
               className="text-xs text-blue-300 hover:text-salmon transition-colors duration-300"
             >
-              <span className="text-salmon font-bold">{"{ ~ }"}</span> Website door <strong className="text-white">WebaanZee</strong>
+              <span className="text-salmon font-bold">{"{ ~ }"}</span> Website door <strong className="text-white">Web<span className="text-amber-400">aan</span>Zee.be</strong>
             </a>
           </div>
           <button
