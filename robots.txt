@@ -1,11 +1,11 @@
-# Robots.txt voor De Wulk Viswinkel - www.vishandelolivierkelly.be
+# Robots.txt voor De Wulk Viswinkel - www.vishandelolivierenkelly.be
 # Laatst bijgewerkt: December 2025
 
 User-agent: *
 Allow: /
 
 # Sitemap locatie
-Sitemap: https://www.vishandelolivierkelly.be/sitemap.xml
+Sitemap: https://www.vishandelolivierenkelly.be/sitemap.xml
 
 # Blokkeer toegang tot admin en API endpoints
 Disallow: /admin
