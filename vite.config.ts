@@ -17,7 +17,8 @@ export default defineConfig(({ mode }) => {
           targets: [
             { src: '.htaccess', dest: '.' },
             { src: 'robots.txt', dest: '.' },
-            { src: 'sitemap.xml', dest: '.' }
+            { src: 'sitemap.xml', dest: '.' },
+            { src: 'final_LOGOSMALL.png', dest: '.' }
           ]
         })
       ],
