@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#034f84">
+    <title>Pagina niet gevonden | De Wulk Viswinkel Blankenberge</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="/final_LOGOSMALL.webp" type="image/webp">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #034f84 0%, #0f172a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 2rem;
+        }
+        .container {
+            text-align: center;
+            max-width: 500px;
+        }
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3));
+        }
+        .error-code {
+            font-family: 'Oswald', sans-serif;
+            font-size: 8rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+        .fish-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f4c6b8;
+            color: #034f84;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(244, 198, 184, 0.4);
+        }
+        .btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(244, 198, 184, 0.6);
+        }
+        .wave {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom;
+            background-size: cover;
+            pointer-events: none;
+        }
+        .contact-info {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .contact-info a {
+            color: #f4c6b8;
+            text-decoration: none;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="wave"></div>
+    <div class="container">
+        <img src="/final_LOGOOOO.webp" alt="De Wulk Logo" class="logo">
+        <div class="fish-icon">🐟</div>
+        <div class="error-code">404</div>
+        <h1>Deze vis is ontsnapt!</h1>
+        <p>
+            Oeps! De pagina die u zoekt bestaat niet of is verplaatst. 
+            Geen zorgen, onze verse vis en zeevruchten wachten wel op u!
+        </p>
+        <a href="/" class="btn">
+            ← Terug naar De Wulk
+        </a>
+        <div class="contact-info">
+            <p>
+                <strong>De Wulk - Bij Olivier & Kelly</strong><br>
+                Consciencestraat 1, 8370 Blankenberge<br>
+                <a href="tel:+32485755667">0485 75 56 67</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

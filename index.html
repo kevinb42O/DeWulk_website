@@ -33,7 +33,7 @@
     <meta property="og:description" content="De Wulk is uw vertrouwde viswinkel in Blankenberge voor dagverse vis, zeevruchten en garnalen uit de Noordzee. Bestel verse visschotels bij Olivier & Kelly.">
     <meta property="og:type" content="business.business">
     <meta property="og:url" content="https://www.vishandelolivierenkelly.be/">
-    <meta property="og:image" content="https://www.vishandelolivierenkelly.be/final_LOGOSMALL.png">
+    <meta property="og:image" content="https://www.vishandelolivierenkelly.be/final_LOGOSMALL.webp">
     <meta property="og:image:alt" content="De Wulk Viswinkel Logo - Vis Blankenberge">
     <meta property="og:image:width" content="1536">
     <meta property="og:image:height" content="1024">
@@ -48,7 +48,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="De Wulk Viswinkel Blankenberge | Verse Vis & Zeevruchten">
     <meta name="twitter:description" content="De Wulk is uw vertrouwde viswinkel in Blankenberge voor dagverse vis, zeevruchten en garnalen uit de Noordzee.">
-    <meta name="twitter:image" content="https://www.vishandelolivierenkelly.be/final_LOGOSMALL.png">
+    <meta name="twitter:image" content="https://www.vishandelolivierenkelly.be/final_LOGOSMALL.webp">
     <meta name="twitter:image:alt" content="De Wulk Viswinkel Logo - Vis Blankenberge">
     
     <!-- JSON-LD Structured Data for Local Business -->
@@ -59,8 +59,8 @@
       "name": "De Wulk Viswinkel",
       "alternateName": "De Wulk - Bij Olivier & Kelly",
       "description": "De Wulk is dé viswinkel van Blankenberge voor dagverse vis en zeevruchten uit de Noordzee. Gespecialiseerd in buffetten, zeevruchtenschotels en garnalen. Uw ambachtelijke viswinkel aan de Belgische kust sinds jaren - bij Olivier & Kelly.",
-      "image": "https://www.vishandelolivierenkelly.be/viswinkelV3_FINAL.png",
-      "logo": "https://www.vishandelolivierenkelly.be/final_LOGOSMALL.png",
+      "image": "https://www.vishandelolivierenkelly.be/viswinkelV3_FINAL.webp",
+      "logo": "https://www.vishandelolivierenkelly.be/final_LOGOSMALL.webp",
       "@id": "https://www.vishandelolivierenkelly.be/",
       "url": "https://www.vishandelolivierenkelly.be/",
       "telephone": "+32485755667",
@@ -151,26 +151,95 @@
     }
     </script>
     
+    <!-- JSON-LD Structured Data for FAQ - Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Wat zijn de openingsuren van De Wulk viswinkel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "De Wulk is open van maandag tot zondag, van 9:00 tot 18:00. Voor afwijkende uren tijdens feestdagen, contacteer ons telefonisch of check onze social media."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kan ik zeevruchtenschotels bestellen bij De Wulk?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja! De Wulk is gespecialiseerd in zeevruchtenschotels en buffetten op maat. Gelieve 2 dagen op voorhand te bestellen, vooral voor feestdagen. Bel ons op 0485 75 56 67 of 0497 83 77 18."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Waar is De Wulk viswinkel gevestigd?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "De Wulk viswinkel is gevestigd in de Consciencestraat 1, 8370 Blankenberge, vlakbij de haven. Wij serveren al meer dan 100 jaar verse vis en zeevruchten aan de Belgische kust."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Verkoopt De Wulk ook huisbereide visgerechten?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absoluut! Naast verse vis en zeevruchten bieden wij een uitgebreid assortiment huisbereide warme en koude gerechten aan: van vispannetjes en tongrollen tot garnaalkroketten en verse salades."
+          }
+        }
+      ]
+    }
+    </script>
+    
     <!-- DNS Prefetch and Preconnect for Performance -->
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://esm.sh">
+    <link rel="dns-prefetch" href="https://www.google.com">
+    
+    <!-- Preload critical assets for better Core Web Vitals -->
+    <link rel="preload" href="/viswinkelV3_FINAL.webp" as="image" type="image/webp" fetchpriority="high">
+    <link rel="preload" href="/final_LOGOOOO.webp" as="image" type="image/webp">
     
     <!-- External Resources -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
             scroll-behavior: smooth;
         }
+        .font-anton { font-family: 'Anton', sans-serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .font-barlow { font-family: 'Barlow Condensed', sans-serif; }
+        .font-oswald { font-family: 'Oswald', sans-serif; }
         .bg-marine { background-color: #034f84; }
+        .bg-marine-50 { background-color: rgba(3, 79, 132, 0.5); }
+        .bg-marine-90 { background-color: rgba(3, 79, 132, 0.9); }
         .text-marine { color: #034f84; }
         .border-marine { border-color: #034f84; }
+        .bg-ocean-deep { background-color: #0f172a; }
+        .text-ocean-deep { color: #0f172a; }
+        .border-ocean-deep { border-color: #0f172a; }
         .bg-salmon { background-color: #f4c6b8; }
         .text-salmon { color: #f4c6b8; }
         .accent-beige { background-color: #fcf6f4; }
+        .glassmorphism-dark {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .glassmorphism-light {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .overlay-maritime {
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.85), rgba(2, 6, 23, 0.75));
+        }
     </style>
 <script type="importmap">
 {
@@ -183,14 +252,15 @@
 }
 </script>
 <!-- Favicon voor Google zoekresultaten (minimaal 48x48 pixels, veelvoud van 48) -->
-<link rel="icon" href="/final_LOGOSMALL.png" type="image/png">
-<link rel="icon" type="image/png" sizes="48x48" href="/final_LOGOSMALL.png">
-<link rel="icon" type="image/png" sizes="96x96" href="/final_LOGOSMALL.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/final_LOGOSMALL.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/final_LOGOSMALL.png">
+<link rel="icon" href="/final_LOGOSMALL.webp" type="image/webp">
+<link rel="icon" type="image/webp" sizes="48x48" href="/final_LOGOSMALL.webp">
+<link rel="icon" type="image/webp" sizes="96x96" href="/final_LOGOSMALL.webp">
+<link rel="icon" type="image/webp" sizes="192x192" href="/final_LOGOSMALL.webp">
+<link rel="apple-touch-icon" sizes="180x180" href="/final_LOGOSMALL.webp">
 <link rel="manifest" href="/manifest.json">
 </head>
 <body class="bg-white text-gray-800 overflow-x-hidden">
+    <a href="#prijslijst" class="skip-link">Spring naar prijslijst</a>
     <div id="root"></div>
 <script type="module" src="./index.tsx"></script>
 </body>

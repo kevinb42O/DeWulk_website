@@ -8,16 +8,16 @@
   <!-- Homepage / Hoofdpagina -->
   <url>
     <loc>https://www.vishandelolivierenkelly.be/</loc>
-    <lastmod>2025-12-23</lastmod>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://www.vishandelolivierenkelly.be/viswinkelV3_FINAL.png</image:loc>
+      <image:loc>https://www.vishandelolivierenkelly.be/viswinkelV3_FINAL.webp</image:loc>
       <image:title>De Wulk Viswinkel Blankenberge - Verse Vis en Zeevruchten</image:title>
       <image:caption>De Wulk viswinkel in Blankenberge - dagverse vis uit de Noordzee</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://www.vishandelolivierenkelly.be/final_LOGOOOO.png</image:loc>
+      <image:loc>https://www.vishandelolivierenkelly.be/final_LOGOOOO.webp</image:loc>
       <image:title>Logo De Wulk - Bij Olivier en Kelly</image:title>
       <image:caption>Officieel logo van vishandel De Wulk Blankenberge</image:caption>
     </image:image>
@@ -51,12 +51,12 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://www.vishandelolivierenkelly.be/garnaalschotel.jpg</image:loc>
+      <image:loc>https://www.vishandelolivierenkelly.be/garnaalschotel.webp</image:loc>
       <image:title>Verse Garnaalschotel</image:title>
       <image:caption>Verse garnaalschotel van De Wulk - Noordzeegarnalen uit Blankenberge</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://www.vishandelolivierenkelly.be/garnaalschotel2.jpg</image:loc>
+      <image:loc>https://www.vishandelolivierenkelly.be/garnaalschotel2.webp</image:loc>
       <image:title>Zeevruchtenschotel De Wulk</image:title>
       <image:caption>Luxe zeevruchtenschotel bestellen bij De Wulk viswinkel</image:caption>
     </image:image>

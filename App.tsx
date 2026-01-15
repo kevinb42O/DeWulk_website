@@ -18,13 +18,13 @@ import {
   X
 } from 'lucide-react';
 import { Offering, OpeningHour, GalleryItem, MenuCategory, MenuData, OpeningHourData, FavoriteItem } from './types';
-const ultiemLogo = '/final_LOGOOOO.png';
-const heroImg = '/viswinkelV3_FINAL.png';
+const ultiemLogo = '/final_LOGOSMALL.webp';
+const heroImg = '/viswinkelV3_FINAL.webp';
 import interiorImg from './winkel_binnen.webp';
 import harbourImg from './havenfeesten_sfeerbeeld.webp';
 import saladsImg from './salades_versbereid.webp';
-import shrimpTrayImg from './garnaalschotel.jpg';
-import shrimpTray2Img from './garnaalschotel2.jpg';
+import shrimpTrayImg from './garnaalschotel.webp';
+import shrimpTray2Img from './garnaalschotel2.webp';
 
 /**
  * HOE JE EIGEN FOTO'S TOEVOEGT:
@@ -60,10 +60,10 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Over Ons', id: 'over-ons' },
-    { name: 'Prijslijst', id: 'prijslijst' },
-    { name: 'Uren', id: 'uren' },
-    { name: 'Contact', id: 'contact' },
+    { name: 'OVER ONS', id: 'over-ons' },
+    { name: 'PRIJSLIJST', id: 'prijslijst' },
+    { name: 'UREN', id: 'uren' },
+    { name: 'CONTACT', id: 'contact' },
   ];
 
   const scrollToSection = (sectionId: string) => {
@@ -75,40 +75,41 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 pt-safe ${scrolled ? 'bg-white shadow-md pb-3' : 'bg-transparent pb-5'}`}>
+    <nav className={`fixed w-full z-50 transition-all duration-500 ease-in-out ${scrolled ? 'bg-marine-90 backdrop-blur-md shadow-2xl py-3' : 'bg-marine-50 backdrop-blur-sm py-4'}`}>
       <div className="container mx-auto px-6 flex justify-between items-center">
-        <div className="flex items-center space-x-1.5 md:space-x-2">
-          <img src={ultiemLogo} alt="De Wulk Viswinkel Blankenberge Logo - Olivier en Kelly" className="h-16 md:h-20 w-auto object-contain flex-shrink-0" />
+        <div className="flex items-center space-x-2 md:space-x-3">
+          <img src={ultiemLogo} alt="De Wulk Viswinkel Blankenberge Logo - Olivier en Kelly" className="h-12 md:h-14 w-auto object-contain flex-shrink-0" />
           <div className="flex flex-col leading-tight">
-            <span className={`text-base md:text-xl font-bold tracking-wider leading-none ${scrolled ? 'text-marine' : 'text-white'}`}>DE WULK</span>
-            <span className={`text-[9px] md:text-[10px] font-medium tracking-[0.15em] md:tracking-[0.2em] mt-0.5 ${scrolled ? 'text-salmon' : 'text-salmon'}`}>OLIVIER & KELLY</span>
+            <span className="font-barlow text-lg md:text-2xl font-bold tracking-tight leading-none text-white uppercase">DE WULK</span>
+            <span className="text-[9px] md:text-[10px] font-semibold tracking-[0.2em] md:tracking-[0.25em] mt-0.5 text-salmon uppercase">VISHANDEL</span>
           </div>
         </div>
 
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden md:flex space-x-6 lg:space-x-8">
           {navLinks.map((link) => (
             <button 
               key={link.name} 
               onClick={() => scrollToSection(link.id)}
-              className={`font-medium hover:text-salmon transition-colors ${scrolled ? 'text-gray-700' : 'text-white'}`}
+              className="text-white text-xs font-bold tracking-wider uppercase hover:text-salmon transition-all duration-300 relative group"
             >
               {link.name}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-salmon transition-all duration-300 group-hover:w-full"></span>
             </button>
           ))}
         </div>
 
         <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X className={scrolled ? 'text-marine' : 'text-white'} /> : <MenuIcon className={scrolled ? 'text-marine' : 'text-white'} />}
+          {isOpen ? <X className="text-white" size={24} /> : <MenuIcon className="text-white" size={24} />}
         </button>
       </div>
 
       {isOpen && (
-        <div className="md:hidden bg-white absolute top-full left-0 w-full shadow-xl p-6 flex flex-col space-y-4 animate-in fade-in slide-in-from-top-4">
+        <div className="md:hidden bg-marine/95 backdrop-blur-md absolute top-full left-0 w-full shadow-2xl p-6 flex flex-col space-y-4 border-t-2 border-salmon">
           {navLinks.map((link) => (
             <button 
               key={link.name} 
               onClick={() => scrollToSection(link.id)} 
-              className="text-gray-800 text-lg font-medium hover:text-marine text-left"
+              className="text-white text-sm font-bold tracking-wider uppercase hover:text-salmon text-left transition-colors"
             >
               {link.name}
             </button>
@@ -120,6 +121,54 @@ const Navbar = () => {
 };
 
 const Hero = () => {
+  const [shopStatus, setShopStatus] = useState({ text: '', dotColor: '', dotShadow: '' });
+
+  useEffect(() => {
+    const checkShopStatus = () => {
+      const now = new Date();
+      const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+      const currentHour = now.getHours();
+      const currentMinute = now.getMinutes();
+      const currentTime = currentHour + currentMinute / 60;
+
+      // Shop hours: 9:00 - 18:00 (Mon-Sun for now)
+      const openTime = 9;
+      const closeTime = 18;
+
+      // Check if currently open
+      if (currentTime >= openTime && currentTime < closeTime) {
+        // Check if closing soon (within 1 hour)
+        if (currentTime >= closeTime - 1) {
+          setShopStatus({
+            text: `Sluit binnenkort (${closeTime}:00)`,
+            dotColor: 'bg-amber-500',
+            dotShadow: 'shadow-lg shadow-amber-500/50'
+          });
+        } else {
+          setShopStatus({
+            text: `Nu open • Sluit om ${closeTime}:00`,
+            dotColor: 'bg-emerald-500',
+            dotShadow: 'shadow-lg shadow-emerald-500/50'
+          });
+        }
+      } else {
+        // Closed
+        const nextOpenDay = currentTime >= closeTime ? 'morgen' : 'vandaag';
+        const nextOpenTime = currentTime >= closeTime ? `${openTime}:00` : `${openTime}:00`;
+        setShopStatus({
+          text: `Gesloten • Open ${nextOpenDay} ${nextOpenTime}`,
+          dotColor: 'bg-red-500',
+          dotShadow: 'shadow-lg shadow-red-500/50'
+        });
+      }
+    };
+
+    checkShopStatus();
+    // Update every minute
+    const interval = setInterval(checkShopStatus, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -128,55 +177,99 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-[600px] md:min-h-screen flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <img 
-          src={IMAGE_CONFIG.heroBackground} 
-          alt="De Wulk Viswinkel Blankenberge - Verse Noordzeevis en Zeevruchten aan de Belgische kust" 
-          className="w-full h-full object-cover brightness-100 scale-105 animate-slow-zoom"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-marine/50"></div>
+    <section className="relative min-h-[600px] md:min-h-screen flex items-center justify-center overflow-hidden" role="banner" aria-label="De Wulk Viswinkel Blankenberge - Verse vis en zeevruchten">
+      {/* Background Image Layer with Parallax Effect */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat bg-scroll md:bg-fixed brightness-75"
+        style={{ 
+          backgroundImage: `url(${IMAGE_CONFIG.heroBackground})`,
+          filter: 'blur(4px)',
+          transform: 'scale(1.05)',
+          willChange: 'transform'
+        }}
+      >
+        {/* Deep Midnight Blue Maritime Overlay */}
+        <div className="absolute inset-0 overlay-maritime"></div>
       </div>
+      
+      {/* Hero Content - Maritime Heritage */}
       <div className="relative z-10 w-full px-6 pt-20">
-        <div className="max-w-4xl mx-auto text-center px-8 py-10">
-          <h1 className="hero-title text-5xl sm:text-7xl md:text-9xl font-black text-white mb-2 tracking-tight leading-[0.9] drop-shadow-2xl">
+        <div className="max-w-5xl mx-auto text-center px-4 py-8">
+          {/* Main Headline - Port Authority Industrial Logo */}
+          <h1 
+            className="font-oswald text-7xl sm:text-8xl md:text-9xl lg:text-[13rem] font-bold text-white mb-2 uppercase leading-[0.8] tracking-tighter whitespace-nowrap drop-shadow-lg"
+            style={{ 
+              textShadow: '0 12px 35px rgba(0, 0, 0, 0.95), 0 6px 18px rgba(15, 23, 42, 0.9)'
+            }}
+          >
             DE WULK
           </h1>
-          <p className="hero-subtitle text-lg sm:text-xl md:text-2xl text-white font-semibold mb-4 drop-shadow-lg">
-            <span className="md:hidden">Viswinkel Blankenberge - </span><span className="italic">Bij Olivier & Kelly</span>
+          
+          {/* Sub-headline - Wide Spaced Contrast Label */}
+          <p 
+            className="text-xs sm:text-sm text-white/95 font-bold uppercase mb-10 drop-shadow-lg"
+            style={{ 
+              letterSpacing: '0.3em',
+              textShadow: '0 2px 8px rgba(0, 0, 0, 0.9)' 
+            }}
+          >
+            Bij Olivier & Kelly
           </p>
-          <div className="h-1.5 w-28 bg-salmon mx-auto mb-7"></div>
-          <p className="hero-description text-xl sm:text-2xl md:text-3xl text-white font-semibold max-w-3xl mx-auto leading-relaxed drop-shadow-2xl">
-            Huisbereide warme &amp; koude gerechten • Zeevruchten • Schotels
+          
+          {/* Description - Constrained Width */}
+          <p 
+            className="text-lg sm:text-xl md:text-2xl text-white font-medium max-w-2xl mx-auto leading-relaxed mb-6 drop-shadow-lg"
+            style={{ textShadow: '0 3px 12px rgba(0, 0, 0, 0.9)' }}
+          >
+            Huisbereide warme & koude gerechten, zeevruchten, schotels.
           </p>
-          <p className="text-lg sm:text-xl text-white/90 font-medium mt-4 mb-6 drop-shadow-lg">
-            Al meer dan <span className="text-amber-400 font-bold">100 jaar</span> een vaste waarde in Blankenberge.
+          
+          {/* 100 Jaar Heritage Text - Clean & Simple */}
+          <p className="text-white/80 italic text-sm mt-4 mb-6">
+            Al meer dan <span className="font-bold not-italic">100 jaar</span> een traditie van kwaliteit in Blankenberge
           </p>
-          <p className="text-base sm:text-lg inline-block bg-marine/70 backdrop-blur-sm text-white font-semibold drop-shadow-lg px-5 py-2.5 rounded-full">
-            <MapPin className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-1" />
-            Consciencestraat 1, 8370 Blankenberge
-            {' · '}
+          
+          {/* Live LED Status Badge */}
+          <div className="inline-flex items-center gap-3 bg-white backdrop-blur-md border border-gray-200 rounded-full px-4 py-1.5 mb-8 shadow-lg">
+            <span className={`w-2.5 h-2.5 rounded-full ${shopStatus.dotColor} ${shopStatus.dotShadow} animate-pulse`}></span>
+            <span className="text-xs font-medium tracking-wide text-marine">
+              {shopStatus.text}
+            </span>
+          </div>
+          
+          {/* Luxury Side-by-Side Buttons */}
+          <div className="flex flex-row gap-3 w-full max-w-md mx-auto mb-10">
+            <a 
+              href="tel:+32485755667" 
+              className="flex-1 bg-white text-black px-4 py-3 min-h-[48px] font-bold text-xs uppercase tracking-widest rounded-md hover:bg-gray-200 transition-all duration-300 shadow-lg inline-flex items-center justify-center gap-2" 
+              aria-label="Call +32485755667 to place an order"
+            >
+              <Phone className="w-4 h-4" />
+              BEL OM TE BESTELLEN
+            </a>
+            <button 
+              onClick={() => scrollToSection('prijslijst')}
+              className="flex-1 bg-transparent border-2 border-salmon text-salmon px-4 py-3 min-h-[48px] font-bold text-xs uppercase tracking-widest rounded-md hover:bg-salmon hover:text-marine transition-all duration-300 shadow-lg inline-flex items-center justify-center"
+            >
+              PRIJSLIJST
+            </button>
+          </div>
+          
+          {/* Location - Subtle Footer */}
+          <div className="flex flex-col items-center gap-2 text-gray-300 font-light text-sm mt-6">
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4" />
+              <span>Consciencestraat 1, 8370 Blankenberge</span>
+            </div>
             <a 
               href="https://maps.google.com/?q=Consciencestraat+1+8370+Blankenberge" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="hover:text-salmon transition-colors underline"
+              className="text-xs underline hover:text-white transition-colors"
               aria-label="Open directions to Consciencestraat 1, 8370 Blankenberge in new tab"
             >
-              Route
+              Bekijk route
             </a>
-          </p>
-          <div className="mt-12 flex flex-wrap justify-center gap-4">
-            <a href="tel:+32485755667" className="bg-marine text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-marine transition-all shadow-2xl inline-flex items-center gap-2" aria-label="Call +32485755667 to place an order">
-              <Phone className="w-5 h-5" />
-              Bel om te bestellen
-            </a>
-            <button 
-              onClick={() => scrollToSection('prijslijst')}
-              className="bg-white/10 backdrop-blur-md border-2 border-white text-white px-10 py-4 rounded-full font-bold hover:bg-white hover:text-marine transition-all shadow-2xl inline-block"
-            >
-              Bekijk de prijslijst
-            </button>
           </div>
         </div>
       </div>
@@ -188,41 +281,65 @@ const AboutUs = () => {
   return (
     <section id="over-ons" className="py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col lg:flex-row items-center gap-16">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+          {/* Left Column - Text Content */}
           <div className="lg:w-1/2">
-            <div className="inline-flex items-center space-x-2 text-salmon font-bold tracking-widest uppercase mb-4">
-              <Star className="w-4 h-4" />
+            {/* Small Label - Editorial Style */}
+            <div className="inline-flex items-center space-x-2 text-gray-500 font-bold tracking-widest uppercase mb-6 text-xs">
               <span>Uw Vishandel in Blankenberge</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-marine mb-8 leading-tight">
-              Huisbereid, overheerlijk & gemakkelijk!
+            
+            {/* Main Headline - Luxury & Passionate */}
+            <h2 className="font-oswald text-4xl md:text-5xl lg:text-6xl font-bold text-marine mb-3 leading-tight">
+              Huisbereid met Passie, Geserveerd met Trots
             </h2>
-            <div className="bg-marine/5 p-8 rounded-3xl border-l-4 border-salmon mb-8">
-              <Quote className="text-salmon w-10 h-10 mb-4 opacity-50" />
-              <p className="text-xl text-gray-700 italic leading-relaxed">
-                "Wij zijn Olivier en Kelly. De Wulk is al meer dan <span className="text-amber-500 font-bold not-italic">100 jaar</span> een vaste waarde in Blankenberge voor huisbereide warme & koude visgerechten en zeevruchten. Van visschelpen, coquilles en garnaalkroketten tot rijk gevulde zeevruchtenschotels: altijd met focus op smaak, kwaliteit en vlotte service."
+            
+            {/* Subline - Calm & Descriptive */}
+            <p className="text-lg text-slate-600 mb-8 font-['Montserrat',sans-serif]">
+              Huisbereide visgerechten en schotels — klaar om mee te nemen.
+            </p>
+            
+            {/* Quote Block - Luxury Salmon Theme */}
+            <div className="relative bg-[#FFF5F2] p-10 rounded-2xl mb-10 shadow-sm border border-[#FFE4D6] lg:-mr-12 lg:pr-16">
+              {/* Large Watermark Quote Icon Behind Text */}
+              <Quote className="absolute top-4 left-4 text-[#FF7F50]/10 w-20 h-20 opacity-30 -z-0" />
+              
+              {/* Quote Text */}
+              <p className="relative z-10 text-lg md:text-xl text-marine leading-relaxed font-['Montserrat',sans-serif]">
+                "Wij zijn Olivier en Kelly. De Wulk is al meer dan <span className="font-bold text-[#FF7F50] not-italic">100 jaar</span> een vaste waarde in Blankenberge voor huisbereide warme & koude visgerechten en zeevruchten. Van visschelpen, coquilles en garnaalkroketten tot rijk gevulde zeevruchtenschotels: altijd met focus op smaak, kwaliteit en vlotte service."
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <h4 className="font-bold text-marine text-lg">Huisbereid</h4>
-                <p className="text-gray-500">Warme en koude bereidingen, soepen en gerechten uit eigen keuken — klaar om mee te nemen en thuis van te genieten.</p>
+            
+            {/* Two Column Feature Grid with Icons */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <ChefHat className="w-5 h-5 text-marine" />
+                  <h4 className="font-bold uppercase tracking-wide text-marine text-sm">Huisbereide Keuken</h4>
+                </div>
+                <p className="text-slate-600 leading-relaxed font-['Montserrat',sans-serif]">Warme en koude bereidingen, soepen en gerechten uit eigen keuken — klaar om mee te nemen en thuis van te genieten.</p>
               </div>
-              <div className="space-y-2">
-                <h4 className="font-bold text-marine text-lg">Zeevruchten & Schotels</h4>
-                <p className="text-gray-500">Zeevruchten en zeevruchtenschotels met een mooie presentatie, ideaal voor elke gelegenheid — van doordeweeks tot etentjes met gasten.</p>
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <Fish className="w-5 h-5 text-marine" />
+                  <h4 className="font-bold uppercase tracking-wide text-marine text-sm">Zeevruchten & Schotels</h4>
+                </div>
+                <p className="text-slate-600 leading-relaxed font-['Montserrat',sans-serif]">Zeevruchten en zeevruchtenschotels met een mooie presentatie, ideaal voor elke gelegenheid — van doordeweeks tot etentjes met gasten.</p>
               </div>
             </div>
           </div>
+          
+          {/* Right Column - Image */}
           <div className="lg:w-1/2 relative">
-            <div className="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border-4 border-gray-50">
+            <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl shadow-slate-200 border border-gray-100">
               <img 
                 src={IMAGE_CONFIG.aboutSection} 
                 alt="De Wulk Viswinkel Blankenberge winkelinterieur - Dagverse vis en zeevruchten uit de Noordzee" 
                 className="w-full h-[600px] object-cover hover:scale-105 transition-transform duration-1000"
+                loading="lazy"
+                decoding="async"
               />
             </div>
-            <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-salmon rounded-full mix-blend-multiply opacity-20 filter blur-3xl animate-pulse"></div>
           </div>
         </div>
       </div>
@@ -236,18 +353,18 @@ type PriceListProps = {
 
 const PriceList: React.FC<PriceListProps> = ({ menuData }) => {
   return (
-    <section id="prijslijst" className="py-24 accent-beige">
+    <section id="prijslijst" className="py-24 accent-beige" role="main" aria-label="Prijslijst verse vis en zeevruchten">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-marine mb-4">Onze Prijslijst</h2>
           <p className="text-gray-600 max-w-2xl mx-auto italic mb-4">
             "Gelieve op voorhand te bestellen aub. Om teleurstellingen te voorkomen noteren we graag uw bestelling (2 dagen voor de feestdagen)."
           </p>
-          <div className="inline-flex flex-col items-center bg-white p-6 rounded-3xl shadow-sm border border-salmon/20">
+          <div className="inline-flex flex-col items-center bg-white p-6 rounded-3xl shadow-lg border border-marine/10">
             <div className="flex items-center space-x-2 text-marine font-black text-xl md:text-2xl">
-              <Star className="w-5 h-5 fill-salmon" />
+              <Star className="w-5 h-5 fill-salmon stroke-salmon" />
               <span>Gespecialiseerd in buffetten en zeevruchtenschotels</span>
-              <Star className="w-5 h-5 fill-salmon" />
+              <Star className="w-5 h-5 fill-salmon stroke-salmon" />
             </div>
           </div>
         </div>
@@ -340,7 +457,7 @@ const MapCard = () => {
               <p className="text-gray-600 text-sm">Druk op de kaart om te openen in Google Maps.</p>
               <a
                 href="https://maps.google.com/?q=Consciencestraat+1+Blankenberge"
-                className="inline-flex items-center w-fit bg-marine text-white px-4 py-2 rounded-full font-semibold text-sm shadow hover:bg-salmon hover:text-marine transition-colors"
+                className="inline-flex items-center w-fit bg-salmon text-marine px-4 py-2 rounded-full font-semibold text-sm shadow-lg hover:bg-white hover:text-marine transition-colors"
               >
                 Open in Maps
               </a>
@@ -592,7 +709,7 @@ const Gallery = () => {
           <p className="text-gray-600">Dagverse aanvoer, huisbereide schotels en de gezellige winkel in Blankenberge.</p>
         </div>
         <div className="relative">
-          <div className="overflow-x-auto touch-pan-x scrollbar-hide" ref={scrollRef} onScroll={handleScroll}>
+          <div className="overflow-x-auto touch-action-pan-x scrollbar-hide" ref={scrollRef} onScroll={handleScroll} style={{ touchAction: 'pan-x pan-y' }}>
             <div className="flex space-x-4 snap-x snap-mandatory">
               {slides.map((img, idx) => (
                 <div
@@ -604,6 +721,7 @@ const Gallery = () => {
                     alt={img.alt}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-marine/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                     <span className="text-white font-bold text-lg">{img.alt}</span>
@@ -646,35 +764,35 @@ const OpeningHours: React.FC<{ schedule: OpeningHourData[] }> = ({ schedule }) =
   }));
 
   return (
-    <section id="uren" className="py-24 bg-gray-50">
-      <div className="container mx-auto px-6 max-w-5xl">
-        <div className="bg-marine rounded-[3rem] p-10 md:p-16 text-white shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 opacity-10">
+    <section id="uren" className="py-16 md:py-24 bg-gray-50">
+      <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+        <div className="bg-marine rounded-3xl md:rounded-[3rem] p-6 md:p-10 lg:p-16 text-white shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 opacity-10 hidden md:block">
             <Clock className="w-80 h-80 -translate-y-20 translate-x-20" />
           </div>
           
-          <div className="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+          <div className="relative z-10 grid lg:grid-cols-2 gap-8 md:gap-16 items-start lg:items-center">
             <div>
-              <div className="flex items-center space-x-3 mb-8">
-                <div className="p-3 bg-salmon rounded-2xl">
-                  <Clock className="w-8 h-8 text-marine" />
+              <div className="flex items-center space-x-3 mb-6 md:mb-8">
+                <div className="p-2.5 md:p-3 bg-salmon rounded-xl md:rounded-2xl flex-shrink-0">
+                  <Clock className="w-6 h-6 md:w-8 md:h-8 text-marine" />
                 </div>
-                <h2 className="text-4xl font-bold">Openingsuren</h2>
+                <h2 className="text-3xl md:text-4xl font-bold leading-tight">Openingsuren</h2>
               </div>
-              <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+              <p className="text-base md:text-xl text-blue-100 mb-6 md:mb-8 leading-relaxed">
                 U vindt ons in de <span className="text-salmon font-bold">Consciencestraat 1</span>. Kom langs voor de beste vis van de kust!
               </p>
-              <div className="p-6 bg-white/5 border border-white/10 rounded-2xl">
-                <p className="text-sm uppercase tracking-widest font-bold text-salmon mb-2">Afwijkende uren</p>
-                <p className="text-blue-50 font-medium italic">Check onze social media of bel ons voor info tijdens de feestdagen.</p>
+              <div className="p-4 md:p-6 bg-white/5 border border-white/10 rounded-xl md:rounded-2xl">
+                <p className="text-xs md:text-sm uppercase tracking-widest font-bold text-salmon mb-2">Afwijkende uren</p>
+                <p className="text-sm md:text-base text-blue-50 font-medium italic">Check onze social media of bel ons voor info tijdens de feestdagen.</p>
               </div>
             </div>
-            <div className="bg-white/5 p-8 rounded-[2rem] backdrop-blur-sm border border-white/10">
-              <ul className="space-y-4">
+            <div className="bg-white/5 p-4 md:p-8 rounded-2xl md:rounded-[2rem] backdrop-blur-sm border border-white/10">
+              <ul className="space-y-3 md:space-y-4">
                 {displaySchedule.map((item) => (
-                  <li key={item.day} className="flex justify-between items-center border-b border-white/10 pb-3">
-                    <span className={`font-bold ${item.hours === 'Gesloten' ? 'text-salmon' : 'text-white'}`}>{item.day}</span>
-                    <span className={`font-medium ${item.hours === 'Gesloten' ? 'text-salmon italic' : 'text-blue-100'}`}>{item.hours}</span>
+                  <li key={item.day} className="flex justify-between items-center border-b border-white/10 pb-2.5 md:pb-3 last:border-b-0">
+                    <span className={`font-bold text-sm md:text-base ${item.hours === 'Gesloten' ? 'text-salmon' : 'text-white'}`}>{item.day}</span>
+                    <span className={`font-medium text-sm md:text-base ${item.hours === 'Gesloten' ? 'text-salmon italic' : 'text-blue-100'}`}>{item.hours}</span>
                   </li>
                 ))}
               </ul>
@@ -691,28 +809,28 @@ const Contact = () => {
     <section id="contact" className="py-24 bg-white">
       <div className="container mx-auto px-6">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-marine mb-8">Contacteer De Wulk</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-marine mb-8 leading-[1.1]">Contacteer De&nbsp;Wulk</h2>
           <p className="text-xl text-gray-600 mb-12">
             Bij <span className="font-bold text-marine">Olivier & Kelly</span> staat de klant centraal. Heeft u een bestelling of een vraag? Wij staan u graag te woord.
           </p>
           
           <div className="space-y-8">
             <div className="flex items-start space-x-6">
-              <div className="bg-marine text-white p-4 rounded-2xl shadow-lg">
+              <div className="bg-salmon text-marine p-4 rounded-full shadow-md">
                 <MapPin className="w-8 h-8" />
               </div>
               <div>
-                <h4 className="text-lg font-bold text-marine mb-1">Adres</h4>
+                <h4 className="text-lg font-bold text-marine mb-0.5">Adres</h4>
                 <p className="text-gray-600">Consciencestraat 1, 8370 Blankenberge</p>
               </div>
             </div>
 
             <div className="flex items-start space-x-6">
-              <div className="bg-marine text-white p-4 rounded-2xl shadow-lg">
+              <div className="bg-salmon text-marine p-4 rounded-full shadow-md">
                 <Phone className="w-8 h-8" />
               </div>
               <div>
-                <h4 className="text-lg font-bold text-marine mb-1">Telefoon</h4>
+                <h4 className="text-lg font-bold text-marine mb-0.5">Telefoon</h4>
                 <div className="space-y-2">
                   <p className="text-gray-600 font-bold text-2xl hover:text-salmon transition-colors">
                     <a href="tel:+32485755667">0485 75 56 67</a>
@@ -725,11 +843,11 @@ const Contact = () => {
             </div>
 
             <div className="flex items-start space-x-6">
-              <div className="bg-marine text-white p-4 rounded-2xl shadow-lg">
+              <div className="bg-salmon text-marine p-4 rounded-full shadow-md">
                 <Mail className="w-8 h-8" />
               </div>
               <div>
-                <h4 className="text-lg font-bold text-marine mb-1">E-mail</h4>
+                <h4 className="text-lg font-bold text-marine mb-0.5">E-mail</h4>
                 <p className="text-gray-600 hover:text-salmon transition-colors text-lg">
                   <a href="mailto:info@vishandelolivierenkelly.be">info@vishandelolivierenkelly.be</a>
                 </p>
@@ -790,7 +908,7 @@ const Footer = () => {
                 href="https://www.facebook.com/people/De-Wulk-Vishandel-Olivier-Kelly/100054396603835/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="p-2 bg-white/10 rounded-full hover:bg-salmon hover:text-marine transition-all duration-300 transform hover:scale-110"
+                className="p-2 bg-salmon text-marine rounded-full hover:bg-white hover:text-marine transition-all duration-300 transform hover:scale-110"
                 aria-label="Bezoek onze Facebook pagina"
               >
                 <Facebook className="w-5 h-5" />
@@ -799,7 +917,7 @@ const Footer = () => {
                 href="https://www.instagram.com/vishandel_dewulk/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="p-2 bg-white/10 rounded-full hover:bg-salmon hover:text-marine transition-all duration-300 transform hover:scale-110"
+                className="p-2 bg-salmon text-marine rounded-full hover:bg-white hover:text-marine transition-all duration-300 transform hover:scale-110"
                 aria-label="Volg ons op Instagram"
               >
                 <Instagram className="w-5 h-5" />
@@ -892,7 +1010,7 @@ const Footer = () => {
               title="Website laten maken aan de kust"
               className="text-xs text-blue-300 hover:text-salmon transition-colors duration-300"
             >
-              <span className="text-salmon font-bold">{"{ ~ }"}</span> Website door <strong className="text-white">Web<span className="text-amber-400">aan</span>Zee.be</strong>
+              Website door <strong className="text-white">Web<span className="text-amber-400">aan</span>Zee.be</strong>
             </a>
           </div>
           <button

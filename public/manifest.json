@@ -1,15 +1,51 @@
 {
-  "name": "De Wulk Viswinkel",
+  "name": "De Wulk Viswinkel Blankenberge",
   "short_name": "De Wulk",
+  "description": "Verse vis en zeevruchten uit de Noordzee - Bij Olivier & Kelly",
   "icons": [
     {
-      "src": "/final_LOGOOOO.png",
-      "sizes": "1536x1024",
-      "type": "image/png"
+      "src": "/final_LOGOSMALL.webp",
+      "sizes": "48x48",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "/final_LOGOSMALL.webp",
+      "sizes": "72x72",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "/final_LOGOSMALL.webp",
+      "sizes": "96x96",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "/final_LOGOSMALL.webp",
+      "sizes": "144x144",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "/final_LOGOSMALL.webp",
+      "sizes": "192x192",
+      "type": "image/webp",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/final_LOGOOOO.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
     }
   ],
   "theme_color": "#034f84",
   "background_color": "#ffffff",
   "display": "standalone",
-  "start_url": "/"
+  "start_url": "/",
+  "scope": "/",
+  "orientation": "portrait-primary",
+  "categories": ["food", "shopping"],
+  "lang": "nl-BE"
 }

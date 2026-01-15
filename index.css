@@ -41,3 +41,102 @@ button {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;  /* Chrome, Safari, Opera */
 }
+
+/* Accessibility - Focus states for keyboard navigation */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #f4c6b8;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Skip to main content link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #034f84;
+  color: white;
+  padding: 8px 16px;
+  z-index: 100;
+  transition: top 0.3s;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* Print styles for price list */
+@media print {
+  /* Hide navigation and non-essential elements */
+  nav,
+  footer,
+  .hero-section,
+  button,
+  .gallery-section,
+  iframe,
+  .map-section,
+  [aria-hidden="true"] {
+    display: none !important;
+  }
+  
+  /* Reset backgrounds for printing */
+  body,
+  section,
+  div {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+  
+  /* Ensure price list is visible */
+  #prijslijst {
+    display: block !important;
+    padding: 0 !important;
+  }
+  
+  /* Style the price list for print */
+  #prijslijst h2 {
+    color: #034f84 !important;
+    font-size: 24pt !important;
+    margin-bottom: 20px !important;
+    text-align: center !important;
+  }
+  
+  #prijslijst .grid {
+    display: block !important;
+  }
+  
+  #prijslijst > div > div {
+    page-break-inside: avoid;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 15px;
+  }
+  
+  /* Show URLs for links */
+  a[href^="tel:"]::after {
+    content: " (" attr(href) ")";
+    font-size: 10pt;
+  }
+  
+  /* Header for print */
+  @page {
+    margin: 2cm;
+    @top-center {
+      content: "De Wulk Viswinkel - Prijslijst";
+    }
+  }
+  
+  /* Add print header */
+  body::before {
+    content: "De Wulk Viswinkel - Consciencestraat 1, 8370 Blankenberge - Tel: 0485 75 56 67";
+    display: block;
+    text-align: center;
+    font-size: 12pt;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #034f84;
+  }
+}

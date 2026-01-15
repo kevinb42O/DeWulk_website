@@ -1,5 +1,5 @@
 # Robots.txt voor De Wulk Viswinkel - www.vishandelolivierenkelly.be
-# Laatst bijgewerkt: December 2025
+# Laatst bijgewerkt: Januari 2026
 
 User-agent: *
 Allow: /
