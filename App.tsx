@@ -104,7 +104,7 @@ const Navbar = () => {
       </div>
 
       {isOpen && (
-        <div className="md:hidden bg-marine/95 backdrop-blur-md absolute top-full left-0 w-full shadow-2xl p-6 flex flex-col space-y-4 border-t-2 border-salmon">
+        <div className="md:hidden bg-marine backdrop-blur-none absolute top-full left-0 w-full shadow-2xl p-6 flex flex-col space-y-4 border-t-2 border-salmon">
           {navLinks.map((link) => (
             <button 
               key={link.name} 
@@ -131,35 +131,72 @@ const Hero = () => {
       const currentMinute = now.getMinutes();
       const currentTime = currentHour + currentMinute / 60;
 
-      // Shop hours: 9:00 - 18:00 (Mon-Sun for now)
-      const openTime = 9;
-      const closeTime = 18;
+      // Closed days: Wednesday (3) and Thursday (4)
+      const closedDays = new Set([3, 4]);
 
-      // Check if currently open
-      if (currentTime >= openTime && currentTime < closeTime) {
-        // Check if closing soon (within 1 hour)
-        if (currentTime >= closeTime - 1) {
-          setShopStatus({
-            text: `Sluit binnenkort (${closeTime}:00)`,
-            dotColor: 'bg-amber-500',
-            dotShadow: 'shadow-lg shadow-amber-500/50'
-          });
-        } else {
-          setShopStatus({
-            text: `Nu open • Sluit om ${closeTime}:00`,
-            dotColor: 'bg-emerald-500',
-            dotShadow: 'shadow-lg shadow-emerald-500/50'
-          });
+      // Opening hours per day (0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat)
+      const openTime = 9;
+      const closeTimes: Record<number, number> = {
+        0: 18,    // Zondag
+        1: 18,    // Maandag
+        2: 17.5,  // Dinsdag (17:30)
+        5: 18,    // Vrijdag
+        6: 18,    // Zaterdag
+      };
+
+      // Helper: find next open day name
+      const dayNames = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'];
+      const findNextOpenDay = (fromDay: number, afterHours: boolean): string => {
+        // If current day and not after hours, it's today
+        if (!afterHours && !closedDays.has(fromDay)) return 'vandaag';
+        // Look forward
+        for (let i = 1; i <= 7; i++) {
+          const nextDay = (fromDay + i) % 7;
+          if (!closedDays.has(nextDay)) {
+            if (i === 1) return 'morgen';
+            return dayNames[nextDay];
+          }
         }
-      } else {
-        // Closed
-        const nextOpenDay = currentTime >= closeTime ? 'morgen' : 'vandaag';
-        const nextOpenTime = currentTime >= closeTime ? `${openTime}:00` : `${openTime}:00`;
+        return 'morgen';
+      };
+
+      if (closedDays.has(currentDay)) {
+        // Closed day (Wednesday or Thursday)
+        const nextDay = findNextOpenDay(currentDay, true);
         setShopStatus({
-          text: `Gesloten • Open ${nextOpenDay} ${nextOpenTime}`,
+          text: `Gesloten • Open ${nextDay} ${openTime}:00`,
           dotColor: 'bg-red-500',
           dotShadow: 'shadow-lg shadow-red-500/50'
         });
+      } else {
+        const closeTime = closeTimes[currentDay] ?? 18;
+        const closeTimeDisplay = closeTime === 17.5 ? '17:30' : `${closeTime}:00`;
+
+        if (currentTime >= openTime && currentTime < closeTime) {
+          // Currently open
+          if (currentTime >= closeTime - 1) {
+            setShopStatus({
+              text: `Sluit binnenkort (${closeTimeDisplay})`,
+              dotColor: 'bg-amber-500',
+              dotShadow: 'shadow-lg shadow-amber-500/50'
+            });
+          } else {
+            setShopStatus({
+              text: `Nu open • Sluit om ${closeTimeDisplay}`,
+              dotColor: 'bg-emerald-500',
+              dotShadow: 'shadow-lg shadow-emerald-500/50'
+            });
+          }
+        } else {
+          // Closed (before opening or after closing)
+          const afterHours = currentTime >= closeTime;
+          const nextDay = findNextOpenDay(currentDay, afterHours);
+          setShopStatus({
+            text: `Gesloten • Open ${nextDay} ${openTime}:00`,
+            dotColor: 'bg-red-500',
+            dotShadow: 'shadow-lg shadow-red-500/50'
+          });
+        }
       }
     };
 
@@ -221,12 +258,12 @@ const Hero = () => {
             className="text-lg sm:text-xl md:text-2xl text-white font-medium max-w-2xl mx-auto leading-relaxed mb-6 drop-shadow-lg"
             style={{ textShadow: '0 3px 12px rgba(0, 0, 0, 0.9)' }}
           >
-            Huisbereide warme & koude gerechten, zeevruchten, schotels.
+            Dagverse vis, zeevruchten, kibbeling en zeevruchtenschotels — klaar om mee te nemen.
           </p>
           
           {/* 100 Jaar Heritage Text - Clean & Simple */}
           <p className="text-white/80 italic text-sm mt-4 mb-6">
-            Al meer dan <span className="font-bold not-italic">100 jaar</span> een traditie van kwaliteit in Blankenberge
+            Al meer dan <span className="font-bold not-italic">100 jaar</span> de beste viswinkel aan de haven van Blankenberge
           </p>
           
           {/* Live LED Status Badge */}
@@ -286,17 +323,17 @@ const AboutUs = () => {
           <div className="lg:w-1/2">
             {/* Small Label - Editorial Style */}
             <div className="inline-flex items-center space-x-2 text-gray-500 font-bold tracking-widest uppercase mb-6 text-xs">
-              <span>Uw Vishandel in Blankenberge</span>
+              <span>Uw Vishandel aan de Haven van Blankenberge</span>
             </div>
             
             {/* Main Headline - Luxury & Passionate */}
             <h2 className="font-oswald text-4xl md:text-5xl lg:text-6xl font-bold text-marine mb-3 leading-tight">
-              Huisbereid met Passie, Geserveerd met Trots
+              De Beste Viswinkel van Blankenberge
             </h2>
             
             {/* Subline - Calm & Descriptive */}
             <p className="text-lg text-slate-600 mb-8 font-['Montserrat',sans-serif]">
-              Huisbereide visgerechten en schotels — klaar om mee te nemen.
+              Huisbereide visgerechten, kibbeling en zeevruchtenschotels — klaar om mee te nemen. Ook voor klanten uit De Haan, Wenduine en Zeebrugge.
             </p>
             
             {/* Quote Block - Luxury Salmon Theme */}
@@ -306,7 +343,7 @@ const AboutUs = () => {
               
               {/* Quote Text */}
               <p className="relative z-10 text-lg md:text-xl text-marine leading-relaxed font-['Montserrat',sans-serif]">
-                "Wij zijn Olivier en Kelly. De Wulk is al meer dan <span className="font-bold text-[#FF7F50] not-italic">100 jaar</span> een vaste waarde in Blankenberge voor huisbereide warme & koude visgerechten en zeevruchten. Van visschelpen, coquilles en garnaalkroketten tot rijk gevulde zeevruchtenschotels: altijd met focus op smaak, kwaliteit en vlotte service."
+                "Wij zijn Olivier en Kelly. De Wulk is al meer dan <span className="font-bold text-[#FF7F50] not-italic">100 jaar</span> een vaste waarde in Blankenberge — de beste viswinkel aan de haven. Van visschelpen, coquilles en garnaalkroketten tot kibbeling en rijk gevulde zeevruchtenschotels: altijd met focus op smaak, kwaliteit en vlotte service. Ook klanten uit De Haan en Wenduine vinden makkelijk de weg naar onze vishandel."
               </p>
             </div>
             
@@ -901,7 +938,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-blue-100 text-sm leading-relaxed mb-6">
-              Uw vertrouwde viswinkel in Blankenberge voor dagverse vis, zeevruchten en garnalen uit de Noordzee.
+              Uw vertrouwde viswinkel aan de haven van Blankenberge voor dagverse vis, zeevruchten, kibbeling en garnalen uit de Noordzee. De beste vishandel aan de Belgische kust — ook voor De Haan, Wenduine en Zeebrugge.
             </p>
             <div className="flex items-center space-x-4">
               <a 
