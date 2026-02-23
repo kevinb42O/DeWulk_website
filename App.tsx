@@ -17,6 +17,7 @@ import {
   Quote,
   X
 } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 import { Offering, OpeningHour, GalleryItem, MenuCategory, MenuData, OpeningHourData, FavoriteItem } from './types';
 const ultiemLogo = '/final_LOGOSMALL.webp';
 const heroImg = '/viswinkelV3_FINAL.webp';
@@ -1115,6 +1116,7 @@ const App: React.FC = () => {
       <OpeningHours schedule={menuData.openingsuren} />
       <Contact />
       <Footer />
+      <Analytics />
       
       <style>{`
         @keyframes slow-zoom {
