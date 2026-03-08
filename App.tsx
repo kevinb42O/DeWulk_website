@@ -75,7 +75,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-500 ease-in-out ${scrolled ? 'bg-marine-90 backdrop-blur-md shadow-2xl py-3' : 'bg-marine-50 backdrop-blur-sm py-4'}`}>
+    <nav className={`fixed w-full z-50 transition-all duration-500 ease-in-out ${scrolled ? 'bg-marine-90 backdrop-blur-md shadow-2xl py-3' : 'bg-transparent py-4'}`}>
       <div className="container mx-auto px-6 flex justify-between items-center">
         <div className="flex items-center space-x-2 md:space-x-3">
           <img src={ultiemLogo} alt="De Wulk Viswinkel Blankenberge Logo - Olivier en Kelly" className="h-12 md:h-14 w-auto object-contain flex-shrink-0" />
@@ -214,99 +214,93 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-[600px] md:min-h-screen flex items-center justify-center overflow-hidden" role="banner" aria-label="De Wulk Viswinkel Blankenberge - Verse vis en zeevruchten">
-      {/* Background Image Layer with Parallax Effect */}
+    <section className="relative min-h-[600px] md:min-h-screen flex items-end overflow-hidden" role="banner" aria-label="De Wulk Viswinkel Blankenberge - Verse vis en zeevruchten">
+      {/* Background Image - Fresh, bright seafood */}
       <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat bg-scroll md:bg-fixed brightness-75"
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
         style={{ 
           backgroundImage: `url(${IMAGE_CONFIG.heroBackground})`,
-          filter: 'blur(4px)',
-          transform: 'scale(1.05)',
-          willChange: 'transform'
+          filter: 'blur(3px)',
+          transform: 'scale(1.04)'
         }}
       >
-        {/* Deep Midnight Blue Maritime Overlay */}
+        {/* Soft warm gradient overlay - light at top, readable at bottom */}
         <div className="absolute inset-0 overlay-maritime"></div>
       </div>
       
-      {/* Hero Content - Maritime Heritage */}
-      <div className="relative z-10 w-full px-6 pt-20">
-        <div className="max-w-5xl mx-auto text-center px-4 py-8">
-          {/* Main Headline - Port Authority Industrial Logo */}
-          <h1 
-            className="font-oswald text-7xl sm:text-8xl md:text-9xl lg:text-[13rem] font-bold text-white mb-2 uppercase leading-[0.8] tracking-tighter whitespace-nowrap drop-shadow-lg"
-            style={{ 
-              textShadow: '0 12px 35px rgba(0, 0, 0, 0.95), 0 6px 18px rgba(15, 23, 42, 0.9)'
-            }}
-          >
-            DE WULK
-          </h1>
-          
-          {/* Sub-headline - Wide Spaced Contrast Label */}
-          <p 
-            className="text-xs sm:text-sm text-white/95 font-bold uppercase mb-10 drop-shadow-lg"
-            style={{ 
-              letterSpacing: '0.3em',
-              textShadow: '0 2px 8px rgba(0, 0, 0, 0.9)' 
-            }}
-          >
-            Bij Olivier & Kelly
-          </p>
-          
-          {/* Description - Constrained Width */}
-          <p 
-            className="text-lg sm:text-xl md:text-2xl text-white font-medium max-w-2xl mx-auto leading-relaxed mb-6 drop-shadow-lg"
-            style={{ textShadow: '0 3px 12px rgba(0, 0, 0, 0.9)' }}
-          >
-            Dagverse vis, zeevruchten, kibbeling en zeevruchtenschotels — klaar om mee te nemen.
-          </p>
-          
-          {/* 100 Jaar Heritage Text - Clean & Simple */}
-          <p className="text-white/80 italic text-sm mt-4 mb-6">
-            Al meer dan <span className="font-bold not-italic">100 jaar</span> de beste viswinkel aan de haven van Blankenberge
-          </p>
-          
-          {/* Live LED Status Badge */}
-          <div className="inline-flex items-center gap-3 bg-white backdrop-blur-md border border-gray-200 rounded-full px-4 py-1.5 mb-8 shadow-lg">
-            <span className={`w-2.5 h-2.5 rounded-full ${shopStatus.dotColor} ${shopStatus.dotShadow} animate-pulse`}></span>
-            <span className="text-xs font-medium tracking-wide text-marine">
-              {shopStatus.text}
-            </span>
-          </div>
-          
-          {/* Luxury Side-by-Side Buttons */}
-          <div className="flex flex-row gap-3 w-full max-w-md mx-auto mb-10">
-            <a 
-              href="tel:+32485755667" 
-              className="flex-1 bg-white text-black px-4 py-3 min-h-[48px] font-bold text-xs uppercase tracking-widest rounded-md hover:bg-gray-200 transition-all duration-300 shadow-lg inline-flex items-center justify-center gap-2" 
-              aria-label="Call +32485755667 to place an order"
-            >
-              <Phone className="w-4 h-4" />
-              BEL OM TE BESTELLEN
-            </a>
-            <button 
-              onClick={() => scrollToSection('prijslijst')}
-              className="flex-1 bg-transparent border-2 border-salmon text-salmon px-4 py-3 min-h-[48px] font-bold text-xs uppercase tracking-widest rounded-md hover:bg-salmon hover:text-marine transition-all duration-300 shadow-lg inline-flex items-center justify-center"
-            >
-              PRIJSLIJST
-            </button>
-          </div>
-          
-          {/* Location - Subtle Footer */}
-          <div className="flex flex-col items-center gap-2 text-gray-300 font-light text-sm mt-6">
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4" />
-              <span>Consciencestraat 1, 8370 Blankenberge</span>
+      {/* Hero Content */}
+      <div className="relative z-10 w-full px-6 pb-28 md:pb-36 pt-28">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+            {/* Left: Main text content */}
+            <div className="md:max-w-2xl">
+              {/* Live Status Badge */}
+              <div className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-full px-3.5 py-1.5 mb-6 shadow-md">
+                <span className={`w-2 h-2 rounded-full ${shopStatus.dotColor} animate-pulse`}></span>
+                <span className="text-xs font-semibold tracking-wide text-marine">
+                  {shopStatus.text}
+                </span>
+              </div>
+              
+              {/* Title - scaled down, left aligned */}
+              <h1 
+                className="hero-title font-oswald text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-3 uppercase leading-[0.9] tracking-tight"
+                style={{ textShadow: '0 4px 20px rgba(0,0,0,0.35)' }}
+              >
+                DE WULK
+              </h1>
+              
+              {/* Subtitle */}
+              <p 
+                className="hero-subtitle text-salmon font-bold uppercase text-sm tracking-[0.25em] mb-5"
+                style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}
+              >
+                Bij Olivier & Kelly
+              </p>
+              
+              {/* Combined description + heritage */}
+              <p 
+                className="hero-description text-white/90 text-base sm:text-lg md:text-xl max-w-lg leading-relaxed mb-8"
+                style={{ textShadow: '0 2px 8px rgba(0,0,0,0.25)' }}
+              >
+                Dagverse vis, zeevruchten en zeevruchtenschotels — al meer dan <strong>100 jaar</strong> de beste viswinkel aan de haven van Blankenberge.
+              </p>
+              
+              {/* CTA Buttons */}
+              <div className="flex flex-row gap-3">
+                <a 
+                  href="tel:+32485755667" 
+                  className="bg-salmon text-marine px-5 sm:px-6 py-3 min-h-[48px] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#f0b0a0] transition-all duration-300 shadow-lg inline-flex items-center gap-2" 
+                  aria-label="Bel +32485755667 om te bestellen"
+                >
+                  <Phone className="w-4 h-4" />
+                  Bel om te bestellen
+                </a>
+                <button 
+                  onClick={() => scrollToSection('prijslijst')}
+                  className="bg-white/15 border border-white/40 text-white px-5 sm:px-6 py-3 min-h-[48px] font-bold text-xs uppercase tracking-widest rounded-full hover:bg-white/25 backdrop-blur-sm transition-all duration-300 inline-flex items-center"
+                >
+                  Prijslijst
+                </button>
+              </div>
             </div>
-            <a 
-              href="https://maps.google.com/?q=Consciencestraat+1+8370+Blankenberge" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-xs underline hover:text-white transition-colors"
-              aria-label="Open directions to Consciencestraat 1, 8370 Blankenberge in new tab"
-            >
-              Bekijk route
-            </a>
+            
+            {/* Right: Address card */}
+            <div className="md:text-right flex flex-col items-start md:items-end gap-1.5 text-white/80 text-sm">
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-salmon flex-shrink-0" />
+                <span>Consciencestraat 1, 8370 Blankenberge</span>
+              </div>
+              <a 
+                href="https://maps.google.com/?q=Consciencestraat+1+8370+Blankenberge" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-salmon text-xs font-semibold hover:text-white transition-colors underline underline-offset-2 ml-6 md:ml-0"
+                aria-label="Open route naar Consciencestraat 1, Blankenberge"
+              >
+                Bekijk route &rarr;
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -1107,6 +1101,11 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-white">
       <Navbar />
       <Hero />
+      <div className="relative z-10 -mt-[80px] md:-mt-[110px] leading-[0] pointer-events-none">
+        <svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="w-full h-[90px] md:h-[120px] block">
+          <path d="M0,60 C240,110 480,10 720,55 C960,100 1200,20 1440,65 L1440,120 L0,120 Z" fill="#ffffff" />
+        </svg>
+      </div>
       <MapCard />
       <AboutUs />
       <PriceList menuData={menuData.menu} />
