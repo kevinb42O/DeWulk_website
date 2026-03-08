@@ -1,5 +1,6 @@
 import React from 'react';
 import { Phone, MapPin, Clock, Fish, Waves, Star } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 import './App.css';
 
 function App() {
@@ -168,6 +169,7 @@ function App() {
           </div>
         </div>
       </footer>
+      <Analytics />
     </div>
   );
 }
