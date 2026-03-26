@@ -1,0 +1,165 @@
+{
+  "menu": [
+    {
+      "title": "Bereide Gerechten",
+      "items": [
+        {
+          "id": 1,
+          "name": "Tongrollen met witte wijnsaus en fijne groentjes",
+          "price": "€21,50",
+          "unit": "/kg"
+        },
+        {
+          "id": 2,
+          "name": "Kabeljauwhaasje met witte wijnsaus, garnalen en puree",
+          "price": "€12",
+          "unit": "/st"
+        },
+        {
+          "id": 3,
+          "name": "Kabeljauwhaasje met saffraansausje en groentjes",
+          "price": "€11",
+          "unit": "/st"
+        },
+        {
+          "id": 4,
+          "name": "Vispannetje",
+          "price": "€11,50",
+          "unit": "/st"
+        },
+        {
+          "id": 5,
+          "name": "Scampi pikant met pasta",
+          "price": "€14,50",
+          "unit": "/st"
+        },
+        {
+          "id": 6,
+          "name": "Tagliatelli met zalm",
+          "price": "€12",
+          "unit": "/st"
+        },
+        {
+          "id": 7,
+          "name": "Tongrollen op bedje van spinazie met witte wijnsaus",
+          "price": "€11",
+          "unit": "/st"
+        },
+        {
+          "id": 8,
+          "name": "Paling in 't groen",
+          "price": "€49",
+          "unit": "/kg"
+        }
+      ]
+    },
+    {
+      "title": "Soepen",
+      "items": [
+        {
+          "id": 9,
+          "name": "Dagsoep",
+          "price": "€4",
+          "unit": "/L"
+        },
+        {
+          "id": 10,
+          "name": "Tomatenroomsoep met balletjes",
+          "price": "€6,80",
+          "unit": "/L"
+        },
+        {
+          "id": 11,
+          "name": "Witloofroomsoep met garnalen",
+          "price": "€11,90",
+          "unit": "/L"
+        },
+        {
+          "id": 12,
+          "name": "Bouillabaisse (Vissoep)",
+          "price": "€13",
+          "unit": "/L"
+        }
+      ]
+    },
+    {
+      "title": "Recht uit de zee",
+      "items": [
+        {
+          "id": 13,
+          "name": "Kreeft",
+          "price": "Dagprijs",
+          "unit": ""
+        },
+        {
+          "id": 14,
+          "name": "Oesters (Worden gratis opengedaan)",
+          "price": "Dagprijs",
+          "unit": ""
+        },
+        {
+          "id": 15,
+          "name": "Venusschelpen",
+          "price": "Dagprijs",
+          "unit": ""
+        },
+        {
+          "id": 16,
+          "name": "Cocquilles",
+          "price": "Dagprijs",
+          "unit": ""
+        },
+        {
+          "id": 17,
+          "name": "Scheermessen",
+          "price": "Dagprijs",
+          "unit": ""
+        }
+      ]
+    },
+    {
+      "title": "Bijgerechten & Specials",
+      "items": [
+        {
+          "id": 18,
+          "name": "Puree",
+          "price": "€4,50",
+          "unit": "/st"
+        },
+        {
+          "id": 19,
+          "name": "Pastasalade",
+          "price": "€14,90",
+          "unit": "/kg"
+        },
+        {
+          "id": 20,
+          "name": "Aardappelsalade",
+          "price": "€16,50",
+          "unit": "/kg"
+        },
+        {
+          "id": 21,
+          "name": "Visfondue",
+          "price": "Dagprijs",
+          "unit": ""
+        },
+        {
+          "id": 22,
+          "name": "Vis Gourmet",
+          "price": "Dagprijs",
+          "unit": ""
+        }
+      ]
+    }
+  ],
+  "openingsuren": [
+    { "id": 1, "dag": "Maandag", "uren": "09:00 – 18:00" },
+    { "id": 2, "dag": "Dinsdag", "uren": "09:00 – 18:00" },
+    { "id": 3, "dag": "Woensdag", "uren": "09:00 – 18:00" },
+    { "id": 4, "dag": "Donderdag", "uren": "Gesloten" },
+    { "id": 5, "dag": "Vrijdag", "uren": "09:00 – 18:00" },
+    { "id": 6, "dag": "Zaterdag", "uren": "09:00 – 18:00" },
+    { "id": 7, "dag": "Zondag", "uren": "09:00 – 18:00" }
+  ]
+}
