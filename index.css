@@ -1,8 +1,40 @@
 :root {
-  font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: #0f172a;
-  background-color: #ffffff;
-  line-height: 1.5;
+  --font-display: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --font-editorial: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Typography Scale */
+  --text-hero: clamp(2.75rem, 6.5vw, 6.5rem);
+  --text-h1: clamp(2.25rem, 4.5vw, 4.25rem);
+  --text-h2: clamp(1.75rem, 3vw, 3rem);
+  --text-h3: clamp(1.25rem, 2vw, 1.85rem);
+  --text-body: clamp(0.95rem, 1.1vw, 1.125rem);
+  --text-micro: clamp(0.7rem, 0.8vw, 0.825rem);
+
+  /* Physics-based Easing Curves */
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-reveal: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Curated Coastal Luxury Color Tokens */
+  --color-abyssal: #081018;
+  --color-abyssal-surface: #0E1A26;
+  --color-abyssal-card: #132334;
+  --color-marine: #0C1C2C;
+  --color-pearl: #FBF9F5;
+  --color-sand: #F4EFEB;
+  --color-bone: #ECE5DC;
+  --color-terracotta: #C87A5E;
+  --color-terracotta-hover: #B76A4E;
+  --color-copper: #C5A059;
+  --color-copper-light: #DFC48B;
+  --color-text-main: #141E28;
+  --color-text-muted: #64748B;
+
+  font-family: var(--font-sans);
+  color: var(--color-text-main);
+  background-color: var(--color-pearl);
+  line-height: 1.6;
   font-weight: 400;
 }
 
@@ -13,10 +45,11 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--color-pearl);
+  color: var(--color-text-main);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -34,42 +67,93 @@ button {
   font-family: inherit;
 }
 
-.scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari, Opera */
+/* Micro-typography */
+.tracking-widest-luxury {
+  letter-spacing: 0.22em;
 }
 
-/* Accessibility - Focus states for keyboard navigation */
+.tracking-tight-luxury {
+  letter-spacing: -0.025em;
+}
+
+/* Bespoke Luxury Borders */
+.border-hairline {
+  border-color: rgba(12, 28, 44, 0.08);
+}
+
+.border-hairline-dark {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.border-copper-subtle {
+  border-color: rgba(197, 160, 89, 0.35);
+}
+
+/* Glass Surfaces */
+.luxury-glass {
+  background: rgba(251, 249, 245, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(12, 28, 44, 0.06);
+}
+
+.luxury-glass-dark {
+  background: rgba(8, 16, 24, 0.78);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Scrollbar Utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Accessibility - Refined Luxury Focus rings */
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 select:focus-visible {
-  outline: 3px solid #f4c6b8;
-  outline-offset: 2px;
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 3px;
   border-radius: 4px;
 }
 
-/* Skip to main content link for accessibility */
+/* Skip link */
 .skip-link {
   position: absolute;
-  top: -40px;
-  left: 0;
-  background: #034f84;
-  color: white;
-  padding: 8px 16px;
-  z-index: 100;
-  transition: top 0.3s;
+  top: -60px;
+  left: 1rem;
+  background: var(--color-abyssal);
+  color: var(--color-pearl);
+  padding: 10px 20px;
+  border: 1px solid var(--color-copper);
+  border-radius: 9999px;
+  z-index: 1000;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  transition: top 0.4s var(--ease-luxury);
 }
 .skip-link:focus {
-  top: 0;
+  top: 1rem;
+}
+
+/* Animations */
+@keyframes subtle-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.15); }
+}
+
+.animate-subtle-pulse {
+  animation: subtle-pulse 3s var(--ease-luxury) infinite;
 }
 
 /* Print styles for price list */
 @media print {
-  /* Hide navigation and non-essential elements */
   nav,
   footer,
   .hero-section,
@@ -81,7 +165,6 @@ select:focus-visible {
     display: none !important;
   }
   
-  /* Reset backgrounds for printing */
   body,
   section,
   div {
@@ -90,15 +173,14 @@ select:focus-visible {
     box-shadow: none !important;
   }
   
-  /* Ensure price list is visible */
   #prijslijst {
     display: block !important;
     padding: 0 !important;
   }
   
-  /* Style the price list for print */
   #prijslijst h2 {
-    color: #034f84 !important;
+    color: #0C1C2C !important;
+    font-family: serif !important;
     font-size: 24pt !important;
     margin-bottom: 20px !important;
     text-align: center !important;
@@ -115,13 +197,11 @@ select:focus-visible {
     padding: 15px;
   }
   
-  /* Show URLs for links */
   a[href^="tel:"]::after {
     content: " (" attr(href) ")";
     font-size: 10pt;
   }
   
-  /* Header for print */
   @page {
     margin: 2cm;
     @top-center {
@@ -129,7 +209,6 @@ select:focus-visible {
     }
   }
   
-  /* Add print header */
   body::before {
     content: "De Wulk Viswinkel - Consciencestraat 1, 8370 Blankenberge - Tel: 0485 75 56 67";
     display: block;
@@ -137,6 +216,6 @@ select:focus-visible {
     font-size: 12pt;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 2px solid #034f84;
+    border-bottom: 2px solid #0C1C2C;
   }
 }

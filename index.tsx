@@ -17,6 +17,9 @@ root.render(
     <HashRouter>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/privacy" element={<App initialLegalTab="privacy" />} />
+        <Route path="/voorwaarden" element={<App initialLegalTab="voorwaarden" />} />
+        <Route path="/disclaimer" element={<App initialLegalTab="voorwaarden" />} />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </HashRouter>
