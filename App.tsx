@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   Fish, 
   Clock, 
@@ -28,6 +29,7 @@ import { Offering, OpeningHour, GalleryItem, MenuCategory, MenuData, OpeningHour
 import { LegalModal, LegalTab } from './LegalModal';
 
 const ultiemLogo = '/final_LOGOSMALL.webp';
+const ultiemLogoDark = '/final_LOGOSMALL_DARK.webp';
 const heroImg = '/viswinkelV3_FINAL.webp';
 import interiorImg from './winkel_binnen.webp';
 import harbourImg from './havenfeesten_sfeerbeeld.webp';
@@ -80,18 +82,125 @@ const itemStaggerVariants: Variants = {
   }
 };
 
+// --- Shop Status Calculation Helper ---
+const calculateShopStatus = () => {
+  const now = new Date();
+  const currentDay = now.getDay();
+  const currentHour = now.getHours();
+  const currentMinute = now.getMinutes();
+  const currentTime = currentHour + currentMinute / 60;
+
+  const closedDays = new Set([3, 4]); // Woensdag & Donderdag gesloten
+
+  const openTime = 9;
+  const closeTimes: Record<number, number> = {
+    0: 18,    // Zondag
+    1: 18,    // Maandag
+    2: 17.5,  // Dinsdag (17:30)
+    5: 18,    // Vrijdag
+    6: 18,    // Zaterdag
+  };
+
+  const dayNames = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'];
+  const findNextOpenDay = (fromDay: number, afterHours: boolean): string => {
+    if (!afterHours && !closedDays.has(fromDay)) return 'vandaag';
+    for (let i = 1; i <= 7; i++) {
+      const nextDay = (fromDay + i) % 7;
+      if (!closedDays.has(nextDay)) {
+        if (i === 1) return 'morgen';
+        return dayNames[nextDay];
+      }
+    }
+    return 'binnenkort';
+  };
+
+  if (closedDays.has(currentDay)) {
+    const nextDay = findNextOpenDay(currentDay, true);
+    return {
+      isOpen: false,
+      text: `Nu gesloten · open ${nextDay} om 09:00`,
+      dotColor: 'bg-[#C5A059]',
+      dotShadow: 'shadow-[#C5A059]/40',
+    };
+  }
+
+  const closeTime = closeTimes[currentDay] ?? 18;
+  const closeTimeDisplay = closeTime === 17.5 ? '17:30' : `${closeTime}:00`;
+
+  if (currentTime >= openTime && currentTime < closeTime) {
+    return {
+      isOpen: true,
+      text: `Nu open · tot ${closeTimeDisplay}`,
+      dotColor: 'bg-emerald-400',
+      dotShadow: 'shadow-emerald-400/50',
+    };
+  } else {
+    const afterHours = currentTime >= closeTime;
+    const nextDay = findNextOpenDay(currentDay, afterHours);
+    return {
+      isOpen: false,
+      text: `Nu gesloten · open ${nextDay} om 09:00`,
+      dotColor: 'bg-[#C5A059]',
+      dotShadow: 'shadow-[#C5A059]/40',
+    };
+  }
+};
+
 // --- Navbar Component ---
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [isPastHero, setIsPastHero] = useState(false);
+  const [shopStatus, setShopStatus] = useState(calculateShopStatus());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setShopStatus(calculateShopStatus());
+    }, 60000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      const hero = document.getElementById('hero') || document.querySelector('section[role="banner"]');
+      if (hero) {
+        const rect = hero.getBoundingClientRect();
+        setIsPastHero(rect.bottom <= 80);
+      } else {
+        setIsPastHero(window.scrollY > 500);
+      }
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
 
   const navLinks = [
     { name: 'OVER ONS', id: 'over-ons' },
@@ -100,146 +209,257 @@ const Navbar: React.FC = () => {
     { name: 'CONTACT', id: 'contact' },
   ];
 
+  const mobileNavItems = [
+    { id: 'over-ons', number: '01', title: 'Over Ons', subtitle: 'Onze passie voor dagverse vis & ambacht' },
+    { id: 'prijslijst', number: '02', title: 'Prijslijst', subtitle: 'Dagverse vis, schaaldieren & dagschotels' },
+    { id: 'galerij', number: '03', title: 'Galerij', subtitle: 'Sfeerbeelden, buffetten & zeevruchtenschotels' },
+    { id: 'uren', number: '04', title: 'Openingsuren', subtitle: '5 dagen per week geopend aan de haven' },
+    { id: 'contact', number: '05', title: 'Contact & Bestellen', subtitle: 'Consciencestraat 1 · Bel direct voor info' },
+  ];
+
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setIsOpen(false);
-    }
+    setIsOpen(false);
+    setTimeout(() => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 120);
   };
 
   return (
-    <motion.nav 
-      initial={{ opacity: 0, y: -15 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: luxuryEase }}
-      className={`fixed w-full z-50 transition-all duration-500 ease-out ${
-        scrolled 
-          ? 'bg-[#081018]/92 backdrop-blur-xl py-3 border-b border-white/10 shadow-2xl' 
-          : 'bg-gradient-to-b from-[#081018]/85 via-[#081018]/40 to-transparent py-5'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex justify-between items-center">
-        {/* Brand Lockup */}
-        <a 
-          href="#" 
-          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-          className="flex items-center space-x-3 group"
-        >
-          <motion.img 
-            whileHover={{ scale: 1.06, rotate: -2 }}
-            whileTap={{ scale: 0.96 }}
-            transition={{ type: "spring", stiffness: 400, damping: 20 }}
-            src={ultiemLogo} 
-            alt="De Wulk Viswinkel Blankenberge Logo - Olivier en Kelly" 
-            className="h-11 md:h-13 w-auto object-contain" 
-          />
-          <div className="flex flex-col leading-tight">
-            <span className="font-serif-title text-xl md:text-2xl font-bold tracking-tight text-white uppercase leading-none">
-              DE WULK
-            </span>
-            <span className="text-[10px] md:text-[11px] font-semibold tracking-[0.25em] text-[#C5A059] uppercase mt-0.5">
-              VISHANDEL
-            </span>
-          </div>
-        </a>
-
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center space-x-8">
-          {navLinks.map((link) => (
-            <button 
-              key={link.name} 
-              onClick={() => scrollToSection(link.id)}
-              className="text-white/85 text-xs font-bold tracking-[0.2em] uppercase hover:text-[#C5A059] transition-colors duration-300 relative group py-1"
-            >
-              {link.name}
-              <motion.span 
-                className="absolute bottom-0 left-1/2 w-0 h-[1.5px] bg-[#C5A059] transition-all duration-300 -translate-x-1/2 group-hover:w-full" 
-              />
-            </button>
-          ))}
-        </div>
-
-        {/* Call button */}
-        <div className="hidden md:flex items-center space-x-4">
-          <motion.a 
-            whileHover={{ scale: 1.04, boxShadow: "0 8px 20px -4px rgba(200,122,94,0.3)" }}
-            whileTap={{ scale: 0.96 }}
-            transition={{ duration: 0.2 }}
-            href="tel:+32485755667" 
-            className="flex items-center space-x-2 bg-white/10 hover:bg-[#C87A5E] text-white px-5 py-2.5 rounded-full border border-white/20 hover:border-[#C87A5E] text-xs font-bold tracking-wider uppercase transition-colors duration-300 shadow-sm"
+    <>
+      <motion.nav 
+        initial={{ opacity: 0, y: -15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: luxuryEase }}
+        className={`fixed w-full z-50 transition-all duration-500 ease-out ${
+          isPastHero 
+            ? 'bg-[#FBF9F5]/95 backdrop-blur-xl py-3 border-b border-[#0C1C2C]/10 shadow-[0_10px_30px_-10px_rgba(12,28,44,0.12)]' 
+            : 'bg-gradient-to-b from-[#081018]/85 via-[#081018]/40 to-transparent py-5'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex justify-between items-center">
+          {/* Brand Lockup */}
+          <a 
+            href="#" 
+            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            className="flex items-center space-x-3 group"
           >
-            <Phone className="w-3.5 h-3.5 text-[#C5A059]" />
-            <span>0485 75 56 67</span>
-          </motion.a>
-        </div>
+            <motion.img 
+              whileHover={{ scale: 1.06, rotate: -2 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              src={isPastHero ? ultiemLogoDark : ultiemLogo} 
+              alt="De Wulk Viswinkel Blankenberge Logo - Olivier en Kelly" 
+              className="h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-all duration-300" 
+            />
+            <div className="flex flex-col leading-tight">
+              <span className={`font-serif-title text-xl md:text-2xl font-bold tracking-tight uppercase leading-none transition-colors duration-300 ${
+                isPastHero ? 'text-[#0C1C2C]' : 'text-white'
+              }`}>
+                DE WULK
+              </span>
+              <span className={`text-[10px] md:text-[11px] font-semibold tracking-[0.25em] uppercase mt-0.5 transition-colors duration-300 ${
+                isPastHero ? 'text-[#C87A5E]' : 'text-[#C5A059]'
+              }`}>
+                VISHANDEL
+              </span>
+            </div>
+          </a>
 
-        {/* Mobile Hamburger */}
-        <motion.button 
-          whileTap={{ scale: 0.9 }}
-          className="lg:hidden p-2 text-white hover:text-[#C5A059] transition-colors"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Menu"
-        >
-          {isOpen ? <X size={26} /> : <MenuIcon size={26} />}
-        </motion.button>
-      </div>
-
-      {/* Mobile Drawer with AnimatePresence */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.35, ease: luxuryEase }}
-            className="lg:hidden fixed inset-x-0 top-full bg-[#081018]/98 backdrop-blur-2xl border-b border-white/10 shadow-2xl p-8 flex flex-col space-y-5 overflow-hidden"
-          >
-            <motion.div 
-              initial="hidden"
-              animate="visible"
-              variants={staggerContainerVariants}
-              className="flex flex-col space-y-3"
-            >
-              {navLinks.map((link) => (
-                <motion.button 
-                  variants={itemStaggerVariants}
-                  key={link.name} 
-                  onClick={() => scrollToSection(link.id)} 
-                  className="text-left text-white/90 text-sm font-bold tracking-widest uppercase hover:text-[#C5A059] transition-colors py-2 border-b border-white/5"
-                >
-                  {link.name}
-                </motion.button>
-              ))}
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 }}
-              className="pt-2 flex flex-col space-y-3"
-            >
-              <a 
-                href="tel:+32485755667"
-                className="flex items-center justify-center space-x-2 bg-[#C87A5E] text-white py-3 rounded-full text-xs font-bold tracking-widest uppercase shadow-lg"
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-8">
+            {navLinks.map((link) => (
+              <button 
+                key={link.name} 
+                onClick={() => scrollToSection(link.id)}
+                className={`text-xs font-bold tracking-[0.2em] uppercase transition-colors duration-300 relative group py-1 ${
+                  isPastHero 
+                    ? 'text-[#0C1C2C] hover:text-[#C87A5E]' 
+                    : 'text-white/85 hover:text-[#C5A059]'
+                }`}
               >
-                <Phone className="w-4 h-4" />
-                <span>Bel om te bestellen: 0485 75 56 67</span>
-              </a>
-              <p className="text-center text-white/40 text-[11px] tracking-wider">
-                Consciencestraat 1, 8370 Blankenberge
-              </p>
+                {link.name}
+                <motion.span 
+                  className={`absolute bottom-0 left-1/2 w-0 h-[1.5px] transition-all duration-300 -translate-x-1/2 group-hover:w-full ${
+                    isPastHero ? 'bg-[#0C1C2C]' : 'bg-[#C5A059]'
+                  }`} 
+                />
+              </button>
+            ))}
+          </div>
+
+          {/* Call button */}
+          <div className="hidden md:flex items-center space-x-4">
+            <motion.a 
+              whileHover={{ scale: 1.04, boxShadow: "0 8px 20px -4px rgba(200,122,94,0.3)" }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.2 }}
+              href="tel:+32485755667" 
+              className={`flex items-center space-x-2 px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 shadow-sm ${
+                isPastHero
+                  ? 'bg-[#0C1C2C] hover:bg-[#C87A5E] text-white border border-[#0C1C2C]'
+                  : 'bg-white/10 hover:bg-[#C87A5E] text-white border border-white/20'
+              }`}
+            >
+              <Phone className="w-3.5 h-3.5 text-[#C5A059]" />
+              <span>0485 75 56 67</span>
+            </motion.a>
+          </div>
+
+          {/* Mobile Hamburger */}
+          <motion.button 
+            whileTap={{ scale: 0.9 }}
+            className={`lg:hidden p-2 rounded-xl transition-colors ${
+              isPastHero 
+                ? 'text-[#0C1C2C] hover:bg-[#0C1C2C]/5' 
+                : 'text-white hover:bg-white/10'
+            }`}
+            onClick={() => setIsOpen(true)}
+            aria-label="Menu"
+          >
+            <MenuIcon size={26} />
+          </motion.button>
+        </div>
+      </motion.nav>
+
+      {/* Full-Screen Luxury Mobile Drawer Teleported Directly to Document Body */}
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div 
+              initial={{ opacity: 0, y: -15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.28, ease: luxuryEase }}
+              className="fixed inset-0 z-[99999] flex flex-col justify-between overflow-y-auto text-white"
+              style={{
+                backgroundColor: '#0C1C2C',
+                backgroundImage: 'radial-gradient(ellipse at 85% 0%, rgba(200,122,94,0.2) 0%, transparent 60%), linear-gradient(180deg, #081018 0%, #0C1C2C 45%, #081018 100%)',
+              }}
+            >
+              {/* Header inside Drawer */}
+              <div className="p-6 flex items-center justify-between border-b border-white/10 bg-[#081018]/85 backdrop-blur-xl sticky top-0 z-20">
+                <div 
+                  onClick={() => {
+                    setIsOpen(false);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="flex items-center space-x-3 cursor-pointer"
+                >
+                  <img 
+                    src={ultiemLogo} 
+                    alt="De Wulk Viswinkel" 
+                    className="h-10 w-auto object-contain drop-shadow-md" 
+                  />
+                  <div className="flex flex-col leading-tight">
+                    <span className="font-serif-title text-xl font-bold tracking-tight text-white uppercase leading-none">
+                      DE WULK
+                    </span>
+                    <span className="text-[10px] font-semibold tracking-[0.25em] text-[#C5A059] uppercase mt-0.5">
+                      VISHANDEL
+                    </span>
+                  </div>
+                </div>
+
+                <button 
+                  onClick={() => setIsOpen(false)}
+                  className="w-11 h-11 rounded-full bg-white/10 hover:bg-[#C87A5E] text-white flex items-center justify-center border border-white/20 transition-all shadow-md active:scale-95"
+                  aria-label="Sluit menu"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              {/* Live Store Status Badge */}
+              <div className="px-6 pt-5">
+                <div className="p-4 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-between shadow-inner">
+                  <div className="flex items-center space-x-3">
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${shopStatus.isOpen ? 'bg-emerald-400' : 'bg-[#C5A059]'}`} />
+                      <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${shopStatus.isOpen ? 'bg-emerald-500' : 'bg-[#C5A059]'}`} />
+                    </span>
+                    <span className="text-xs font-semibold text-white/95">{shopStatus.text}</span>
+                  </div>
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#C5A059]">Haven Blankenberge</span>
+                </div>
+              </div>
+
+              {/* Navigation Items List */}
+              <div className="py-4 flex flex-col divide-y divide-white/5">
+                {mobileNavItems.map((item) => (
+                  <motion.button 
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full text-left py-4 px-6 flex items-center justify-between group hover:bg-white/[0.04] transition-colors"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <span className="text-xs font-mono font-bold text-[#C5A059] tracking-wider">
+                        {item.number}
+                      </span>
+                      <div>
+                        <span className="block font-serif-title text-2xl font-bold text-white group-hover:text-[#C5A059] transition-colors leading-tight">
+                          {item.title}
+                        </span>
+                        <span className="block text-[11px] text-white/60 font-light mt-0.5">
+                          {item.subtitle}
+                        </span>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-white/40 group-hover:text-[#C5A059] group-hover:translate-x-1 transition-all" />
+                  </motion.button>
+                ))}
+              </div>
+
+              {/* Contact & Action Section at bottom */}
+              <div className="p-6 bg-[#081018]/95 border-t border-white/10 space-y-3 mt-auto shadow-2xl">
+                <a 
+                  href="tel:+32485755667"
+                  className="w-full flex items-center justify-center space-x-3 bg-[#C87A5E] hover:bg-[#B76A4E] text-white py-4 rounded-full font-bold text-xs uppercase tracking-widest shadow-xl transition-transform active:scale-98"
+                >
+                  <Phone className="w-4 h-4 text-white animate-pulse" />
+                  <span>Bel Vishandel: 0485 75 56 67</span>
+                </a>
+
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <a 
+                    href="tel:+32497837718" 
+                    className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/85 hover:text-white transition-colors text-center"
+                  >
+                    <span className="block text-[10px] text-white/40 uppercase font-semibold">Olivier direct</span>
+                    <span className="font-bold text-xs">0497 83 77 18</span>
+                  </a>
+                  <a 
+                    href="https://maps.google.com/?q=Consciencestraat+1+8370+Blankenberge" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="p-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/85 hover:text-white transition-colors flex flex-col items-center justify-center text-center"
+                  >
+                    <span className="block text-[10px] text-white/40 uppercase font-semibold">Navigatie</span>
+                    <span className="font-bold text-xs text-[#C5A059] flex items-center gap-1">
+                      <MapPin className="w-3 h-3" /> Consciencestraat 1
+                    </span>
+                  </a>
+                </div>
+
+                <p className="text-center text-white/40 text-[11px] pt-1 tracking-wide">
+                  Vishandel De Wulk · Olivier & Kelly · Haven Blankenberge
+                </p>
+              </div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
+    </>
   );
 };
 
 // --- Hero Component with Parallax Depth ---
 const Hero: React.FC = () => {
-  const [shopStatus, setShopStatus] = useState({ text: '', dotColor: '', dotShadow: '' });
+  const [shopStatus, setShopStatus] = useState(calculateShopStatus());
   const heroRef = useRef<HTMLElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -252,69 +472,9 @@ const Hero: React.FC = () => {
   const contentY = useTransform(scrollYProgress, [0, 0.75], [0, 40]);
 
   useEffect(() => {
-    const checkShopStatus = () => {
-      const now = new Date();
-      const currentDay = now.getDay();
-      const currentHour = now.getHours();
-      const currentMinute = now.getMinutes();
-      const currentTime = currentHour + currentMinute / 60;
-
-      const closedDays = new Set([3, 4]);
-
-      const openTime = 9;
-      const closeTimes: Record<number, number> = {
-        0: 18,    // Zondag
-        1: 18,    // Maandag
-        2: 17.5,  // Dinsdag (17:30)
-        5: 18,    // Vrijdag
-        6: 18,    // Zaterdag
-      };
-
-      const dayNames = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'];
-      const findNextOpenDay = (fromDay: number, afterHours: boolean): string => {
-        if (!afterHours && !closedDays.has(fromDay)) return 'vandaag';
-        for (let i = 1; i <= 7; i++) {
-          const nextDay = (fromDay + i) % 7;
-          if (!closedDays.has(nextDay)) {
-            if (i === 1) return 'morgen';
-            return dayNames[nextDay];
-          }
-        }
-        return 'binnenkort';
-      };
-
-      if (closedDays.has(currentDay)) {
-        const nextDay = findNextOpenDay(currentDay, true);
-        setShopStatus({
-          text: `Nu gesloten · open ${nextDay} om 09:00`,
-          dotColor: 'bg-[#C5A059]',
-          dotShadow: 'shadow-[#C5A059]/40',
-        });
-        return;
-      }
-
-      const closeTime = closeTimes[currentDay] ?? 18;
-      const closeTimeDisplay = closeTime === 17.5 ? '17:30' : `${closeTime}:00`;
-
-      if (currentTime >= openTime && currentTime < closeTime) {
-        setShopStatus({
-          text: `Nu open · tot ${closeTimeDisplay}`,
-          dotColor: 'bg-emerald-400',
-          dotShadow: 'shadow-emerald-400/50',
-        });
-      } else {
-        const afterHours = currentTime >= closeTime;
-        const nextDay = findNextOpenDay(currentDay, afterHours);
-        setShopStatus({
-          text: `Nu gesloten · open ${nextDay} om 09:00`,
-          dotColor: 'bg-[#C5A059]',
-          dotShadow: 'shadow-[#C5A059]/40',
-        });
-      }
-    };
-
-    checkShopStatus();
-    const interval = setInterval(checkShopStatus, 60000);
+    const interval = setInterval(() => {
+      setShopStatus(calculateShopStatus());
+    }, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -328,6 +488,7 @@ const Hero: React.FC = () => {
   return (
     <section 
       ref={heroRef}
+      id="hero"
       className="relative min-h-[640px] md:min-h-screen flex items-end overflow-hidden bg-[#081018]" 
       role="banner" 
       aria-label="De Wulk Viswinkel Blankenberge - Verse vis en zeevruchten"
