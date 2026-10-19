@@ -27,6 +27,9 @@ import {
 import { Analytics } from '@vercel/analytics/react';
 import { Offering, OpeningHour, GalleryItem, MenuCategory, MenuData, OpeningHourData, FavoriteItem } from './types';
 import { LegalModal, LegalTab } from './LegalModal';
+import { HolidayNotice } from './HolidayNotice';
+import { getHolidayState } from './seasonalClosure';
+import { formatPrice } from './formatPrice';
 
 const ultiemLogo = '/final_LOGOSMALL.webp';
 const ultiemLogoDark = '/final_LOGOSMALL_DARK.webp';
@@ -85,6 +88,14 @@ const itemStaggerVariants: Variants = {
 // --- Shop Status Calculation Helper ---
 const calculateShopStatus = () => {
   const now = new Date();
+  if (getHolidayState(now).closed) {
+    return {
+      isOpen: false,
+      text: 'Jaarlijks verlof · open op 18 december om 09:00',
+      dotColor: 'bg-[#C5A059]',
+      dotShadow: 'shadow-[#C5A059]/40',
+    };
+  }
   const currentDay = now.getDay();
   const currentHour = now.getHours();
   const currentMinute = now.getMinutes();
@@ -149,7 +160,7 @@ const calculateShopStatus = () => {
 // --- Navbar Component ---
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isPastHero, setIsPastHero] = useState(false);
+  const [hasLightBackground, setHasLightBackground] = useState(getHolidayState().visible);
   const [shopStatus, setShopStatus] = useState(calculateShopStatus());
 
   useEffect(() => {
@@ -164,9 +175,9 @@ const Navbar: React.FC = () => {
       const hero = document.getElementById('hero') || document.querySelector('section[role="banner"]');
       if (hero) {
         const rect = hero.getBoundingClientRect();
-        setIsPastHero(rect.bottom <= 80);
+        setHasLightBackground(rect.bottom <= 80 || rect.top > 80);
       } else {
-        setIsPastHero(window.scrollY > 500);
+        setHasLightBackground(window.scrollY > 500);
       }
     };
 
@@ -233,8 +244,8 @@ const Navbar: React.FC = () => {
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: luxuryEase }}
-        className={`fixed w-full z-50 transition-all duration-500 ease-out ${
-          isPastHero 
+        className={`fixed top-0 w-full z-50 transition-all duration-500 ease-out ${
+          hasLightBackground
             ? 'bg-[#FBF9F5]/95 backdrop-blur-xl py-3 border-b border-[#0C1C2C]/10 shadow-[0_10px_30px_-10px_rgba(12,28,44,0.12)]' 
             : 'bg-gradient-to-b from-[#081018]/85 via-[#081018]/40 to-transparent py-5'
         }`}
@@ -250,18 +261,18 @@ const Navbar: React.FC = () => {
               whileHover={{ scale: 1.06, rotate: -2 }}
               whileTap={{ scale: 0.96 }}
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
-              src={isPastHero ? ultiemLogoDark : ultiemLogo} 
+              src={hasLightBackground ? ultiemLogoDark : ultiemLogo}
               alt="De Wulk Viswinkel Blankenberge Logo - Olivier en Kelly" 
               className="h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-all duration-300" 
             />
             <div className="flex flex-col leading-tight">
               <span className={`font-serif-title text-xl md:text-2xl font-bold tracking-tight uppercase leading-none transition-colors duration-300 ${
-                isPastHero ? 'text-[#0C1C2C]' : 'text-white'
+                hasLightBackground ? 'text-[#0C1C2C]' : 'text-white'
               }`}>
                 DE WULK
               </span>
               <span className={`text-[10px] md:text-[11px] font-semibold tracking-[0.25em] uppercase mt-0.5 transition-colors duration-300 ${
-                isPastHero ? 'text-[#C87A5E]' : 'text-[#C5A059]'
+                hasLightBackground ? 'text-[#C87A5E]' : 'text-[#C5A059]'
               }`}>
                 VISHANDEL
               </span>
@@ -275,7 +286,7 @@ const Navbar: React.FC = () => {
                 key={link.name} 
                 onClick={() => scrollToSection(link.id)}
                 className={`text-xs font-bold tracking-[0.2em] uppercase transition-colors duration-300 relative group py-1 ${
-                  isPastHero 
+                  hasLightBackground
                     ? 'text-[#0C1C2C] hover:text-[#C87A5E]' 
                     : 'text-white/85 hover:text-[#C5A059]'
                 }`}
@@ -283,7 +294,7 @@ const Navbar: React.FC = () => {
                 {link.name}
                 <motion.span 
                   className={`absolute bottom-0 left-1/2 w-0 h-[1.5px] transition-all duration-300 -translate-x-1/2 group-hover:w-full ${
-                    isPastHero ? 'bg-[#0C1C2C]' : 'bg-[#C5A059]'
+                    hasLightBackground ? 'bg-[#0C1C2C]' : 'bg-[#C5A059]'
                   }`} 
                 />
               </button>
@@ -298,7 +309,7 @@ const Navbar: React.FC = () => {
               transition={{ duration: 0.2 }}
               href="tel:+32485755667" 
               className={`flex items-center space-x-2 px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 shadow-sm ${
-                isPastHero
+                hasLightBackground
                   ? 'bg-[#0C1C2C] hover:bg-[#C87A5E] text-white border border-[#0C1C2C]'
                   : 'bg-white/10 hover:bg-[#C87A5E] text-white border border-white/20'
               }`}
@@ -312,7 +323,7 @@ const Navbar: React.FC = () => {
           <motion.button 
             whileTap={{ scale: 0.9 }}
             className={`lg:hidden p-2 rounded-xl transition-colors ${
-              isPastHero 
+              hasLightBackground
                 ? 'text-[#0C1C2C] hover:bg-[#0C1C2C]/5' 
                 : 'text-white hover:bg-white/10'
             }`}
@@ -648,7 +659,7 @@ const AboutUs: React.FC = () => {
     <section 
       ref={aboutRef}
       id="over-ons" 
-      className="py-24 md:py-32 bg-[#FBF9F5] text-[#141E28] overflow-hidden"
+      className="section-about py-24 md:py-32 bg-[#FBF9F5] text-[#141E28] overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
@@ -685,9 +696,8 @@ const AboutUs: React.FC = () => {
             {/* Quote Block with hover elevation */}
             <motion.div 
               variants={fadeInUpVariants}
-              whileHover={{ y: -4, boxShadow: "0 12px 28px -8px rgba(12,28,44,0.08)" }}
               transition={{ duration: 0.3 }}
-              className="relative bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-[#0C1C2C]/5"
+              className="about-quote relative bg-white p-8 md:p-10 rounded-2xl shadow-sm border border-[#0C1C2C]/5"
             >
               <Quote className="absolute top-4 left-4 text-[#C87A5E]/15 w-16 h-16 pointer-events-none" />
               <p className="relative z-10 text-base md:text-lg text-[#0C1C2C] leading-relaxed font-normal">
@@ -701,7 +711,7 @@ const AboutUs: React.FC = () => {
               className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2"
             >
               <motion.div 
-                whileHover={{ y: -3, backgroundColor: "rgba(255,255,255,0.95)" }}
+                whileHover={{ backgroundColor: "rgba(255,255,255,0.95)" }}
                 transition={{ duration: 0.25 }}
                 className="space-y-2 p-4 rounded-xl bg-white/60 border border-[#0C1C2C]/5 shadow-sm"
               >
@@ -715,7 +725,7 @@ const AboutUs: React.FC = () => {
               </motion.div>
 
               <motion.div 
-                whileHover={{ y: -3, backgroundColor: "rgba(255,255,255,0.95)" }}
+                whileHover={{ backgroundColor: "rgba(255,255,255,0.95)" }}
                 transition={{ duration: 0.25 }}
                 className="space-y-2 p-4 rounded-xl bg-white/60 border border-[#0C1C2C]/5 shadow-sm"
               >
@@ -736,7 +746,7 @@ const AboutUs: React.FC = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.9, ease: luxuryEase }}
-            className="lg:w-1/2 relative w-full overflow-hidden rounded-3xl shadow-xl border-4 border-white aspect-[4/5] group"
+            className="about-photo lg:w-1/2 relative w-full overflow-hidden rounded-3xl shadow-xl border-4 border-white aspect-[4/5] group"
           >
             <motion.img 
               style={{ y: imageParallaxY }}
@@ -767,8 +777,14 @@ const PriceList: React.FC<PriceListProps> = ({ menuData }) => {
     ? menuData 
     : menuData.filter(c => c.title.trim() === selectedCategory);
 
+  const photoNames = ['Zeevruchtenschotel met kreeft en oesters', 'Mini pasteitjes', 'Visfondue', 'Gevarieerde visschotel'];
+  const photoItems = photoNames.flatMap(name => menuData.flatMap(category =>
+    category.items.filter(item => item.name.trim() === name && item.image)
+      .map(item => ({ ...item, category: category.title.trim() }))
+  ));
+
   return (
-    <section id="prijslijst" className="py-24 md:py-32 bg-[#F4EFEB] text-[#141E28]" role="main" aria-label="Prijslijst verse vis en zeevruchten">
+    <section id="prijslijst" className="section-prices py-24 md:py-32 bg-[#F4EFEB] text-[#141E28]" role="main" aria-label="Prijslijst verse vis en zeevruchten">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         
         {/* Section Header */}
@@ -798,28 +814,29 @@ const PriceList: React.FC<PriceListProps> = ({ menuData }) => {
           </motion.div>
         </motion.div>
 
-        {/* Category Tabs with Animated Sliding Pill */}
-        <div className="flex items-center justify-start sm:justify-center overflow-x-auto scrollbar-hide space-x-2 mb-12 pb-2">
+        <div className="menu-photo-overview">
+          {photoItems.map(item => (
+            <button key={item.id ?? item.name} type="button" className="menu-photo-card"
+              onClick={() => setSelectedCategory(item.category)}>
+              <img src={item.image} alt="" width="350" height="220" loading="lazy" />
+              <span>{item.name}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Wrapping category filters keep every category visible on mobile. */}
+        <div className="menu-filters" aria-label="Categorieën prijslijst">
           {categories.map((cat) => {
             const isSelected = selectedCategory === cat;
             return (
               <button
                 key={cat}
+                aria-pressed={isSelected}
                 onClick={() => setSelectedCategory(cat)}
-                className={`relative px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase whitespace-nowrap transition-colors duration-300 ${
+                className={`menu-filter relative px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase whitespace-nowrap transition-colors duration-300 ${
                   isSelected ? 'text-white' : 'text-slate-700 hover:text-[#0C1C2C]'
                 }`}
               >
-                {isSelected && (
-                  <motion.div
-                    layoutId="activeCategoryTab"
-                    className="absolute inset-0 bg-[#0C1C2C] rounded-full -z-10 shadow-md"
-                    transition={{ type: "spring", stiffness: 450, damping: 35 }}
-                  />
-                )}
-                {!isSelected && (
-                  <div className="absolute inset-0 bg-white rounded-full -z-20 border border-slate-200/70" />
-                )}
                 {cat}
               </button>
             );
@@ -834,7 +851,7 @@ const PriceList: React.FC<PriceListProps> = ({ menuData }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.35, ease: luxuryEase }}
-            className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto"
+            className="menu-grid grid md:grid-cols-2 gap-8 max-w-6xl mx-auto"
           >
             {filteredCategories.map((category, idx) => (
               <motion.div 
@@ -842,8 +859,7 @@ const PriceList: React.FC<PriceListProps> = ({ menuData }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: idx * 0.08, ease: luxuryEase }}
-                whileHover={{ y: -4, boxShadow: "0 12px 28px -6px rgba(12,28,44,0.08)" }}
-                className="bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-[#0C1C2C]/5"
+                className="menu-card bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-[#0C1C2C]/5"
               >
                 <h3 className="font-serif-title text-2xl font-bold text-[#0C1C2C] mb-6 flex items-center">
                   <span className="w-6 h-[2px] bg-[#C87A5E] mr-3"></span>
@@ -853,26 +869,26 @@ const PriceList: React.FC<PriceListProps> = ({ menuData }) => {
                   variants={staggerContainerVariants}
                   initial="hidden"
                   animate="visible"
-                  className="space-y-4"
+                  className="menu-items"
                 >
                   {category.items.map((item, i) => (
                     <motion.li 
                       key={i} 
                       variants={itemStaggerVariants}
-                      whileHover={{ x: 3 }}
-                      transition={{ duration: 0.2 }}
-                      className="flex justify-between items-baseline group"
+                      className="menu-item"
                     >
-                      <span className="text-slate-700 font-medium group-hover:text-[#C87A5E] transition-colors text-sm sm:text-base">
-                        {item.name}
-                      </span>
-                      <div className="flex-1 border-b border-dotted border-slate-300 mx-3"></div>
-                      <span className="font-bold text-[#0C1C2C] whitespace-nowrap text-sm sm:text-base">
-                        {item.price}{item.unit && <span className="text-xs font-normal text-slate-400 ml-1">{item.unit}</span>}
+                      {item.image && <img className="menu-item-photo" src={item.image} alt={item.name} loading="lazy" width="160" height="108" />}
+                      <div className="menu-item-copy">
+                        <span className="menu-item-name">{item.name}</span>
+                        {item.description && <p className="menu-item-description">{item.description}</p>}
+                      </div>
+                      <span className="menu-item-price">
+                        {formatPrice(item.price)}{item.unit && <span className="menu-item-unit">{item.unit}</span>}
                       </span>
                     </motion.li>
                   ))}
                 </motion.ul>
+                {category.note && <p className="menu-category-note">{category.note}</p>}
               </motion.div>
             ))}
           </motion.div>
@@ -918,7 +934,7 @@ const Favorites: React.FC<FavoritesProps> = ({ favorites }) => {
   if (!favorites || favorites.length === 0) return null;
   
   return (
-    <section className="py-16 bg-[#FBF9F5]">
+    <section className="section-favorites py-16 bg-[#FBF9F5]">
       <div className="max-w-5xl mx-auto px-6 lg:px-12">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -932,7 +948,7 @@ const Favorites: React.FC<FavoritesProps> = ({ favorites }) => {
             <motion.div 
               whileHover={{ rotate: 180, scale: 1.15 }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
-              className="p-3 bg-[#F4EFEB] text-[#C87A5E] rounded-xl cursor-pointer"
+              className="p-3 bg-[#F4EFEB] text-[#C87A5E] rounded-xl"
             >
               <Star className="w-6 h-6 fill-[#C87A5E]" />
             </motion.div>
@@ -950,7 +966,7 @@ const Favorites: React.FC<FavoritesProps> = ({ favorites }) => {
                 className="flex justify-between border-b border-dashed border-slate-200 pb-2.5"
               >
                 <span className="font-medium text-sm sm:text-base">{favorite.name}</span>
-                <span className="font-bold text-[#0C1C2C]">{favorite.price}</span>
+                <span className="font-bold text-[#0C1C2C]">{formatPrice(favorite.price)}</span>
               </motion.div>
             ))}
           </div>
@@ -966,7 +982,7 @@ const Favorites: React.FC<FavoritesProps> = ({ favorites }) => {
 // --- MapCard Component ---
 const MapCard: React.FC = () => {
   return (
-    <section className="bg-[#FBF9F5] py-12">
+    <section className="section-map bg-[#FBF9F5] py-12">
       <div className="max-w-5xl mx-auto px-6 lg:px-12">
         <motion.div 
           initial={{ opacity: 0, y: 24 }}
@@ -1041,7 +1057,7 @@ const Gallery: React.FC = () => {
   };
 
   return (
-    <section id="galerij" className="py-24 md:py-32 bg-[#FBF9F5] overflow-hidden">
+    <section id="galerij" className="section-gallery py-24 md:py-32 bg-[#FBF9F5] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <motion.div
@@ -1125,7 +1141,7 @@ const Gallery: React.FC = () => {
 const OpeningHours: React.FC<{ schedule: OpeningHourData[] }> = ({ schedule }) => {
   const displaySchedule: OpeningHour[] = schedule.map(item => ({
     day: item.dag,
-    hours: item.uren
+    hours: getHolidayState().closed ? 'Gesloten (verlof)' : item.uren
   }));
 
   const now = new Date();
@@ -1142,7 +1158,7 @@ const OpeningHours: React.FC<{ schedule: OpeningHourData[] }> = ({ schedule }) =
   const todayName = dayNameMapping[currentDayIndex];
 
   return (
-    <section id="uren" className="py-20 md:py-28 bg-[#F4EFEB]">
+    <section id="uren" className="section-hours py-20 md:py-28 bg-[#F4EFEB]">
       <div className="max-w-5xl mx-auto px-6 lg:px-12">
         <motion.div 
           initial={{ opacity: 0, y: 28 }}
@@ -1158,7 +1174,7 @@ const OpeningHours: React.FC<{ schedule: OpeningHourData[] }> = ({ schedule }) =
                 <motion.div 
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.8, ease: luxuryEase }}
-                  className="p-3 bg-[#C87A5E] rounded-xl text-white cursor-pointer"
+                  className="p-3 bg-[#C87A5E] rounded-xl text-white"
                 >
                   <Clock className="w-6 h-6" />
                 </motion.div>
@@ -1168,8 +1184,10 @@ const OpeningHours: React.FC<{ schedule: OpeningHourData[] }> = ({ schedule }) =
                 U vindt ons in de <span className="text-[#C5A059] font-bold">Consciencestraat 1</span>. Kom langs voor de beste vis van de kust!
               </p>
               <div className="p-5 bg-white/5 border border-white/10 rounded-2xl">
-                <p className="text-xs uppercase tracking-widest font-bold text-[#C5A059] mb-1">Afwijkende uren</p>
-                <p className="text-sm text-white/70 italic font-light">Check onze social media of bel ons voor info tijdens de feestdagen.</p>
+                <p className="text-xs uppercase tracking-widest font-bold text-[#C5A059] mb-1">{getHolidayState().visible ? 'Jaarlijks verlof 2026' : 'Afwijkende uren'}</p>
+                <p className="text-sm text-white/80 font-light">{getHolidayState().visible
+                  ? 'Gesloten van 11 november t/m 17 december. Opnieuw open op vrijdag 18 december. Feestbestellingen blijven mogelijk; van 28 november t/m 8 december enkel via WhatsApp: 0485 75 56 67.'
+                  : 'Check onze social media of bel ons voor info tijdens de feestdagen.'}</p>
               </div>
             </div>
 
@@ -1183,7 +1201,7 @@ const OpeningHours: React.FC<{ schedule: OpeningHourData[] }> = ({ schedule }) =
               >
                 {displaySchedule.map((item) => {
                   const isToday = item.day.toLowerCase() === todayName.toLowerCase();
-                  const isClosed = item.hours === 'Gesloten';
+                  const isClosed = item.hours.startsWith('Gesloten');
 
                   return (
                     <motion.li 
@@ -1224,7 +1242,7 @@ const OpeningHours: React.FC<{ schedule: OpeningHourData[] }> = ({ schedule }) =
 // --- Contact Component with Magnetic Hover Cards ---
 const Contact: React.FC = () => {
   return (
-    <section id="contact" className="py-24 md:py-32 bg-[#FBF9F5] text-[#141E28]">
+    <section id="contact" className="section-contact py-24 md:py-32 bg-[#FBF9F5] text-[#141E28]">
       <div className="max-w-4xl mx-auto px-6 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -1245,12 +1263,11 @@ const Contact: React.FC = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="space-y-6"
+          className="contact-cards space-y-6"
         >
           {/* Adres */}
           <motion.div 
             variants={itemStaggerVariants}
-            whileHover={{ y: -4, boxShadow: "0 12px 28px -6px rgba(12,28,44,0.08)" }}
             transition={{ duration: 0.25 }}
             className="flex items-start space-x-5 p-6 rounded-2xl bg-white border border-[#0C1C2C]/5 shadow-sm"
           >
@@ -1266,7 +1283,6 @@ const Contact: React.FC = () => {
           {/* Telefoon */}
           <motion.div 
             variants={itemStaggerVariants}
-            whileHover={{ y: -4, boxShadow: "0 12px 28px -6px rgba(12,28,44,0.08)" }}
             transition={{ duration: 0.25 }}
             className="flex items-start space-x-5 p-6 rounded-2xl bg-white border border-[#0C1C2C]/5 shadow-sm"
           >
@@ -1289,7 +1305,6 @@ const Contact: React.FC = () => {
           {/* E-mail */}
           <motion.div 
             variants={itemStaggerVariants}
-            whileHover={{ y: -4, boxShadow: "0 12px 28px -6px rgba(12,28,44,0.08)" }}
             transition={{ duration: 0.25 }}
             className="flex items-start space-x-5 p-6 rounded-2xl bg-white border border-[#0C1C2C]/5 shadow-sm"
           >
@@ -1514,6 +1529,13 @@ interface AppProps {
 }
 
 const App: React.FC<AppProps> = ({ initialLegalTab }) => {
+  const [holidayState, setHolidayState] = useState(() => getHolidayState());
+
+  useEffect(() => {
+    const timer = setInterval(() => setHolidayState(getHolidayState()), 60000);
+    return () => clearInterval(timer);
+  }, []);
+
   const [menuData, setMenuData] = useState<MenuData | null>(null);
   const [loading, setLoading] = useState(true);
   const [showFloatingTop, setShowFloatingTop] = useState(false);
@@ -1554,7 +1576,7 @@ const App: React.FC<AppProps> = ({ initialLegalTab }) => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const response = await fetch('/data.json');
+        const response = await fetch('/data.json', { cache: 'no-store' });
         const data = await response.json();
         setMenuData(data);
       } catch (error) {
@@ -1602,6 +1624,7 @@ const App: React.FC<AppProps> = ({ initialLegalTab }) => {
       />
 
       <Navbar />
+      {holidayState.visible && <HolidayNotice whatsappOnly={holidayState.whatsappOnly} />}
       <Hero />
       <MapCard />
       <AboutUs />
@@ -1637,7 +1660,7 @@ const App: React.FC<AppProps> = ({ initialLegalTab }) => {
             whileTap={{ scale: 0.92 }}
             transition={{ type: "spring", stiffness: 350, damping: 25 }}
             onClick={scrollToTop}
-            className="fixed bottom-6 right-6 z-40 p-3.5 rounded-full bg-[#0C1C2C]/90 text-white border border-white/20 shadow-2xl backdrop-blur-md hover:bg-[#C87A5E] transition-colors"
+            className="floating-top fixed bottom-6 right-6 z-40 p-3.5 rounded-full bg-[#0C1C2C]/90 text-white border border-white/20 shadow-2xl backdrop-blur-md hover:bg-[#C87A5E] transition-colors"
             aria-label="Terug naar boven"
           >
             <ChevronRight className="w-4 h-4 -rotate-90 text-[#C5A059]" />

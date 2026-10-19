@@ -83,6 +83,166 @@
       ]
     },
     {
+      "title": "Aperitiefhapjes",
+      "items": [
+        {
+          "id": 32,
+          "name": "Mini pasteitjes",
+          "price": "Op aanvraag",
+          "unit": "",
+          "description": "Kaas, garnaal, vis, krab, zalm of bolognaise.",
+          "image": "/images/menu/mini-pasteitjes.webp"
+        },
+        {
+          "id": 33,
+          "name": "Warme visschelpjes",
+          "price": "Op aanvraag",
+          "unit": "",
+          "description": "Zalm, coquilles, kabeljauw.",
+          "image": "/images/menu/warme-visschelpjes.webp"
+        },
+        {
+          "id": 34,
+          "name": "Koude aperitiefhapjes",
+          "price": "Op aanvraag",
+          "unit": "",
+          "description": "Vis, tonijn, krab, garnaal, zalmsalade, gerookte zalm.",
+          "image": "/images/menu/koude-aperitiefhapjes.webp"
+        }
+      ]
+    },
+    {
+      "title": "Koude Voorgerechten",
+      "items": [
+        {
+          "id": 35,
+          "name": "Koude schotel, grijze garnalen",
+          "price": "€12",
+          "unit": "/st"
+        },
+        {
+          "id": 36,
+          "name": "Koude schotel, garnalencocktail",
+          "price": "€12",
+          "unit": "/st"
+        },
+        {
+          "id": 37,
+          "name": "Koude schotel, zalm",
+          "price": "€11,50",
+          "unit": "/st"
+        },
+        {
+          "id": 38,
+          "name": "Tonijn met perzik",
+          "price": "€9",
+          "unit": "/st"
+        },
+        {
+          "id": 39,
+          "name": "Tomaat garnaal",
+          "price": "€11",
+          "unit": "/st"
+        },
+        {
+          "id": 40,
+          "name": "Halve kreeft belle vue",
+          "price": "Dagprijs",
+          "unit": ""
+        },
+        {
+          "id": 41,
+          "name": "Volledige kreeft belle vue",
+          "price": "Dagprijs",
+          "unit": ""
+        },
+        {
+          "id": 42,
+          "name": "Duo van gerookte zalm & heilbot",
+          "price": "€16",
+          "unit": "/st"
+        }
+      ]
+    },
+    {
+      "title": "Warme Voorgerechten",
+      "items": [
+        {
+          "id": 43,
+          "name": "Visschelp",
+          "price": "€11",
+          "unit": "/st"
+        },
+        {
+          "id": 44,
+          "name": "Gegrilde langoustines met lookboter",
+          "price": "€25",
+          "unit": "/st"
+        },
+        {
+          "id": 45,
+          "name": "Scampi lookboter/lookroom",
+          "price": "€10,50",
+          "unit": "/st"
+        },
+        {
+          "id": 46,
+          "name": "Scampi maison (pikant)",
+          "price": "€10,50",
+          "unit": "/st"
+        },
+        {
+          "id": 47,
+          "name": "Kikkerbillen lookboter/lookroom",
+          "price": "€11,50",
+          "unit": "/st"
+        },
+        {
+          "id": 48,
+          "name": "Kikkerbillen (pikant)",
+          "price": "€11,50",
+          "unit": "/st"
+        },
+        {
+          "id": 49,
+          "name": "Huisbereide garnaalkroket",
+          "price": "€4,75",
+          "unit": "/st"
+        },
+        {
+          "id": 50,
+          "name": "Kaaskroket",
+          "price": "€3,20",
+          "unit": "/st"
+        },
+        {
+          "id": 51,
+          "name": "Coquille op bedje van spinazie met wittewijnsaus",
+          "price": "€13,50",
+          "unit": "/st"
+        },
+        {
+          "id": 52,
+          "name": "Coquille met witloof en sausje van “Real Love” bier",
+          "price": "€13,50",
+          "unit": "/st"
+        },
+        {
+          "id": 53,
+          "name": "Halve kreeft met lookboter",
+          "price": "Dagprijs",
+          "unit": ""
+        },
+        {
+          "id": 31,
+          "name": "Volledige kreeft lookboter",
+          "price": "Dagprijs",
+          "unit": "",
+          "image": "/images/menu/kreeft-lookboter.webp"
+        }
+      ]
+    },
+    {
       "title": "Bijgerechten & Specials",
       "items": [
         {
@@ -107,13 +267,15 @@
           "id": 21,
           "name": "Visfondue",
           "price": "Dagprijs",
-          "unit": ""
+          "unit": "",
+          "image": "/images/menu/visfondue.webp"
         },
         {
           "id": 22,
           "name": "Vis Gourmet",
           "price": "Dagprijs",
-          "unit": ""
+          "unit": "",
+          "image": "/images/menu/vis-gourmet.webp"
         }
       ]
     },
@@ -130,7 +292,8 @@
           "id": 24,
           "name": "Oesters",
           "price": "DAGPRIJS",
-          "unit": ""
+          "unit": "",
+          "description": "Worden gratis opengedaan."
         },
         {
           "id": 25,
@@ -153,33 +316,41 @@
       ]
     },
     {
-      "title": "Zeevruchtenschotels ",
+      "title": "Zeevruchtenschotels",
       "items": [
         {
           "id": 28,
-          "name": "Zeevruchtenschotel met kreeft en oesters ",
-          "price": "48",
-          "unit": "Per persoon "
+          "name": "Zeevruchtenschotel met kreeft en oesters",
+          "price": "€48",
+          "unit": "Per persoon",
+          "description": "1/2 kreeft, krabbepoten, kreukels, wulken, garnalen, scampi, langoustines, tomaat garnaal, gamba, 2 oesters per persoon.",
+          "image": "/images/menu/zeevruchtenschotel.webp"
         },
         {
           "id": 29,
-          "name": "Gevarieerde visschotel ",
-          "price": "35",
-          "unit": "Per persoon "
+          "name": "Gevarieerde visschotel",
+          "price": "€35",
+          "unit": "Per persoon",
+          "description": "Tomaat garnaal, tomaat tonijn, gekookte en gerookte zalm, gerookte heilbot, opgevuld ei, pandalus, wulken, scampi.",
+          "image": "/images/menu/gevarieerde-visschotel.webp"
         },
         {
           "id": 30,
           "name": "Gegratineerde zeevruchten met kreeft",
-          "price": "44",
-          "unit": "Per persoon "
+          "price": "€44",
+          "unit": "Per persoon",
+          "description": "Warm: wulken, venusschelpen, langoustines, gamba, scampi. Met of zonder kreeft verkrijgbaar.",
+          "image": "/images/menu/gegratineerde-visschotel.webp"
         },
         {
-          "id": 31,
-          "name": "Volledige kreeft lookboter ",
-          "price": "40",
-          "unit": "Per persoon "
+          "id": 54,
+          "name": "Zalmschotel",
+          "price": "Op aanvraag",
+          "unit": "",
+          "description": "Tomaat garnaal, gekookte en gerookte zalm."
         }
-      ]
+      ],
+      "note": "Bij de koude zeevruchtenschotel zijn aardappelsalade, pastasalade en 2 sausjes inbegrepen."
     }
   ],
   "openingsuren": [

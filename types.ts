@@ -24,10 +24,13 @@ export interface MenuItem {
   name: string;
   price: string;
   unit?: string;
+  description?: string;
+  image?: string;
 }
 
 export interface MenuCategory {
   title: string;
+  note?: string;
   items: MenuItem[];
 }
 
