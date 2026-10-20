@@ -272,7 +272,11 @@ footer .text-white\/50 { color: #a4afbb; }
   cursor: pointer;
 }
 .menu-photo-card img { display: block; width: 100%; height: auto; aspect-ratio: 1.6; object-fit: cover; }
-.menu-photo-card span { display: block; padding: 12px 14px; font-size: 12px; font-weight: 600; line-height: 1.5; color: var(--color-marine); }
+.menu-photo-card span { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; padding: 12px 14px; font-size: 12px; font-weight: 600; line-height: 1.5; color: var(--color-marine); }
+.menu-photo-card span svg { flex-shrink: 0; }
+.menu-results, .menu-item { scroll-margin-top: 96px; }
+.menu-results:focus, .menu-item:focus { outline: none; }
+.menu-item:focus-visible { outline: 2px solid var(--color-terracotta); outline-offset: 6px; border-radius: 4px; }
 .menu-photo-card:hover { border-color: var(--color-terracotta); }
 .menu-filters {
   display: flex;

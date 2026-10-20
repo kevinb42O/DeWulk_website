@@ -770,8 +770,36 @@ type PriceListProps = {
 
 const PriceList: React.FC<PriceListProps> = ({ menuData }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Alle');
+  const pendingMenuTarget = useRef<string | null>(null);
 
-  const categories = ['Alle', ...Array.from(new Set(menuData.map(c => c.title.trim())))];
+  const revealMenuTarget = (targetId: string) => {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    target.focus({ preventScroll: true });
+    target.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+      block: 'start',
+    });
+  };
+
+  const selectMenuCategory = (category: string, itemId?: number) => {
+    const targetId = itemId === undefined ? 'menu-results' : `menu-item-${itemId}`;
+    if (category === selectedCategory) {
+      revealMenuTarget(targetId);
+    } else {
+      pendingMenuTarget.current = targetId;
+      setSelectedCategory(category);
+    }
+  };
+
+  useEffect(() => {
+    if (!pendingMenuTarget.current) return;
+    // The new category must be in the DOM before moving scroll and keyboard focus.
+    revealMenuTarget(pendingMenuTarget.current);
+    pendingMenuTarget.current = null;
+  }, [selectedCategory]);
+
+  const categories = ['Alle', ...Array.from(new Set<string>(menuData.map(c => c.title.trim())))];
 
   const filteredCategories = selectedCategory === 'Alle' 
     ? menuData 
@@ -817,9 +845,10 @@ const PriceList: React.FC<PriceListProps> = ({ menuData }) => {
         <div className="menu-photo-overview">
           {photoItems.map(item => (
             <button key={item.id ?? item.name} type="button" className="menu-photo-card"
-              onClick={() => setSelectedCategory(item.category)}>
+              aria-controls="menu-results"
+              onClick={() => selectMenuCategory(item.category, item.id)}>
               <img src={item.image} alt="" width="350" height="220" loading="lazy" />
-              <span>{item.name}</span>
+              <span>{item.name}<ChevronRight size={16} aria-hidden="true" /></span>
             </button>
           ))}
         </div>
@@ -832,7 +861,8 @@ const PriceList: React.FC<PriceListProps> = ({ menuData }) => {
               <button
                 key={cat}
                 aria-pressed={isSelected}
-                onClick={() => setSelectedCategory(cat)}
+                aria-controls="menu-results"
+                onClick={() => selectMenuCategory(cat)}
                 className={`menu-filter relative px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase whitespace-nowrap transition-colors duration-300 ${
                   isSelected ? 'text-white' : 'text-slate-700 hover:text-[#0C1C2C]'
                 }`}
@@ -843,21 +873,21 @@ const PriceList: React.FC<PriceListProps> = ({ menuData }) => {
           })}
         </div>
 
-        {/* Menu Cards Grid with AnimatePresence & Staggered Row Entries */}
-        <AnimatePresence mode="wait">
+        {/* Keep the destination mounted so filtering and scrolling happen together. */}
+        <div id="menu-results" className="menu-results" tabIndex={-1} role="region"
+          aria-label={selectedCategory === 'Alle' ? 'Onze Prijslijst' : selectedCategory}>
           <motion.div 
             key={selectedCategory}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.35, ease: luxuryEase }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2, ease: luxuryEase }}
             className="menu-grid grid md:grid-cols-2 gap-8 max-w-6xl mx-auto"
           >
             {filteredCategories.map((category, idx) => (
               <motion.div 
                 key={idx} 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: idx * 0.08, ease: luxuryEase }}
                 className="menu-card bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-[#0C1C2C]/5"
               >
@@ -867,13 +897,15 @@ const PriceList: React.FC<PriceListProps> = ({ menuData }) => {
                 </h3>
                 <motion.ul 
                   variants={staggerContainerVariants}
-                  initial="hidden"
+                  initial={selectedCategory === 'Alle' ? 'hidden' : false}
                   animate="visible"
                   className="menu-items"
                 >
                   {category.items.map((item, i) => (
                     <motion.li 
                       key={i} 
+                      id={item.id === undefined ? undefined : `menu-item-${item.id}`}
+                      tabIndex={-1}
                       variants={itemStaggerVariants}
                       className="menu-item"
                     >
@@ -892,7 +924,7 @@ const PriceList: React.FC<PriceListProps> = ({ menuData }) => {
               </motion.div>
             ))}
           </motion.div>
-        </AnimatePresence>
+        </div>
 
         {/* Callout Banner at bottom of PriceList */}
         <motion.div 
