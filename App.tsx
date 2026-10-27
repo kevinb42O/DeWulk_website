@@ -11,6 +11,7 @@ import {
   Menu as MenuIcon, 
   ChevronRight, 
   ChevronLeft,
+  ArrowUpRight,
   ChefHat, 
   Star, 
   Quote, 
@@ -1528,16 +1529,6 @@ const Footer: React.FC<FooterProps> = ({ onOpenLegal }) => {
             >
               Algemene Voorwaarden & Disclaimer
             </button>
-            <span className="hidden lg:inline text-white/20">|</span>
-            <a 
-              href="https://www.webaanzee.be" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              title="Website laten maken aan de kust"
-              className="text-white/50 hover:text-white transition-colors"
-            >
-              Website door <strong className="text-white">Web<span className="text-[#C5A059]">aan</span>Zee.be</strong>
-            </a>
           </div>
 
           <motion.button
@@ -1549,6 +1540,30 @@ const Footer: React.FC<FooterProps> = ({ onOpenLegal }) => {
             <span>Terug naar boven</span>
             <ChevronRight className="w-3.5 h-3.5 -rotate-90" />
           </motion.button>
+        </div>
+
+        <div className="footer-credit">
+          <a
+            href="https://www.webaanzee.be/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-credit-link"
+            aria-label="Website gemaakt door Webaanzee — opent in een nieuw tabblad"
+          >
+            <span className="footer-credit-label">Design & development</span>
+            <span className="footer-credit-brand">
+              <img
+                src="/images/webaanzee-wordmark.webp"
+                alt="Webaanzee"
+                width="608"
+                height="73"
+                loading="lazy"
+                decoding="async"
+                className="footer-credit-logo"
+              />
+              <ArrowUpRight className="footer-credit-arrow" aria-hidden="true" />
+            </span>
+          </a>
         </div>
       </div>
     </footer>

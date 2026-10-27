@@ -67,6 +67,73 @@ button {
   font-family: inherit;
 }
 
+.footer-credit {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-credit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 44px;
+  border-radius: 4px;
+}
+
+.footer-credit-label {
+  color: #a4afbb;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  transition: color 180ms ease-out;
+}
+
+.footer-credit-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.footer-credit-logo {
+  width: 152px;
+  height: auto;
+}
+
+.footer-credit-arrow {
+  width: 15px;
+  height: 15px;
+  color: var(--color-terracotta);
+}
+
+.footer-credit-link:hover .footer-credit-label {
+  color: var(--color-pearl);
+}
+
+.footer-credit-link:focus-visible {
+  outline: 2px solid var(--color-copper-light);
+  outline-offset: 6px;
+}
+
+@media (max-width: 639px) {
+  .footer-credit {
+    justify-content: center;
+  }
+
+  .footer-credit-link {
+    flex-direction: column;
+    gap: 0.625rem;
+    padding-block: 0.375rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-credit-label {
+    transition: none;
+  }
+}
+
 /* Micro-typography */
 .tracking-widest-luxury {
   letter-spacing: 0.22em;
