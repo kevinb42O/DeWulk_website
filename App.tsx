@@ -1370,10 +1370,6 @@ const Footer: React.FC<FooterProps> = ({ onOpenLegal }) => {
     }
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const footerLinks = [
     { name: 'Over Ons', id: 'over-ons' },
     { name: 'Prijslijst', id: 'prijslijst' },
@@ -1510,7 +1506,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenLegal }) => {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/50 pt-2">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-x-8 gap-y-4 text-xs text-white/50 pt-2">
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-3 gap-y-1.5 text-center md:text-left">
             <p>© {new Date().getFullYear()} De Wulk BV. Alle rechten voorbehouden.</p>
             <span className="hidden sm:inline text-white/20">|</span>
@@ -1531,18 +1527,6 @@ const Footer: React.FC<FooterProps> = ({ onOpenLegal }) => {
             </button>
           </div>
 
-          <motion.button
-            whileHover={{ y: -3 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={scrollToTop}
-            className="flex items-center space-x-1 hover:text-[#C5A059] transition-colors cursor-pointer flex-shrink-0"
-          >
-            <span>Terug naar boven</span>
-            <ChevronRight className="w-3.5 h-3.5 -rotate-90" />
-          </motion.button>
-        </div>
-
-        <div className="footer-credit">
           <a
             href="https://www.webaanzee.be/"
             target="_blank"
